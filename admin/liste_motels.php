@@ -70,6 +70,10 @@
                                         <li><a class="dropdown-item text-danger" href="delete_motel.php?id=<?= $motel['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce motel ?');">
                                             <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                         </a></li>
+
+                                        <li><a class="dropdown-item text-primary" href="view_clients.php?id=<?= $motel['id']; ?>">
+                                            <i class="fa fa-user text-primary"></i> Voir clients
+                                        </a></li>
                                     </ul>
                                 </div>
                             </td>
