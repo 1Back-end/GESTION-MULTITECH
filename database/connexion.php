@@ -1,7 +1,7 @@
 <?php
 // Paramètres de connexion
 $host = 'localhost';
-$dbname = 'gestion_multitech';
+$dbname = 'gestion_multitech_holding';
 $username = 'root';
 $password = '';
 

@@ -43,28 +43,23 @@
 					</div>
 				</div>
 			</div>
+            <?php include("../authentification/session_users.php"); ?>
 			<div class="user-info-dropdown">
-				<div class="dropdown text-success" id="userInfo">
-					<a class="dropdown-toggle text-success" href="#" role="button" data-toggle="dropdown">
-					<span class="user-icon shadow-none">
-						<img id="userPhoto" src="https://i.pinimg.com/564x/07/01/e5/0701e5a1cd4f91681f76cf3691176680.jpg" width="50" height="50" class="rounded-circle" 
-						style="border-radius: 50%; object-fit: cover; aspect-ratio: 1/1;">
-					</span>
+                <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="user-icon shadow-none">
+                        <!-- Vérifier si une photo est disponible dans la session, sinon utiliser une image par défaut -->
+                        <img src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
+                    </span>
+                    <span class="user-name font-14"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                        <a class="dropdown-item" href="../authentification/profile.php"><i class="fa fa-user"></i> Profile</a>
+                        <a class="dropdown-item" href="../authentification/logout.php"><i class="fa fa-sign-out-alt"></i> Log Out</a>
+                    </div>
+                </div>
+            </div>
 
-					<small id="userName" class="user-name fw-bold font-14 text-capitalize" style="color: #28a745;">
-						William
-					</small>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-						<a class="dropdown-item" href="../admin/profil.php"><i class="fas fa-user"></i> Profil</a>
-						<a class="dropdown-item" href="../login/logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-					</div>
-
-				</div>
-			</div>
-			
-		</div>
-	</div>
 	
 	<div class="left-side-bar">
 		<div class="brand-logo">

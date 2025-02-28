@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="ml-auto">
-                            <h6 class="mr-2 fs-3">0</h6>
+                            <h6 class="mr-2 fs-3"><?php echo $total_admins?></h6>
                         </div>
                     </div>
                 </div>

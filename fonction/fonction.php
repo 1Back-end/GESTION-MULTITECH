@@ -100,3 +100,67 @@ function getCurrentPageName() {
     
     return $pageName;
 }
+
+function TypeLogements() {
+    $typeLogements = array(
+        'Chambre standard',
+        'Chambre Simple',
+        'Chambre VIP',
+    );
+    return $typeLogements;
+}
+
+function NumeroChambres() {
+    $numChambres = array();
+    
+    // Remplir le tableau avec les numéros de chambres allant de 101 à 113
+    for ($i = 101; $i <= 113; $i++) {
+        $numChambres[] = (string)$i; // Ajouter chaque numéro de chambre comme chaîne de caractères
+    }
+    
+    return $numChambres;
+}
+
+function ServicesChambres(){
+    $servicesChambres = array(
+        'Nuitée',
+        "Sieste"
+    );
+    return $servicesChambres;
+}
+
+include("../database/connexion.php"); 
+
+
+function get_all_users($connexion, $page = 1, $limit = 10) {
+    // Calcul de l'offset
+    $offset = ($page - 1) * $limit;
+
+    // Requête SQL avec pagination
+    $sql = "SELECT id, first_name, last_name, email, phone_number, role, status, created_at 
+        FROM users 
+        WHERE is_deleted = 0 
+        AND role = 'admin' 
+        ORDER BY created_at DESC 
+        LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+    $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$limit = 10; // Nombre d'utilisateurs par page
+
+$users = get_all_users($connexion, $page, $limit);
+
+
+function get_count_admins($connexion){
+    $sql = "SELECT COUNT(*) AS total_admins FROM users WHERE is_deleted = 0 AND role = 'admin'";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total_admins'];   
+}
+$total_admins = get_count_admins($connexion);

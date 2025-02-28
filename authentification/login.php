@@ -29,16 +29,22 @@
 
 <div class="container mt-5 pb-5">
 
+<div class="message-container" style="max-width: 400px; margin: 0 auto;">
+<?php include("process_login.php"); ?>
+        <?php if ($erreur): ?>
+            <div class="alert alert-danger mt-3 text-center border-0"><?= $erreur ?></div>
+        <?php endif; ?>
+</div>
+
     <div class="login-box card-box border-radius-10">
         <div class="login-title text-center mb-4">
             <h5>Veuillez vous connectez à votre compte</h5>
         </div>
-
         <form method="POST"> 
             <!-- Email Field -->
             <div class="mb-3">
                 <label for="">Email</label>
-                <input type="email" name="username" class="shadow-none form-control form-control-lg" placeholder="email@domaine.com" required>
+                <input type="text" name="username" class="shadow-none form-control form-control-lg" placeholder="email@domaine.com" required>
             </div>
 
             <!-- Password Field -->
