@@ -29,6 +29,13 @@
 
 <div class="container mt-5">
     <div class="align-items-center">
+        
+<div class="message-container" style="max-width: 400px; margin: 0 auto;">
+<?php include("process_reset_password.php"); ?>
+        <?php if ($erreur): ?>
+            <div class="alert alert-danger mt-3 text-center border-0"><?= $erreur ?></div>
+        <?php endif; ?>
+</div>
         <div class="login-box bg-white box-shadow border-radius-10">
             <div class="login-title mb-2">
                 <h2 class="text-center fs-2">Nouveau mot de passe</h2>
@@ -42,6 +49,9 @@
                     <span id="toggle-password" class="fa fa-eye position-absolute" style="right:10px; cursor:pointer;"></span> 
                 </div>
 
+                <?php $id_user = $_GET["id"]; ?>
+                <input type="hidden" name="id_user" value="<?php echo $id_user;?>">
+
                 <!-- Confirmer le mot de passe -->
                 <div class="mb-4 position-relative form-group d-flex align-items-center justify-content-between">
                     <input type="password"  name="confirm_password" id="confirm_password" class="form-control shadow-none form-control-lg" placeholder="Confirmer mot de passe">
@@ -52,7 +62,7 @@
                 <div class="row align-items-center mb-2">
                     <div class="col-md-12 col-sm-12">
                         <div class="input-group mb-0">
-                            <button name="submit" class="btn btn-customize text-white shadow-none w-100 btn-lg" type="submit">Valider</button>
+                            <button name="submit" name="submit" class="btn btn-customize text-white shadow-none w-100 btn-lg" type="submit">Valider</button>
                         </div>
                     </div>
                 </div>

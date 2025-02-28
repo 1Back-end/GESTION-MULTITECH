@@ -22,6 +22,12 @@
 
 
 <div class="container mt-5 pb-5">
+    <div class="col-md-6 col-sm-12 mb-3 mx-auto">
+    <?php include("process_forgot_password.php");?>
+    <?php if ($erreur): ?>
+            <div class="alert alert-danger mt-3 text-center border-0"><?= $erreur ?></div>
+        <?php endif; ?>
+    </div>
     <div class="col-md-6 col-sm-12 mx-auto">
         <div class="card-box p-3">
             <!-- Titre et message -->
@@ -40,7 +46,7 @@
 
                 <!-- Bouton de soumission -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-customize text-white btn-lg w-100 btn-responsive">Réinitialiser</button>
+                    <button type="submit" name="submit" class="btn btn-customize text-white btn-lg w-100 btn-responsive">Réinitialiser</button>
                 </div>
 
                 <!-- Lien de redirection pour connexion -->

@@ -164,3 +164,21 @@ function get_count_admins($connexion){
     return $stmt->fetch(PDO::FETCH_ASSOC)['total_admins'];   
 }
 $total_admins = get_count_admins($connexion);
+
+
+function get_all_motels($connexion){
+    $sql = "SELECT * FROM motel WHERE is_deleted = False ORDER BY created_at DESC";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$motels = get_all_motels($connexion);
+
+
+function get_count_clients($connexion){
+    $sql = "SELECT COUNT(*) AS total_clients FROM clients";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total_clients'];
+}
+$total_clients = get_count_clients($connexion);

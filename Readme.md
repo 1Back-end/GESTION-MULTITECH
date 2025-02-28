@@ -1,5 +1,5 @@
 username : admin@gmail.com
-password : TMINXwz^$@Pr
+password : Pa$$w0rd!
 
 
 username  :manekengsorelle94@gmail.com

@@ -10,7 +10,7 @@ if (isset($_POST["submit"])) {
 
     try {
         // Vérifier si l'utilisateur existe avec l'email ou le nom
-        $stmt = $connexion->prepare("SELECT id, first_name, last_name, email, password, status, photo 
+        $stmt = $connexion->prepare("SELECT id, first_name, last_name, email, password, status, photo, role, is_deleted 
                                      FROM users WHERE email = :username OR CONCAT(first_name, ' ', last_name) = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
@@ -36,8 +36,14 @@ if (isset($_POST["submit"])) {
                     $_SESSION['photo'] = $user['photo'] ?? 'default.png';  // Si la photo est nulle, on met une image par défaut
                     $_SESSION['role'] = $user['role'];  // Statut de l'utilisateur
 
-                    // Rediriger vers le dashboard
-                    header("Location: ../admin/dashboard.php");
+                    // Rediriger selon le rôle
+                    if ($user['role'] == "super_admin") {
+                        header("Location: ../admin/dashboard.php");
+                    } elseif ($user['role'] == "admin") {
+                        header("Location: ../users/dashboard.php");
+                    } else {
+                        $erreur = "Accès refusé.";
+                    }
                     exit();
                 }
             } else {

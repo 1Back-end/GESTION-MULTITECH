@@ -34,6 +34,10 @@
         <?php if ($erreur): ?>
             <div class="alert alert-danger mt-3 text-center border-0"><?= $erreur ?></div>
         <?php endif; ?>
+        <?php if(!empty($_GET["msg"])) : ?>
+    <?php $msg = $_GET["msg"]; ?>
+    <div class="alert alert-success text-center border-0"><?= $msg ?> !</div>
+    <?php endif; ?>
 </div>
 
     <div class="login-box card-box border-radius-10">

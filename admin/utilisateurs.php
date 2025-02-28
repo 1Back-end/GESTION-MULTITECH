@@ -31,6 +31,17 @@ $users = get_all_users($connexion, $page, $limit);
     <?php endif; ?>
 </div>
 
+<div class="col-md-12 col-sm-12 mb-3">
+    <?php include("process_assign_motel.php"); ?>
+    <?php if ($erreur): ?>
+    <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+        <div class="alert alert-success text-center border-0"><?= $success ?></div>
+    <?php endif; ?>
+</div>
+
 
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
@@ -107,7 +118,15 @@ $users = get_all_users($connexion, $page, $limit);
                                                     </a>
                                                 <?php endif; ?>
                                             </li>
-                                            
+
+                                            <li>
+                                                <a href="#" class="dropdown-item text-success" data-toggle="modal" data-target="#assignMotelModal" data-user="<?= htmlspecialchars($user['id']); ?>">
+                                                    <i class="fa fa-share-square-o text-success"></i> Affecter motel
+                                                </a>
+                                            </li>
+
+
+
                                         </ul>
                                     </div>
                                 </td>
@@ -139,3 +158,50 @@ $users = get_all_users($connexion, $page, $limit);
         </nav>
     </div>
 </div>
+
+
+
+<!-- Boîte modale pour affecter un motel -->
+<div class="modal fade" id="assignMotelModal" tabindex="-1" role="dialog" aria-labelledby="assignMotelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignMotelModalLabel">Affecter à un motel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <!-- Champ caché pour l'ID utilisateur -->
+                    <input type="hidden" name="user_id" id="modalUserId">
+
+                    <div class="form-group">    
+                        <select class="form-control form-control select-custom shadow-none" name="motel_id" id="motelSelect" required>
+                            <option value="" disabled selected>-- Choisissez une option --</option>
+                            <?php
+                                foreach ($motels as $motel) {
+                                    echo "<option value='{$motel['id']}'>" . htmlspecialchars($motel['name']) . "</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-xs" data-dismiss="modal">Annuler</button>
+                    <button type="submit" name="submit" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Ouvrir la modale et assigner l'ID utilisateur au champ caché
+        $('[data-target="#assignMotelModal"]').on('click', function() {
+            var userId = $(this).data('user');  // Récupère l'ID utilisateur
+            $('#modalUserId').val(userId);  // Assigne la valeur au champ input caché
+        });
+    });
+</script>

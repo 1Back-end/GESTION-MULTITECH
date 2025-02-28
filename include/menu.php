@@ -72,20 +72,27 @@
 				<i class="ion-close-round"></i>
 			</div>
 		</div>
+        <?php include("../authentification/info_access.php");?>
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 			<ul  id="accordion-menu">
+            <?php if ($IsAdmin) :?>
 				<li>
-					<a href="../admin/dashboard.php" class="dropdown-toggle no-arrow">
+					<a href="../users/dashboard.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
 					</a>
 				</li>
-				
-                
 
+                <li>
+                    <a href="../users/motel.php" class="dropdown-toggle no-arrow">
+                        <span class="micon fas fa-hotel"></span><span class="mtext">Mon Motel</span>
+                    </a>
+                </li>
+
+				
                  <li>
-                    <a href="../admin/clients.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-user-plus"></span><span class="mtext">Créer Clients</span>
+                    <a href="../users/clients.php" class="dropdown-toggle no-arrow">
+                        <span class="micon fas fa-user-plus"></span><span class="mtext">Liste des Clients</span>
                     </a>
                 </li>
 
@@ -102,15 +109,24 @@
                         <span class="micon fas fa-bed"></span><span class="mtext">Réservation Motel</span>
                     </a>
                 </li>
-
-
+                <?php else: ?>
+            
                 <li class="dropdown">
+
+                <li>
+					<a href="../admin/dashboard.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
+					</a>
+				</li>
+                <li>
                 <a href="javascript:;" class="dropdown-toggle">
                     <span class="micon fa fa-lock"></span><span class="mtext">Administrations</span>
                 </a>
                 <ul class="submenu">
-                    <li><a href="../admin/liste_motels.php"><span class="micon fas fa-building"></span> Type de motels</a></li>
-                    <li><a href="../admin/liste_restaurants.php"><span class="micon fas fa-utensils"></span> Type de restaurants</a></li>
+                    <li><a href="../admin/liste_motels.php">Motels</a></li>
+                    <li><a href="../admin/liste_restaurants.php">Restaurants</a></li>
+                    <li><a href="../admin/liste_clients.php">Affectation Motels</a></li>
+                    <li><a href="">Affection Restaurant</a></li>
                 </ul>
                  </li>
 
@@ -131,38 +147,17 @@
                         <span class="micon fas fa-utensils"></span><span class="mtext">Restaurant</span>
                     </a>
                 </li>
-
-
                 
-
-
-
-
-
-
-
-
-			
-			
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
-						<span class="micon fas fa-cog"></span><span class="mtext">Paramètres</span>
-					</a>
-					<ul class="submenu">
-						<li><a href="../admin/mon_compte.php">Mon compte</a></li>
-						<!-- <li><a href="../admin/liste_users.php">Mes utilisateurs</a></li>
-						<li><a href="../admin/notificactions.php">Notifications</a></li> -->
-					</ul>
-				</li>
-				
-				<!-- <li class="dropdown">
-					<a href="javascript:;" class="dropdown-toggle">
-						<span class="micon fas fa-cloud-upload"></span><span class="mtext">CMS</span>
+						<span class="micon fa fa-cog"></span><span class="mtext">Paramètres</span>
 					</a>
 					<ul class="submenu">
 						<li><a href="../admin/menu.php">Menu</a></li>
 					</ul>
-				</li> -->
+				</li>
+                <?php endif;?>
+				
 			</ul>
 			</div>
 		</div>
