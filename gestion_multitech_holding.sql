@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 01 mars 2025 à 15:44
+-- Généré le : sam. 01 mars 2025 à 18:54
 -- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Version de PHP : 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `gestion_multitech_holding`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `chambres`
+--
+
+CREATE TABLE `chambres` (
+  `id` varchar(255) NOT NULL,
+  `numero` varchar(10) NOT NULL,
+  `type_id` varchar(100) NOT NULL,
+  `prix_sieste` decimal(10,2) NOT NULL,
+  `prix_nuitee` decimal(10,2) NOT NULL,
+  `is_deleted` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `updated_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -78,6 +95,30 @@ INSERT INTO `motel` (`id`, `name`, `address`, `contact_email`, `contact_phone`, 
 ('5ffc-22ba-2f35-41ed-be5f', 'Motel La Fortune', 'wewyfe@mailinator.com', 'sepacyquw@mailinator.com', 'totepen@mailinator.c', 'Expedita ex perferen', 'active', 0, '2025-02-28 16:51:10', '2025-02-28 16:51:10'),
 ('90a1-8ed0-c427-416a-a6bf', 'Motel La fortune De Douala', 'tajomol@mailinator.com', 'qojyjepove@mailinator.com', 'qutu@mailinator.com', 'Cumque pariatur Dui', 'active', 0, '2025-02-28 17:00:01', '2025-02-28 17:00:01'),
 ('cc14-f5d3-4428-4478-9da3', 'Motel III', 'tajomol@mailinator.com', 'qojyjepove@mailinator.com', 'qutu@mailinator.com', 'Cumque pariatur Dui', 'active', 0, '2025-02-28 17:10:10', '2025-02-28 17:10:10');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `types_chambres`
+--
+
+CREATE TABLE `types_chambres` (
+  `id` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` text DEFAULT NULL,
+  `is_deleted` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `updated_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `types_chambres`
+--
+
+INSERT INTO `types_chambres` (`id`, `name`, `description`, `is_deleted`, `created_at`, `updated_at`) VALUES
+('23b4ec1a-f6c6-11ef-9cb8-d8cb8a12514d', 'Chambre VIP', 'Chambre de luxe avec services exclusifs', '0', '2025-03-01 18:53:53', '2025-03-01 18:53:53'),
+('23b5dc59-f6c6-11ef-9cb8-d8cb8a12514d', 'Chambre Standard', 'Chambre classique avec équipements de base', '0', '2025-03-01 18:53:53', '2025-03-01 18:53:53'),
+('23b5dd72-f6c6-11ef-9cb8-d8cb8a12514d', 'Chambre Simple', 'Chambre économique avec confort minimal', '0', '2025-03-01 18:53:53', '2025-03-01 18:53:53');
 
 -- --------------------------------------------------------
 
@@ -145,6 +186,14 @@ INSERT INTO `user_motel` (`id`, `user_id`, `motel_id`, `created_at`, `updated_at
 --
 
 --
+-- Index pour la table `chambres`
+--
+ALTER TABLE `chambres`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `numero` (`numero`),
+  ADD KEY `type_id` (`type_id`);
+
+--
 -- Index pour la table `clients`
 --
 ALTER TABLE `clients`
@@ -159,6 +208,13 @@ ALTER TABLE `clients`
 ALTER TABLE `motel`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Index pour la table `types_chambres`
+--
+ALTER TABLE `types_chambres`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nom` (`name`);
 
 --
 -- Index pour la table `users`
