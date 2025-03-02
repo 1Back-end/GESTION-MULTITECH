@@ -124,8 +124,8 @@
                 <ul class="submenu">
                     <li><a href="../admin/liste_motels.php">Motels</a></li>
                     <li><a href="../admin/liste_restaurant.php">Restaurants</a></li>
-                    <li><a href="../admin/liste_clients.php">Affectation Motels</a></li>
-                    <li><a href="">Affection Restaurant</a></li>
+                    <li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
+                    <li><a href="../admin/affectation_restaurant.php">Affection Restaurant</a></li>
                 </ul>
                  </li>
 

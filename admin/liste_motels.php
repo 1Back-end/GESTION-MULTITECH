@@ -59,8 +59,12 @@
                                         <i class="fas fa-cogs"></i> 
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item text-info" href="details_motel.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-info-circle text-info"></i> Détails
+                                        <li><a class="dropdown-item text-success" href="details_sieste.php?id=<?= $motel['id']; ?>">
+                                            <i class="fa fa fa-list-alt text-success"></i> Détails Sièstes
+                                        </a></li>
+
+                                        <li><a class="dropdown-item text-info" href="details_nuitee.php?id=<?= $motel['id']; ?>">
+                                            <i class="fa fa-list-alt text-info"></i> Détails nuitées
                                         </a></li>
                                         
                                         <li><a class="dropdown-item text-warning" href="edit_motel.php?id=<?= $motel['id']; ?>">
