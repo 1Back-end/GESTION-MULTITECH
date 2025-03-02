@@ -176,9 +176,26 @@ $restaurant = get_all_restaurant($connexion);
 
 
 function get_count_clients($connexion){
-    $sql = "SELECT COUNT(*) AS total_clients FROM clients";
+    $sql = "SELECT COUNT(*) AS total_clients FROM clients WHERE is_deleted = 0";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC)['total_clients'];
 }
 $total_clients = get_count_clients($connexion);
+
+function get_count_restaurants($connexion){
+    $sql = "SELECT COUNT(*) AS total_restaurants FROM restaurant WHERE is_deleted = 0";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total_restaurants'];
+}
+$total_restaurants = get_count_restaurants($connexion);
+
+function get_count_motels($connexion){
+    $sql = "SELECT COUNT(*) AS total_motels FROM motel WHERE is_deleted = 0";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total_motels'];
+}
+$total_motels = get_count_motels($connexion);
+
