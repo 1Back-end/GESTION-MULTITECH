@@ -176,7 +176,7 @@ $restaurant = get_all_restaurant($connexion);
 
 
 function get_count_clients($connexion){
-    $sql = "SELECT COUNT(*) AS total_clients FROM clients";
+    $sql = "SELECT COUNT(*) AS total_clients FROM clients WHERE is_deleted = 0";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC)['total_clients'];

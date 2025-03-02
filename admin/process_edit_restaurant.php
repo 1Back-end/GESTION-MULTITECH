@@ -39,5 +39,9 @@ if (isset($_POST["submit"])) {
         $success = "Les informations ont été mises à jour avec succès.";
     }
 }
+$id = $_GET["id"];
+$stmt = $connexion->prepare("SELECT * FROM restaurant WHERE id = :id");
+$stmt->execute(['id' => $id]);
+$resultat = $stmt->fetch();
 
 ?>
