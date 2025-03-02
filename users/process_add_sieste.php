@@ -1,6 +1,5 @@
 <?php
 include("../database/connexion.php");
-include("../fonction/fonction.php");
 // include("fonction.php");
 
 $erreur = "";
@@ -19,11 +18,14 @@ if (isset($_POST["submit"])) {
     $added_by = $_SESSION['id'] ?? null; // ID de l'utilisateur qui a ajouté la réservation
     $motel_id = $motel_data['id'] ?? null;  // ID du motel (si disponible)
 
-    // Convertir l'heure d'entrée et l'heure de sortie en secondes
+    // Convertir l'heure d'entrée et l'heure de sortie en heures uniquement
+    $hour_entree = date('H:i', strtotime($date_entree)); // Heure d'entrée formatée
+    $hour_sortie = date('H:i', strtotime($date_sortie)); // Heure de sortie formatée
+
+    // Calcul de la différence en heures et minutes
     $date_entree_seconds = strtotime($date_entree); // Convertir l'heure d'entrée en timestamp
     $date_sortie_seconds = strtotime($date_sortie); // Convertir l'heure de sortie en timestamp
 
-    // Calcul de la durée de la sieste
     $interval = $date_sortie_seconds - $date_entree_seconds; // Calcul de la différence en secondes
     $max_duration = 2 * 60 * 60; // Durée maximale de 2 heures en secondes
 
@@ -62,10 +64,10 @@ if (isset($_POST["submit"])) {
             $client = $clientStmt->fetch(PDO::FETCH_ASSOC);
             $client_name = $client['first_name'] . " " . $client['last_name'];
 
-            // Lancer un script d'alerte si la durée de la réservation a dépassé 2 heures
-            if ($interval > $max_duration) {
-                // Mise à jour de la réservation
-                $updateStmt = $connexion->prepare("UPDATE reservation_sieste SET status = 'terminée', date_entre = NOW(), date_sortie = NOW() WHERE id = :id");
+            // Vérifier si la durée de la sieste est dépassée (automatiquement) lors du chargement de la page
+            if ($date_sortie_seconds < time()) {
+                // Mettre à jour la réservation à 'terminée'
+                $updateStmt = $connexion->prepare("UPDATE reservation_sieste SET status = 'terminée', date_sortie = NOW() WHERE id = :id AND status != 'terminée'");
                 $updateStmt->bindParam(':id', $id);
                 $updateStmt->execute();
 
@@ -76,5 +78,26 @@ if (isset($_POST["submit"])) {
             $erreur = "Une erreur est survenue lors de l'enregistrement de la réservation.";
         }
     }
+}
+
+// Vérification des réservations expirées et mise à jour du statut
+$checkExpiredStmt = $connexion->prepare("SELECT id, client_id, date_sortie FROM reservation_sieste WHERE status = 'en cours' AND date_sortie < NOW()");
+$checkExpiredStmt->execute();
+$reservations = $checkExpiredStmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($reservations as $reservation) {
+    $updateStmt = $connexion->prepare("UPDATE reservation_sieste SET status = 'terminée' WHERE id = :id");
+    $updateStmt->bindParam(':id', $reservation['id']);
+    $updateStmt->execute();
+
+    // Récupérer le nom du client
+    $clientStmt = $connexion->prepare("SELECT first_name, last_name FROM clients WHERE id = :client_id");
+    $clientStmt->bindParam(':client_id', $reservation['client_id']);
+    $clientStmt->execute();
+    $client = $clientStmt->fetch(PDO::FETCH_ASSOC);
+    $client_name = $client['first_name'] . " " . $client['last_name'];
+
+    // Lancer une alerte pour chaque réservation expirée
+    echo "<script>alert('Le temps de la sieste est terminé pour le client $client_name.');</script>";
 }
 ?>

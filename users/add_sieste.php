@@ -106,7 +106,7 @@ $(document).ready(function() {
         let numero = $(this).val(); // Récupérer le numéro sélectionné
 
         $.ajax({
-            url: 'get_prix_nuitee.php',
+            url: 'get_prix_sieste.php',
             type: 'POST',
             data: { numero: numero },
             dataType: 'json',

@@ -27,10 +27,10 @@
 include("../database/connexion.php");
 
 // Récupérer les réservations avec pagination
-$reservations = get_reservation_by_motel_id_and_added_by($connexion, $motel_id, $user_id, $perPage, $offset);
+$reservations = get_reservation_sieste_by_motel_id_and_added_by($connexion, $motel_id, $user_id, $perPage, $offset);
 
 // Total des réservations pour la pagination
-$totalReservations = get_total_reservations($connexion, $motel_id, $user_id);
+$totalReservations = get_total_reservations_sieste($connexion, $motel_id, $user_id);
 $totalPages = ceil($totalReservations / $perPage);
 ?>
 

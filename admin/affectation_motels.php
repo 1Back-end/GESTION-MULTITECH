@@ -41,6 +41,7 @@ $totalPages = ceil($totalAssignments / $limit);
                             <td>Utilisateur</td>
                             <td>Motel</td>
                             <td>Affecté le</td>
+                            <td>Statistique</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,9 @@ $totalPages = ceil($totalAssignments / $limit);
                                     <td><?= htmlspecialchars($assignment['user_first_name']) . ' ' . htmlspecialchars($assignment['user_last_name']); ?></td>
                                     <td><?= htmlspecialchars($assignment['motel_name']); ?></td>
                                     <td><?= htmlspecialchars((new DateTime($assignment['created_at']))->format('Y-m-d H:i:s')); ?></td>
+                                    <td>
+                                        <a href="statistiques.php?id=<?= $assignment['id']; ?>" class="btn btn-customize btn-sm btn-xs text-white">Statistique</a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

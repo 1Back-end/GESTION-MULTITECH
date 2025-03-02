@@ -129,11 +129,7 @@
                 </ul>
                  </li>
 
-                <li>
-                    <a href="../admin/reservation.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fa fa-calendar"></span><span class="mtext">Réservation</span>
-                    </a>
-                </li>
+                
 
                 <li>
                     <a href="../admin/utilisateurs.php" class="dropdown-toggle no-arrow">
@@ -141,11 +137,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="../admin/restaurants.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-utensils"></span><span class="mtext">Restaurant</span>
-                    </a>
-                </li>
+                
                 
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">

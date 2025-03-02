@@ -1,6 +1,16 @@
 <?php
 include("../database/connexion.php");
 
+
+function generateUUID() {
+    // Générer un UUID v4
+    $data = random_bytes(16);
+    // Modifier certains bits selon la spécification UUID
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // version 4
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // variant DCE 1.1
+    return vsprintf('%s-%s-%s-%s-%s', str_split(bin2hex($data), 4));
+}
+
 // Vérifier si l'utilisateur est connecté
 $user_id = $_SESSION['id'] ?? null;
 
@@ -76,7 +86,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Numéro de la page
 $offset = ($page - 1) * $perPage;
 
 // Fonction pour récupérer les réservations avec pagination
-function get_reservation_by_motel_id_and_added_by($connexion, $motel_id, $user_id, $limit, $offset) {
+function get_reservation_sieste_by_motel_id_and_added_by($connexion, $motel_id, $user_id, $limit, $offset) {
     $stmt = $connexion->prepare("
         SELECT 
             r.id, 
@@ -111,7 +121,7 @@ function get_reservation_by_motel_id_and_added_by($connexion, $motel_id, $user_i
 }
 
 // Fonction pour récupérer le nombre total de réservations
-function get_total_reservations($connexion, $motel_id, $user_id) {
+function get_total_reservations_sieste($connexion, $motel_id, $user_id) {
     $stmt = $connexion->prepare("
         SELECT COUNT(*) AS total 
         FROM reservation_sieste r
