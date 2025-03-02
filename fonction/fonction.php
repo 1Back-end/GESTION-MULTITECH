@@ -174,6 +174,14 @@ function get_all_motels($connexion){
 }
 $motels = get_all_motels($connexion);
 
+function get_all_restaurant($connexion){
+    $sql = "SELECT * FROM restaurant WHERE is_deleted = False ORDER BY created_at DESC";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$restaurant = get_all_restaurant($connexion);
+
 
 function get_count_clients($connexion){
     $sql = "SELECT COUNT(*) AS total_clients FROM clients";
