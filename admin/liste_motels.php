@@ -71,8 +71,8 @@
                                             <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                         </a></li>
 
-                                        <li><a class="dropdown-item text-primary" href="view_clients.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-user text-primary"></i> Voir clients
+                                        <li><a class="dropdown-item text-info" href="view_clients.php?id=<?= $motel['id']; ?>">
+                                            <i class="fa fa-user text-info"></i> Voir clients
                                         </a></li>
                                     </ul>
                                 </div>

@@ -84,10 +84,17 @@
 				</li>
 
                 <li>
-                    <a href="../users/motel.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-hotel"></span><span class="mtext">Mon Motel</span>
-                    </a>
-                </li>
+					<a href="../users/sieste_motel.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-bed"></span><span class="mtext">Sieste Motel</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="../users/nuitee_motel.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-moon"></span><span class="mtext">Nuitée Motel</span>
+					</a>
+				</li>
+
 
 				
                  <li>
@@ -97,17 +104,9 @@
                 </li>
 
 
-                <li>
-                    <a href="../admin/vente_restaurant.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-cash-register"></span><span class="mtext">Vente Restaurant</span>
-                    </a>
-                </li>
 
 
-                <li>
-                    <a href="../admin/reservation_motel.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-bed"></span><span class="mtext">Réservation Motel</span>
-                    </a>
+               
                 </li>
                 <?php else: ?>
             

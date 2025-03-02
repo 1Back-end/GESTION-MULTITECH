@@ -29,7 +29,7 @@ if (isset($_POST["submit"])) {
         // Si le nom est unique, procéder à l'insertion
         try {
             $query = "INSERT INTO motel (id, name, address, contact_email, contact_phone, description) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?)";
+                      VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $connexion->prepare($query);
             $stmt->execute([$id, $name, $address, $email, $phone, $description]);
 

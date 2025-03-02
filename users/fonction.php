@@ -17,10 +17,7 @@ function getUserMotel($user_id, $connexion) {
 $motel_data = getUserMotel($user_id, $connexion);
 $motels_name = $motel_data['name'] ?? 'Motel non trouvé';  // Nom du motel
 $motel_id = $motel_data['id'] ?? null;  // ID du motel
-
-
-
-
+// echo $motel_id;
 // Nombre d'éléments par page
 $items_per_page = 10;
 
@@ -44,5 +41,149 @@ function get_total_clients($connexion) {
     $stmt->execute();
     return $stmt->fetchColumn();
 }
+
+function TypeLogements() {
+    $typeLogements = array(
+        'Chambre standard',
+        'Chambre Simple',
+        'Chambre VIP',
+    );
+    return $typeLogements;
+}
+$typeLogements = TypeLogements();
+
+
+function get_numero_chambre_from_motel_id($connexion, $motel_id){
+    $stmt = $connexion->prepare("SELECT DISTINCT numero FROM chambres WHERE motel_id = :motel_id ORDER BY numero ASC");
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$numero_motels = get_numero_chambre_from_motel_id($connexion, $motel_id);
+
+function get_client_from_motel_id($connexion, $motel_id){
+    $stmt = $connexion->prepare("SELECT id, first_name, last_name FROM clients WHERE is_deleted = 0 AND motel_id = :motel_id ORDER BY first_name ASC");
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$clients = get_client_from_motel_id($connexion, $motel_id);
+
+
+$perPage = 10; // Nombre de réservations par page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Numéro de la page
+$offset = ($page - 1) * $perPage;
+
+// Fonction pour récupérer les réservations avec pagination
+function get_reservation_by_motel_id_and_added_by($connexion, $motel_id, $user_id, $limit, $offset) {
+    $stmt = $connexion->prepare("
+        SELECT 
+            r.id, 
+            r.date_entre, 
+            r.date_sortie, 
+            r.type_chambre, 
+            r.type_service,
+            r.numero,
+            r.prix,
+            r.created_at,
+            r.status,
+            r.client_id, 
+            c.first_name, 
+            c.last_name,
+            r.id_motel  -- Utilisation de id_motel ici
+        FROM 
+            reservation_sieste r
+        JOIN 
+            clients c ON r.client_id = c.id 
+        WHERE 
+            r.id_motel = :motel_id AND r.added_by = :user_id  -- Modification ici aussi
+        ORDER BY 
+            r.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fonction pour récupérer le nombre total de réservations
+function get_total_reservations($connexion, $motel_id, $user_id) {
+    $stmt = $connexion->prepare("
+        SELECT COUNT(*) AS total 
+        FROM reservation_sieste r
+        WHERE r.id_motel = :motel_id AND r.added_by = :user_id
+    ");
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+
+// Function to retrieve reservations with pagination
+function get_reservation_by_motel_nuite_id_and_added_by($connexion, $motel_id, $user_id, $limit, $offset) {
+    // Prepare SQL statement to fetch the reservations with the necessary data
+    $stmt = $connexion->prepare("
+        SELECT 
+            r.id, 
+            r.date_entre, 
+            r.date_sortie, 
+            r.type_chambre, 
+            r.type_service,
+            r.numero,
+            r.prix,
+            r.created_at,
+            r.status,
+            r.client_id, 
+            c.first_name, 
+            c.last_name,
+            r.id_motel
+        FROM 
+            reservation_nuitee r
+        JOIN 
+            clients c ON r.client_id = c.id 
+        WHERE 
+            r.id_motel = :motel_id AND r.added_by = :user_id
+        ORDER BY 
+            r.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    // Bind the parameters to the prepared statement
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Return the fetched results as an associative array
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Function to retrieve the total number of reservations
+function get_total_reservations_nuitee($connexion, $motel_id, $user_id) {
+    // Prepare SQL statement to count total reservations for a specific motel and user
+    $stmt = $connexion->prepare("
+        SELECT COUNT(*) AS total 
+        FROM reservation_nuitee r
+        WHERE r.id_motel = :motel_id AND r.added_by = :user_id
+    ");
+    // Bind the parameters to the prepared statement
+    $stmt->bindParam(':motel_id', $motel_id);
+    $stmt->bindParam(':user_id', $user_id);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Fetch the result and return the total count
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+
 
 ?>

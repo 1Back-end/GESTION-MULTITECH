@@ -101,14 +101,6 @@ function getCurrentPageName() {
     return $pageName;
 }
 
-function TypeLogements() {
-    $typeLogements = array(
-        'Chambre standard',
-        'Chambre Simple',
-        'Chambre VIP',
-    );
-    return $typeLogements;
-}
 
 function NumeroChambres() {
     $numChambres = array();

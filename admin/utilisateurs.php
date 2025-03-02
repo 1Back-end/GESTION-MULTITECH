@@ -118,12 +118,13 @@ $users = get_all_users($connexion, $page, $limit);
                                                     </a>
                                                 <?php endif; ?>
                                             </li>
-
+                                            <?php if ($user['status'] == 'active'): ?>
                                             <li>
                                                 <a href="#" class="dropdown-item text-success" data-toggle="modal" data-target="#assignMotelModal" data-user="<?= htmlspecialchars($user['id']); ?>">
                                                     <i class="fa fa-share-square-o text-success"></i> Affecter motel
                                                 </a>
                                             </li>
+                                            <?php endif; ?>
 
 
 
