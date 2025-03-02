@@ -175,13 +175,6 @@ function get_all_restaurant($connexion){
 $restaurant = get_all_restaurant($connexion);
 
 
-function get_count_clients($connexion){
-    $sql = "SELECT COUNT(*) AS total_clients FROM clients WHERE is_deleted = 0";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC)['total_clients'];
-}
-$total_clients = get_count_clients($connexion);
 
 // Fonction pour récupérer les réservations avec pagination
 function get_reservation_by_motel_id($connexion, $motel_id, $limit, $offset) {
@@ -320,3 +313,38 @@ function get_total_user_motel_assignments($connexion) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total'];
 }
+
+// Récupérer le total des clients
+function get_total_clients($connexion) {
+    $stmt = $connexion->prepare("SELECT COUNT(*) AS total FROM clients WHERE is_deleted=0");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+
+function get_total_motels($connexion){
+    $stmt = $connexion->prepare("SELECT COUNT(*) AS total FROM motel WHERE is_deleted=0");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+$total_motels = get_total_motels($connexion);
+
+
+function get_total_restaurants($connexion){
+    $stmt = $connexion->prepare("SELECT COUNT(*) AS total FROM restaurant WHERE is_deleted=0");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+$total_restaurants = get_total_restaurants($connexion);
+
+
+function get_count_clients($connexion){
+    $sql = "SELECT COUNT(*) AS total_clients FROM clients WHERE is_deleted = 0";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total_clients'];
+}
+
+$total_clients = get_count_clients($connexion);
