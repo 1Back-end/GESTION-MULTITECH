@@ -52,9 +52,26 @@ $totalPages = ceil($totalAssignments / $limit);
                                     <td><?= htmlspecialchars($assignment['user_first_name']) . ' ' . htmlspecialchars($assignment['user_last_name']); ?></td>
                                     <td><?= htmlspecialchars($assignment['motel_name']); ?></td>
                                     <td><?= htmlspecialchars((new DateTime($assignment['created_at']))->format('Y-m-d H:i:s')); ?></td>
+                        
                                     <td>
-                                        <a href="statistiques.php?id=<?= $assignment['id']; ?>" class="btn btn-customize btn-sm btn-xs text-white">Statistique</a>
-                                    </td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-customize text-white btn-rounded dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i> 
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item text-info" href="statistique_sieste.php?id=<?= $assignment['id']; ?>">
+                                                <i class="fa fa-info-circle text-info"></i> Sièste
+                                            </a></li>
+
+                                            <li><a class="dropdown-item text-success" href="statistique_nuitee.php?id=<?= $assignment['id']; ?>">
+                                                <i class="fa fa-info-circle text-success"></i> Nuitée
+                                            </a></li>
+                                        
+                                        
+                                        </ul>
+                                    </div>
+                                </td>
+                                   
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

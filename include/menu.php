@@ -49,7 +49,7 @@
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="user-icon shadow-none">
                         <!-- Vérifier si une photo est disponible dans la session, sinon utiliser une image par défaut -->
-                        <img src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
+                        <img class='rounded-circle img-fluid mt-1 text-center' style='object-fit: cover; width: 50px; height: 50px; max-width: 50px; max-height: 50px;' src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
                     </span>
                     <span class="user-name font-14"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
                 </a>

@@ -33,6 +33,7 @@ $users = get_all_users($connexion, $page, $limit);
 
 <div class="col-md-12 col-sm-12 mb-3">
     <?php include("process_assign_motel.php"); ?>
+    <?php include("process_assign_restaurant.php"); ?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
     <?php endif; ?>
@@ -124,6 +125,7 @@ $users = get_all_users($connexion, $page, $limit);
                                                     <i class="fa fa-share-square-o text-success"></i> Affecter motel
                                                 </a>
                                             </li>
+
                                             <?php endif; ?>
 
 
@@ -206,3 +208,5 @@ $users = get_all_users($connexion, $page, $limit);
         });
     });
 </script>
+
+

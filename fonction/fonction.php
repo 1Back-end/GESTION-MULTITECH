@@ -24,6 +24,12 @@ function generatePassword($length = 12) {
     return $password;
 }
 
+function tousLesMois() {
+    return [
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    ];
+}
 
 
 function generateCode($length = 4) {
@@ -348,3 +354,12 @@ function get_count_clients($connexion){
 }
 
 $total_clients = get_count_clients($connexion);
+
+
+function get_restaurant($connexion){
+    $sql = "SELECT * FROM restaurant WHERE is_deleted = False ORDER BY created_at DESC";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$restaurants = get_all_restaurant($connexion);

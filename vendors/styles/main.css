@@ -152,6 +152,9 @@ textarea.form-control {
       width: 100%; /* Réduire davantage la taille pour les écrans plus petits si nécessaire */
   }
 }
+.text-color{
+  color: #1F4283;
+}
 
 @media only screen and (max-width: 768px) {
   .btn-xs {
