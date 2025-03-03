@@ -295,6 +295,7 @@ function get_user_motel_assignments($connexion, $limit, $offset) {
             um.id, 
             u.first_name AS user_first_name,
             u.last_name AS user_last_name,
+            u.id AS user_id,
             m.name AS motel_name, 
             um.created_at
         FROM 
@@ -326,6 +327,7 @@ function get_user_restaurant_assignments($connexion, $limit, $offset) {
             um.id, 
             u.first_name AS user_first_name,
             u.last_name AS user_last_name,
+            u.id AS user_id,
             m.name AS restaurant_name, 
             um.created_at
         FROM 
@@ -394,3 +396,304 @@ function get_restaurant($connexion){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 $restaurants = get_all_restaurant($connexion);
+
+function get_vente_by_added_by_and_restaurant_id($connexion, $user_id, $limit, $offset, $date_filter = null, $month_filter = null,$keyword_filter=null) {
+    $sql = "
+        SELECT v.*, u.first_name, u.last_name, r.name AS restaurant_name
+        FROM reservation_menu v
+        JOIN users u ON v.added_by = u.id
+        JOIN restaurant r ON v.restaurant_id = r.id
+        WHERE v.added_by = :user_id
+    ";
+
+    // Ajouter des conditions de filtre pour la date ou le mois
+    if ($date_filter) {
+        $sql .= " AND DATE(v.created_at) = :date_filter";
+    }
+    if($keyword_filter){
+        $sql.= " AND (v.name LIKE :keyword_filter OR v.type LIKE :keyword_filter)";
+    }
+
+    if ($month_filter) {
+        $sql .= " AND MONTH(v.created_at) = :month_filter";
+    }
+
+    $sql .= " ORDER BY v.created_at DESC LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    // Lier les paramètres de filtre
+    if ($date_filter) {
+        $stmt->bindParam(':date_filter', $date_filter, PDO::PARAM_STR);
+    }
+
+    if ($month_filter) {
+        $stmt->bindParam(':month_filter', $month_filter, PDO::PARAM_INT);
+    }
+    if ($keyword_filter) {
+        $stmt->bindValue(':keyword_filter', '%'.$keyword_filter.'%', PDO::PARAM_STR);
+    }
+    
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function count_total_ventes($connexion, $user_id, $date_filter = null, $month_filter = null, $keyword = null) {
+    $sql = "SELECT COUNT(*) FROM reservation_menu v WHERE v.added_by = :user_id";
+
+    if ($date_filter) {
+        $sql .= " AND DATE(v.created_at) = :date_filter";
+    }
+
+    if ($month_filter) {
+        $sql .= " AND MONTH(v.created_at) = :month_filter";
+    }
+
+    if ($keyword) {
+        $sql .= " AND (v.name LIKE :keyword OR v.type LIKE :keyword)";
+    }
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+    if ($date_filter) {
+        $stmt->bindParam(':date_filter', $date_filter, PDO::PARAM_STR);
+    }
+
+    if ($month_filter) {
+        $stmt->bindParam(':month_filter', $month_filter, PDO::PARAM_INT);
+    }
+
+    if ($keyword) {
+        $stmt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
+    }
+    
+
+    $stmt->execute();
+    return $stmt->fetchColumn(); // Retourne le nombre total d'enregistrements
+}
+function get_total_revenue($connexion, $user_id, $date_filter = null, $month_filter = null, $keyword = null) {
+    $sql = "SELECT SUM(v.quantity * v.price) as total_revenue FROM reservation_menu v WHERE v.added_by = :user_id";
+
+    if ($date_filter) {
+        $sql .= " AND DATE(v.created_at) = :date_filter";
+    }
+
+    if ($month_filter) {
+        $sql .= " AND MONTH(v.created_at) = :month_filter";
+    }
+
+    if ($keyword) {
+        $sql .= " AND (v.name LIKE :keyword OR v.type LIKE :keyword)";
+    }
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+    if ($date_filter) {
+        $stmt->bindParam(':date_filter', $date_filter, PDO::PARAM_STR);
+    }
+
+    if ($month_filter) {
+        $stmt->bindParam(':month_filter', $month_filter, PDO::PARAM_INT);
+    }
+
+    if ($keyword) {
+        $stmt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchColumn() ?: 0; // Retourne 0 si NULL
+}
+// Fonction pour récupérer les réservations avec filtres de recherche
+function get_reservation_sieste_by_added_by($connexion, $user_id, $limit, $offset, $keyword = null, $date = null, $mois = null) {
+    $query = "
+        SELECT 
+            r.id, 
+            r.date_entre, 
+            r.date_sortie, 
+            r.type_chambre, 
+            r.type_service,
+            r.numero,
+            r.prix,
+            r.created_at,
+            r.status,
+            r.mois,
+            r.client_id, 
+            c.first_name, 
+            c.last_name
+        FROM 
+            reservation_sieste r
+        JOIN 
+            clients c ON r.client_id = c.id 
+        WHERE 
+            r.added_by = :user_id
+    ";
+
+    // Ajoutez les filtres si des valeurs sont passées
+    if ($keyword) {
+        $query .= " AND (r.type_chambre LIKE :keyword OR r.type_service LIKE :keyword OR c.first_name LIKE :keyword OR c.last_name LIKE :keyword)";
+    }
+
+    if ($date) {
+        $query .= " AND r.date_entre = :date";
+    }
+
+    if ($mois) {
+        $query .= " AND r.mois = :mois";
+    }
+
+    // Ajoutez les ordres et les limites de pagination
+    $query .= " ORDER BY r.created_at DESC LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($query);
+    
+    // Lier les paramètres
+    $stmt->bindParam(':user_id', $user_id);
+    if ($keyword) {
+        $stmt->bindValue(':keyword', "%" . $keyword . "%", PDO::PARAM_STR);
+    }
+    if ($date) {
+        $stmt->bindParam(':date', $date);
+    }
+    if ($mois) {
+        $stmt->bindParam(':mois', $mois);
+    }
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+// Fonction pour obtenir le nombre total de réservations avec filtres
+function get_total_reservations_sieste($connexion, $user_id, $keyword = null, $date = null, $mois = null) {
+    $query = "SELECT COUNT(*) AS total FROM reservation_sieste r WHERE r.added_by = :user_id";
+
+    if ($keyword) {
+        $query .= " AND (r.type_chambre LIKE :keyword OR r.type_service LIKE :keyword OR c.first_name LIKE :keyword OR c.last_name LIKE :keyword)";
+    }
+
+    if ($date) {
+        $query .= " AND r.date_entre = :date";
+    }
+
+    if ($mois) {
+        $query .= " AND r.mois = :mois";
+    }
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':user_id', $user_id);
+    if ($keyword) {
+        $stmt->bindValue(':keyword', "%" . $keyword . "%", PDO::PARAM_STR);
+    }
+    if ($date) {
+        $stmt->bindParam(':date', $date);
+    }
+    if ($mois) {
+        $stmt->bindParam(':mois', $mois);
+    }
+
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+
+
+
+
+
+// Fonction pour récupérer les réservations avec filtres de recherche
+function get_reservation_nuitee_by_added_by($connexion, $user_id, $limit, $offset, $keyword = null, $date = null, $mois = null) {
+    $query = "
+        SELECT 
+            r.id, 
+            r.date_entre, 
+            r.date_sortie, 
+            r.type_chambre, 
+            r.type_service,
+            r.numero,
+            r.prix,
+            r.created_at,
+            r.status,
+            r.mois,
+            r.client_id, 
+            c.first_name, 
+            c.last_name
+        FROM 
+            reservation_nuitee r
+        JOIN 
+            clients c ON r.client_id = c.id 
+        WHERE 
+            r.added_by = :user_id
+    ";
+
+    // Ajoutez les filtres si des valeurs sont passées
+    if ($keyword) {
+        $query .= " AND (r.type_chambre LIKE :keyword OR r.type_service LIKE :keyword OR c.first_name LIKE :keyword OR c.last_name LIKE :keyword)";
+    }
+
+    if ($date) {
+        $query .= " AND r.date_entre = :date";
+    }
+
+    if ($mois) {
+        $query .= " AND r.mois = :mois";
+    }
+
+    // Ajoutez les ordres et les limites de pagination
+    $query .= " ORDER BY r.created_at DESC LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($query);
+    
+    // Lier les paramètres
+    $stmt->bindParam(':user_id', $user_id);
+    if ($keyword) {
+        $stmt->bindValue(':keyword', "%" . $keyword . "%", PDO::PARAM_STR);
+    }
+    if ($date) {
+        $stmt->bindParam(':date', $date);
+    }
+    if ($mois) {
+        $stmt->bindParam(':mois', $mois);
+    }
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+// Fonction pour obtenir le nombre total de réservations avec filtres
+function get_total_reservations_nuitee($connexion, $user_id, $keyword = null, $date = null, $mois = null) {
+    $query = "SELECT COUNT(*) AS total FROM reservation_nuitee r WHERE r.added_by = :user_id";
+
+    if ($keyword) {
+        $query .= " AND (r.type_chambre LIKE :keyword OR r.type_service LIKE :keyword OR c.first_name LIKE :keyword OR c.last_name LIKE :keyword)";
+    }
+
+    if ($date) {
+        $query .= " AND r.date_entre = :date";
+    }
+
+    if ($mois) {
+        $query .= " AND r.mois = :mois";
+    }
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':user_id', $user_id);
+    if ($keyword) {
+        $stmt->bindValue(':keyword', "%" . $keyword . "%", PDO::PARAM_STR);
+    }
+    if ($date) {
+        $stmt->bindParam(':date', $date);
+    }
+    if ($mois) {
+        $stmt->bindParam(':mois', $mois);
+    }
+
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}

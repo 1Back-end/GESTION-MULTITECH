@@ -59,11 +59,11 @@ $totalPages = ceil($totalAssignments / $limit);
                                             <i class="fas fa-cogs"></i> 
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item text-info" href="statistique_sieste.php?id=<?= $assignment['id']; ?>">
+                                            <li><a class="dropdown-item text-info" href="statistique_sieste_users.php?id=<?= $assignment['user_id']; ?>">
                                                 <i class="fa fa-info-circle text-info"></i> Sièste
                                             </a></li>
 
-                                            <li><a class="dropdown-item text-success" href="statistique_nuitee.php?id=<?= $assignment['id']; ?>">
+                                            <li><a class="dropdown-item text-success" href="statistique_nuitee_users.php?id=<?= $assignment['user_id']; ?>">
                                                 <i class="fa fa-info-circle text-success"></i> Nuitée
                                             </a></li>
                                         
