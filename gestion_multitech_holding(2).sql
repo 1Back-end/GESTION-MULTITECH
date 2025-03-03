@@ -1,9 +1,9 @@
-ù-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 02 mars 2025 à 19:42
+-- Généré le : lun. 03 mars 2025 à 14:57
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -128,6 +128,36 @@ INSERT INTO `motel` (`id`, `name`, `address`, `contact_email`, `contact_phone`, 
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `reservation_menu`
+--
+
+CREATE TABLE `reservation_menu` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` enum('boisson','plat') NOT NULL,
+  `price` int(100) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `added_by` varchar(255) DEFAULT NULL,
+  `restaurant_id` varchar(255) DEFAULT NULL,
+  `mois` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `total_price` int(100) GENERATED ALWAYS AS (`price` * `quantity`) VIRTUAL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `reservation_menu`
+--
+
+INSERT INTO `reservation_menu` (`id`, `name`, `type`, `price`, `quantity`, `added_by`, `restaurant_id`, `mois`, `created_at`, `updated_at`) VALUES
+('1845-36a4-0835-48a6-a35b', 'pile', 'plat', 1000, 4, 'bb95-7bfb-133d-4396-8dab', 'de5e7ab5-f6cd-11ef-9cb8-d8cb8a12514d', 'Mars', '2025-03-03 10:39:46', '2025-03-03 10:40:01'),
+('1f6a-c653-fb49-4be1-88d5', 'kadji', 'plat', 750, 2, 'bb95-7bfb-133d-4396-8dab', 'de5e7ab5-f6cd-11ef-9cb8-d8cb8a12514d', 'Mars', '2025-03-03 10:15:09', NULL),
+('5202-39d5-7d47-4467-954a', 'poisson', 'plat', 750, 5, 'bb95-7bfb-133d-4396-8dab', 'de5e7ab5-f6cd-11ef-9cb8-d8cb8a12514d', 'Mars', '2025-03-03 10:25:57', '2025-03-03 10:36:35'),
+('768c-f470-3337-471e-8f49', 'kadji', 'plat', 850, 6, 'bb95-7bfb-133d-4396-8dab', 'de5e7ab5-f6cd-11ef-9cb8-d8cb8a12514d', 'Mars', '2025-03-03 10:38:34', '2025-03-03 10:39:19');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `reservation_nuitee`
 --
 
@@ -144,6 +174,7 @@ CREATE TABLE `reservation_nuitee` (
   `is_deleted` varchar(255) NOT NULL,
   `status` enum('en cours','terminée') NOT NULL DEFAULT 'en cours',
   `added_by` varchar(255) NOT NULL,
+  `mois` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -152,10 +183,10 @@ CREATE TABLE `reservation_nuitee` (
 -- Déchargement des données de la table `reservation_nuitee`
 --
 
-INSERT INTO `reservation_nuitee` (`id`, `type_chambre`, `type_service`, `numero`, `id_motel`, `prix`, `date_entre`, `date_sortie`, `client_id`, `is_deleted`, `status`, `added_by`, `created_at`, `updated_at`) VALUES
-('02ae-8cb1-affa-42cb-b4d8', 'Chambre VIP', 'NUITEE', '107', '3f22-ded3-02e0-4e3a-86d1', '25000', '2025-03-03 10:00:00', '2025-03-04 12:00:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', '2025-03-02 16:08:37', '2025-03-02 16:08:37'),
-('30a7-f048-3eaf-4687-8df2', 'Chambre standard', 'NUITEE', '102', '3f22-ded3-02e0-4e3a-86d1', '10000', '2025-03-02 17:03:00', '2025-03-03 12:00:00', 'f131-3755-c6ce-4af4-af37', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', '2025-03-02 16:04:28', '2025-03-02 16:04:28'),
-('4369-6688-5094-4ba0-b99e', 'Chambre VIP', 'NUITEE', '105', '3f22-ded3-02e0-4e3a-86d1', '12000', '2025-03-02 20:12:00', '2025-03-03 12:00:00', '49ce-cea5-17d2-49e4-873f', '0', 'en cours', '719a-bec0-3b45-482c-a331', '2025-03-02 18:11:53', '2025-03-02 18:11:53');
+INSERT INTO `reservation_nuitee` (`id`, `type_chambre`, `type_service`, `numero`, `id_motel`, `prix`, `date_entre`, `date_sortie`, `client_id`, `is_deleted`, `status`, `added_by`, `mois`, `created_at`, `updated_at`) VALUES
+('02ae-8cb1-affa-42cb-b4d8', 'Chambre VIP', 'NUITEE', '107', '3f22-ded3-02e0-4e3a-86d1', '25000', '2025-03-03 10:00:00', '2025-03-04 12:00:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 16:08:37', '2025-03-03 12:51:58'),
+('30a7-f048-3eaf-4687-8df2', 'Chambre standard', 'NUITEE', '102', '3f22-ded3-02e0-4e3a-86d1', '10000', '2025-03-02 17:03:00', '2025-03-03 12:00:00', 'f131-3755-c6ce-4af4-af37', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars\n', '2025-03-02 16:04:28', '2025-03-03 12:52:11'),
+('4369-6688-5094-4ba0-b99e', 'Chambre VIP', 'NUITEE', '105', '3f22-ded3-02e0-4e3a-86d1', '12000', '2025-03-02 20:12:00', '2025-03-03 12:00:00', '49ce-cea5-17d2-49e4-873f', '0', 'en cours', '719a-bec0-3b45-482c-a331', 'Mars', '2025-03-02 18:11:53', '2025-03-03 12:52:14');
 
 -- --------------------------------------------------------
 
@@ -176,6 +207,7 @@ CREATE TABLE `reservation_sieste` (
   `is_deleted` varchar(255) NOT NULL,
   `status` enum('en cours','terminée') NOT NULL DEFAULT 'en cours',
   `added_by` varchar(255) NOT NULL,
+  `mois` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -184,11 +216,11 @@ CREATE TABLE `reservation_sieste` (
 -- Déchargement des données de la table `reservation_sieste`
 --
 
-INSERT INTO `reservation_sieste` (`id`, `type_chambre`, `type_service`, `numero`, `id_motel`, `prix`, `date_entre`, `date_sortie`, `client_id`, `is_deleted`, `status`, `added_by`, `created_at`, `updated_at`) VALUES
-('2593-45c4-e15b-4b54-86e7', 'Chambre standard', 'SIESTE', '101', '3f22-ded3-02e0-4e3a-86d1', 5000, '15:46:00', '17:46:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', '2025-03-02 14:48:59', '2025-03-02 15:17:47'),
-('29d7-c607-c379-4297-be67', 'Chambre Simple', 'SIESTE', '102', '3f22-ded3-02e0-4e3a-86d1', 5000, '16:20:00', '18:20:00', '49ce-cea5-17d2-49e4-873f', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', '2025-03-02 15:20:47', '2025-03-02 15:20:47'),
-('7484-0434-c128-4ea7-99bd', 'Chambre Simple', 'SIESTE', '103', '3f22-ded3-02e0-4e3a-86d1', 3000, '19:17:00', '21:17:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', '719a-bec0-3b45-482c-a331', '2025-03-02 18:17:43', '2025-03-02 18:17:43'),
-('caa4-d074-0f19-4fd5-add5', 'Chambre VIP', 'SIESTE', '106', '3f22-ded3-02e0-4e3a-86d1', 7000, '17:22:00', '19:22:00', 'f131-3755-c6ce-4af4-af37', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', '2025-03-02 15:22:40', '2025-03-02 15:22:40');
+INSERT INTO `reservation_sieste` (`id`, `type_chambre`, `type_service`, `numero`, `id_motel`, `prix`, `date_entre`, `date_sortie`, `client_id`, `is_deleted`, `status`, `added_by`, `mois`, `created_at`, `updated_at`) VALUES
+('2593-45c4-e15b-4b54-86e7', 'Chambre standard', 'SIESTE', '101', '3f22-ded3-02e0-4e3a-86d1', 5000, '15:46:00', '17:46:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 14:48:59', '2025-03-03 12:52:32'),
+('29d7-c607-c379-4297-be67', 'Chambre Simple', 'SIESTE', '102', '3f22-ded3-02e0-4e3a-86d1', 5000, '16:20:00', '18:20:00', '49ce-cea5-17d2-49e4-873f', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 15:20:47', '2025-03-03 12:52:34'),
+('7484-0434-c128-4ea7-99bd', 'Chambre Simple', 'SIESTE', '103', '3f22-ded3-02e0-4e3a-86d1', 3000, '19:17:00', '21:17:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', '719a-bec0-3b45-482c-a331', 'Mars', '2025-03-02 18:17:43', '2025-03-03 12:52:36'),
+('caa4-d074-0f19-4fd5-add5', 'Chambre VIP', 'SIESTE', '106', '3f22-ded3-02e0-4e3a-86d1', 7000, '17:22:00', '19:22:00', 'f131-3755-c6ce-4af4-af37', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 15:22:40', '2025-03-03 12:52:39');
 
 -- --------------------------------------------------------
 
@@ -306,6 +338,27 @@ INSERT INTO `user_motel` (`id`, `user_id`, `motel_id`, `created_at`, `updated_at
 ('977b-16f5-abc2-4b77-8ca1', 'a4d4-cdc8-c90b-4b82-a1bf', '5ffc-22ba-2f35-41ed-be5f', '2025-02-28 19:51:23', '2025-02-28 19:51:23'),
 ('a50c-da44-235e-4bfb-905f', '34fa-6718-b5c8-4dcc-8449', '3f22-ded3-02e0-4e3a-86d1', '2025-02-28 17:53:54', '2025-02-28 17:53:54');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user_restaurant`
+--
+
+CREATE TABLE `user_restaurant` (
+  `id` varchar(255) NOT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `restaurant_id` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user_restaurant`
+--
+
+INSERT INTO `user_restaurant` (`id`, `user_id`, `restaurant_id`, `created_at`, `updated_at`) VALUES
+('590d-5e89-7c77-43f2-8e46', 'bb95-7bfb-133d-4396-8dab', 'de5e7ab5-f6cd-11ef-9cb8-d8cb8a12514d', '2025-03-03 09:40:10', '2025-03-03 09:40:10');
+
 --
 -- Index pour les tables déchargées
 --
@@ -334,6 +387,14 @@ ALTER TABLE `motel`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Index pour la table `reservation_menu`
+--
+ALTER TABLE `reservation_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `restaurant_id` (`restaurant_id`);
+
+--
 -- Index pour la table `reservation_nuitee`
 --
 ALTER TABLE `reservation_nuitee`
@@ -349,6 +410,12 @@ ALTER TABLE `reservation_sieste`
   ADD KEY `id_motel` (`id_motel`),
   ADD KEY `added_by` (`added_by`),
   ADD KEY `client_id` (`client_id`);
+
+--
+-- Index pour la table `restaurant`
+--
+ALTER TABLE `restaurant`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `types_chambres`
@@ -371,6 +438,14 @@ ALTER TABLE `user_motel`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Index pour la table `user_restaurant`
+--
+ALTER TABLE `user_restaurant`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `restaurant_id` (`restaurant_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Contraintes pour les tables déchargées
 --
 
@@ -386,6 +461,13 @@ ALTER TABLE `chambres`
 ALTER TABLE `clients`
   ADD CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `clients_ibfk_2` FOREIGN KEY (`motel_id`) REFERENCES `motel` (`id`);
+
+--
+-- Contraintes pour la table `reservation_menu`
+--
+ALTER TABLE `reservation_menu`
+  ADD CONSTRAINT `reservation_menu_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `reservation_menu_ibfk_2` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`);
 
 --
 -- Contraintes pour la table `reservation_nuitee`
@@ -408,6 +490,13 @@ ALTER TABLE `reservation_sieste`
 ALTER TABLE `user_motel`
   ADD CONSTRAINT `user_motel_ibfk_1` FOREIGN KEY (`motel_id`) REFERENCES `motel` (`id`),
   ADD CONSTRAINT `user_motel_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `user_restaurant`
+--
+ALTER TABLE `user_restaurant`
+  ADD CONSTRAINT `user_restaurant_ibfk_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`),
+  ADD CONSTRAINT `user_restaurant_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
