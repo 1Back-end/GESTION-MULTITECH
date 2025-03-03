@@ -96,6 +96,15 @@
 				</li>
 
 
+				<li>
+					<a href="../users/liste_restaurant.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-utensils"></span>
+						<span class="mtext">Restaurant</span>
+					</a>
+				</li>
+
+
+
 				
                  <li>
                     <a href="../users/clients.php" class="dropdown-toggle no-arrow">
