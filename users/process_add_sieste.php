@@ -17,6 +17,7 @@ if (isset($_POST["submit"])) {
     $id = generateUUID(); // Générer un nouvel ID unique
     $added_by = $_SESSION['id'] ?? null; // ID de l'utilisateur qui a ajouté la réservation
     $motel_id = $motel_data['id'] ?? null;  // ID du motel (si disponible)
+    $mois = moisActuelle();
 
     // Convertir l'heure d'entrée et l'heure de sortie en heures uniquement
     $hour_entree = date('H:i', strtotime($date_entree)); // Heure d'entrée formatée
@@ -33,8 +34,8 @@ if (isset($_POST["submit"])) {
         $erreur = "La sieste ne peut pas dépasser 2 heures.";
     } else {
         // Insertion dans la base de données
-        $stmt = $connexion->prepare("INSERT INTO reservation_sieste (id, type_chambre, type_service, numero, id_motel, prix, date_entre, date_sortie, client_id, is_deleted, status, added_by, created_at, updated_at)
-                                      VALUES (:id, :type_chambre, :type_service, :numero, :id_motel, :prix, :date_entre, :date_sortie, :client_id, :is_deleted, :status, :added_by, NOW(), NOW())");
+        $stmt = $connexion->prepare("INSERT INTO reservation_sieste (id, type_chambre, type_service, numero, id_motel, prix, date_entre, date_sortie, client_id, is_deleted, status, added_by, mois, created_at, updated_at)
+                                      VALUES (:id, :type_chambre, :type_service, :numero, :id_motel, :prix, :date_entre, :date_sortie, :client_id, :is_deleted, :status, :added_by,:mois, NOW(), NOW())");
 
         $is_deleted = '0'; // Pas supprimé
         $status = 'en cours'; // Statut initial de la réservation
@@ -51,6 +52,7 @@ if (isset($_POST["submit"])) {
         $stmt->bindParam(':is_deleted', $is_deleted);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':added_by', $added_by);
+        $stmt->bindParam(':mois', $mois);
         $stmt->execute();
 
         // Vérification si l'insertion a réussi

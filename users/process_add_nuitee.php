@@ -12,6 +12,8 @@ if (isset($_POST["submit"])) {
     $client_id = $_POST["client_id"] ?? null;
     $prix = $_POST["prix"] ?? null;
     $date_entree = $_POST["date_entree"] ?? null;
+    $mois = moisActuelle();
+ 
     
     // Calculer l'heure de sortie : Ajouter 1 jour à la date d'entrée et définir l'heure à 12:00
     $date_entree_obj = new DateTime($date_entree); // Création de l'objet DateTime à partir de la date d'entrée
@@ -25,8 +27,8 @@ if (isset($_POST["submit"])) {
     $motel_id = $motel_data['id'] ?? null;  // ID du motel (si disponible)
 
     // Insertion dans la base de données
-    $stmt = $connexion->prepare("INSERT INTO reservation_nuitee (id, type_chambre, type_service, numero, id_motel, prix, date_entre, date_sortie, client_id, is_deleted, status, added_by, created_at, updated_at)
-                                  VALUES (:id, :type_chambre, :type_service, :numero, :id_motel, :prix, :date_entre, :date_sortie, :client_id, :is_deleted, :status, :added_by, NOW(), NOW())");
+    $stmt = $connexion->prepare("INSERT INTO reservation_nuitee (id, type_chambre, type_service, numero, id_motel, prix, date_entre, date_sortie, client_id, is_deleted, status, added_by,mois, created_at, updated_at)
+                                  VALUES (:id, :type_chambre, :type_service, :numero, :id_motel, :prix, :date_entre, :date_sortie, :client_id, :is_deleted, :status, :added_by,:mois, NOW(), NOW())");
 
     $is_deleted = '0'; // Pas supprimé
     $status = 'en cours'; // Statut initial de la réservation
@@ -43,6 +45,7 @@ if (isset($_POST["submit"])) {
     $stmt->bindParam(':is_deleted', $is_deleted);
     $stmt->bindParam(':status', $status);
     $stmt->bindParam(':added_by', $added_by);
+    $stmt->bindParam(':mois', $mois);
     $stmt->execute();
 
     // Vérification si l'insertion a réussi
