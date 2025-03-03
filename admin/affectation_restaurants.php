@@ -41,6 +41,7 @@ $totalPages = ceil($totalAssignments / $limit);
                             <td>Utilisateur</td>
                             <td>Restaurant</td>
                             <td>Affecté le</td>
+                            <td>Action</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,20 @@ $totalPages = ceil($totalAssignments / $limit);
                                     <td><?= htmlspecialchars($assignment['user_first_name']) . ' ' . htmlspecialchars($assignment['user_last_name']); ?></td>
                                     <td><?= htmlspecialchars($assignment['restaurant_name']); ?></td>
                                     <td><?= htmlspecialchars((new DateTime($assignment['created_at']))->format('Y-m-d H:i:s')); ?></td>
+                                    
+                                    <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-customize text-white btn-rounded dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i> 
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item text-info" href="statistique_ventes_users.php?id=<?= $assignment['id']; ?>">
+                                                <i class="fa fa-info-circle text-info"></i> voir les ventes
+                                            </a></li>
+                                        
+                                        </ul>
+                                    </div>
+                                </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
