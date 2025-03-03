@@ -23,10 +23,35 @@ function getUserMotel($user_id, $connexion) {
     return $stmt->fetch(PDO::FETCH_ASSOC); // Retourne un tableau avec l'id et le nom du motel
 }
 
+
+
 // Appeler la fonction pour récupérer l'ID et le nom du motel de l'utilisateur
 $motel_data = getUserMotel($user_id, $connexion);
 $motels_name = $motel_data['name'] ?? 'Motel non trouvé';  // Nom du motel
 $motel_id = $motel_data['id'] ?? null;  // ID du motel
+
+
+
+function getUserRestaurant($user_id, $connexion) {
+    $stmt = $connexion->prepare("SELECT r.id, r.name FROM restaurant r 
+                                JOIN user_restaurant ur ON r.id = ur.restaurant_id 
+                                WHERE ur.user_id = :user_id");
+    $stmt->execute(['user_id' => $user_id]);
+    
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null; // Retourne null si aucun restaurant n'est trouvé
+}
+
+// Appeler la fonction pour récupérer l'ID et le nom du restaurant de l'utilisateur
+$restaurant_data = getUserRestaurant($user_id, $connexion);
+
+if ($restaurant_data) {
+    $restaurant_name = $restaurant_data['name']; // Nom du restaurant
+    $restaurant_id = $restaurant_data['id'];    // ID du restaurant
+} else {
+    $restaurant_name = "Restaurant non trouvé";
+    $restaurant_id = null;
+}
+
 // echo $motel_id;
 // Nombre d'éléments par page
 $items_per_page = 10;
@@ -216,7 +241,30 @@ function moisActuelle(){
     return $correspondanceMois[$moisEnAnglais];
  }
  
+ function get_vente_by_added_by_and_restaurant_id($connexion, $restaurant_id, $user_id, $limit, $offset) {
+    $sql = "SELECT * FROM reservation_menu 
+            WHERE restaurant_id = :restaurant_id 
+            AND added_by = :user_id 
+            ORDER BY created_at DESC 
+            LIMIT :limit OFFSET :offset";
+    
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':restaurant_id', $restaurant_id, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
+// Compter le nombre total d'enregistrements pour la pagination
+function count_ventes($connexion, $restaurant_id, $user_id) {
+    $sql = "SELECT COUNT(*) FROM reservation_menu WHERE restaurant_id = :restaurant_id AND added_by = :user_id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute([':restaurant_id' => $restaurant_id, ':user_id' => $user_id]);
+    return $stmt->fetchColumn();
+}
 
 
 ?>
