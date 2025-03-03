@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 mb-3">
-    <?php include("process_add_client.php"); ?>
+        <?php include("process_add_vente.php");?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
     <?php endif; ?>
@@ -46,7 +46,7 @@
 
                 <div class="mb-3">
                     <label for="">prix unitaire<span class="text-danger">*</span></label>
-                    <input type="text" name="address" class="form-control shadow-none" required>
+                    <input type="text" name="price" class="form-control shadow-none" required>
                 </div>   
             </div>
             
