@@ -92,6 +92,7 @@ if (!$user) {
                         <form action="" method="POST">
                             <div class="row gx-3 mb-2">
                                 <div class="col-md-6">
+                                <input class="shadow-none form-control shadow-none" name="id_user" value="<?= htmlspecialchars($user['id']); ?>" type="hidden">
                                     <label class="small mb-1" for="inputFirstName">Prénom</label>
                                     <input class="shadow-none form-control shadow-none" name="prenom" value="<?= htmlspecialchars($user['first_name']); ?>" type="text">
                                 </div>

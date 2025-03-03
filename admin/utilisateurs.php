@@ -1,6 +1,10 @@
 <?php include("../include/menu.php"); ?>
 <?php include("../fonction/fonction.php");?>
-
+<style>
+    .text-color{
+  color: #1F4283;
+}
+</style>
 <div class="main-container mt-3 pb-5">
    <div class="col-md-12 col-sm-12 mb-3">
    <div class="card-box p-3">
@@ -118,16 +122,17 @@ $users = get_all_users($connexion, $page, $limit);
                                             </li>
                                             <?php if ($user['status'] == 'active'): ?>
                                             <li>
-                                                <a href="#" class="dropdown-item text-success" data-toggle="modal" data-target="#assignMotelModal" data-user="<?= htmlspecialchars($user['id']); ?>">
-                                                    <i class="fa fa-share-square-o text-success"></i> Affecter motel
+                                                <a href="#" class="dropdown-item text-color" data-toggle="modal" data-target="#assignMotelModal" data-user="<?= htmlspecialchars($user['id']); ?>">
+                                                    <i class="fa fa-bed text-color"></i> Affecter motel
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#" class="dropdown-item text-success assign-restaurant-btn" data-toggle="modal" data-target="#assignRestaurantModal" data-user="<?= htmlspecialchars($user['id']); ?>">
-                                                    <i class="fa fa-share-square-o text-success"></i> Affecter restaurant
+                                                    <i class="fa fa-utensils text-success"></i> Affecter restaurant
                                                 </a>
                                             </li>
-                                            <?php endif; ?>
+                                        <?php endif; ?>
+
 
 
 

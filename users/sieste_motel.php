@@ -21,7 +21,7 @@
         </div>
     </div>
     </div>
-
+<!-- <?php include("check_expired_reservations.php");?> -->
     <?php
 // Connexion à la base de données
 include("../database/connexion.php");
@@ -33,6 +33,8 @@ $reservations = get_reservation_sieste_by_motel_id_and_added_by($connexion, $mot
 $totalReservations = get_total_reservations_sieste($connexion, $motel_id, $user_id);
 $totalPages = ceil($totalReservations / $perPage);
 ?>
+
+
 
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
@@ -103,3 +105,51 @@ $totalPages = ceil($totalReservations / $perPage);
     </div>
 </div>
 
+
+
+    <script type="text/javascript">
+        // Fonction pour appeler le script PHP qui vérifie les réservations expirées
+        function checkReservations() {
+            $.ajax({
+                url: 'check_expired_reservations.php', // Remplace par le chemin correct vers ton script PHP
+                type: 'GET',
+                success: function(response) {
+                    // Afficher les alertes dans un pop-up
+                    if (response) {
+                        alert(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Erreur AJAX: " + error);
+                }
+            });
+        }
+
+        // Appeler la fonction quand la page est prête
+        $(document).ready(function() {
+            checkReservations();
+        });
+    </script>
+<script type="text/javascript">
+    // Fonction pour appeler le script PHP qui vérifie les réservations expirées
+    function checkReservations() {
+        $.ajax({
+            url: 'check_expired_reservations.php', // Remplace par le chemin correct vers ton script PHP
+            type: 'GET',
+            success: function(response) {
+                // Afficher les alertes dans un pop-up
+                if (response) {
+                    alert(response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Erreur AJAX: " + error);
+            }
+        });
+    }
+
+    // Appeler la fonction quand la page est prête
+    $(document).ready(function() {
+        checkReservations();
+    });
+</script>
