@@ -32,8 +32,8 @@ $users = get_all_users($connexion, $page, $limit);
 </div>
 
 <div class="col-md-12 col-sm-12 mb-3">
-    <?php include("process_assign_motel.php"); ?>
-    <?php include("process_assign_restaurant.php"); ?>
+<?php include("process_assign_restaurant.php"); ?>
+
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
     <?php endif; ?>
@@ -125,7 +125,11 @@ $users = get_all_users($connexion, $page, $limit);
                                                     <i class="fa fa-share-square-o text-success"></i> Affecter motel
                                                 </a>
                                             </li>
-
+                                            <li>
+                                                <a href="#" class="dropdown-item text-success assign-restaurant-btn" data-toggle="modal" data-target="#assignRestaurantModal" data-user="<?= htmlspecialchars($user['id']); ?>">
+                                                    <i class="fa fa-share-square-o text-success"></i> Affecter restaurant
+                                                </a>
+                                            </li>
                                             <?php endif; ?>
 
 
@@ -209,4 +213,50 @@ $users = get_all_users($connexion, $page, $limit);
     });
 </script>
 
+
+<!-- Boîte modale pour affecter un restaurant -->
+<!-- Boîte modale pour affecter un restaurant -->
+<div class="modal fade" id="assignRestaurantModal" tabindex="-1" role="dialog" aria-labelledby="assignRestaurantModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignRestaurantModalLabel">Affecter à un restaurant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <!-- Champ caché pour l'ID utilisateur -->
+                    <input type="hidden" name="user_id" id="modalRestaurantUserId">
+
+                    <div class="form-group">    
+                        <select class="form-control form-control select-custom shadow-none" name="restaurant_id" id="restaurantSelect" required>
+                            <option value="" disabled selected>-- Choisissez un restaurant --</option>
+                            <?php
+                                foreach ($restaurant as $restaurants) {
+                                    echo "<option value='{$restaurants['id']}'>" . htmlspecialchars($restaurants['name']) . "</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-xs" data-dismiss="modal">Annuler</button>
+                    <button type="submit" name="submit" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Ouvrir la modale et assigner l'ID utilisateur au champ caché
+        $('[data-target="#assignRestaurantModal"]').on('click', function() {
+            var userId = $(this).data('user');  // Récupère l'ID utilisateur
+            $('#modalRestaurantUserId').val(userId);  // Assigne la valeur au champ input caché
+        });
+    });
+</script>
 

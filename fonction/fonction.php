@@ -320,6 +320,37 @@ function get_total_user_motel_assignments($connexion) {
     return $result['total'];
 }
 
+function get_user_restaurant_assignments($connexion, $limit, $offset) {
+    $stmt = $connexion->prepare("
+        SELECT 
+            um.id, 
+            u.first_name AS user_first_name,
+            u.last_name AS user_last_name,
+            m.name AS restaurant_name, 
+            um.created_at
+        FROM 
+            user_restaurant um
+        LEFT JOIN 
+            users u ON um.user_id = u.id
+        LEFT JOIN 
+            restaurant m ON um.restaurant_id = m.id
+        ORDER BY 
+            um.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_total_user_restaurant_assignments($connexion) {
+    $stmt = $connexion->prepare("SELECT COUNT(*) AS total FROM user_restaurant");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
+
 // Récupérer le total des clients
 function get_total_clients($connexion) {
     $stmt = $connexion->prepare("SELECT COUNT(*) AS total FROM clients WHERE is_deleted=0");
