@@ -98,9 +98,6 @@ $users = get_all_users($connexion, $page, $limit);
                                             <i class="fas fa-cogs"></i> 
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item text-info" href="details_user.php?id=<?= $user['id']; ?>">
-                                                <i class="fa fa-info-circle text-info"></i> Détails
-                                            </a></li>
                                             
                                             
                                             <li><a class="dropdown-item text-danger" href="delete_user.php?id=<?= $user['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?');">
