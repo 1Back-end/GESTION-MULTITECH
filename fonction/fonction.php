@@ -394,3 +394,29 @@ function get_restaurant($connexion){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 $restaurants = get_all_restaurant($connexion);
+
+
+function get_vente_by_added_by_and_restaurant_id($connexion, $restaurant_id, $user_id, $limit, $offset) {
+    $sql = "SELECT * FROM reservation_menu 
+            WHERE restaurant_id = :restaurant_id 
+            AND added_by = :user_id 
+            ORDER BY created_at DESC 
+            LIMIT :limit OFFSET :offset";
+    
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':restaurant_id', $restaurant_id, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Compter le nombre total d'enregistrements pour la pagination
+function count_ventes($connexion, $restaurant_id, $user_id) {
+    $sql = "SELECT COUNT(*) FROM reservation_menu WHERE restaurant_id = :restaurant_id AND added_by = :user_id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute([':restaurant_id' => $restaurant_id, ':user_id' => $user_id]);
+    return $stmt->fetchColumn();
+}
