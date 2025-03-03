@@ -1,6 +1,10 @@
 <?php include("../include/menu.php"); ?>
 <?php include("../fonction/fonction.php");?>
-
+<style>
+    .text-color{
+  color: #1F4283;
+}
+</style>
 <div class="main-container mt-3 pb-5">
    <div class="col-md-12 col-sm-12 mb-3">
    <div class="card-box p-3">
@@ -59,14 +63,18 @@
                                         <i class="fas fa-cogs"></i> 
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item text-success" href="details_sieste.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa fa-list-alt text-success"></i> Détails Sièstes
-                                        </a></li>
+                                    <li>
+                                            <a class="dropdown-item text-success" href="details_sieste.php?id=<?= $motel['id']; ?>">
+                                                <i class="fa fa-clock text-success"></i> Détails Sièstes
+                                            </a>
+                                        </li>
 
-                                        <li><a class="dropdown-item text-info" href="details_nuitee.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-list-alt text-info"></i> Détails nuitées
-                                        </a></li>
-                                        
+                                        <li>
+                                            <a class="dropdown-item text-color" href="details_nuitee.php?id=<?= $motel['id']; ?>">
+                                                <i class="fa fa-moon text-color"></i> Détails nuitées
+                                            </a>
+                                        </li>
+                                     
                                         <li><a class="dropdown-item text-warning" href="edit_motel.php?id=<?= $motel['id']; ?>">
                                             <i class="fa fa-edit text-warning"></i> Modifier
                                         </a></li>
@@ -75,9 +83,7 @@
                                             <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                         </a></li>
 
-                                        <li><a class="dropdown-item text-info" href="view_clients.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-user text-info"></i> Voir clients
-                                        </a></li>
+                                       
                                     </ul>
                                 </div>
                             </td>

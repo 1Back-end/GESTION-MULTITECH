@@ -59,9 +59,7 @@
                                         <i class="fas fa-cogs"></i> 
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item text-info" href="details_restaurant.php?id=<?= $restaurant['id']; ?>">
-                                            <i class="fa fa-info-circle text-info"></i> Détails
-                                        </a></li>
+                                       
                                         
                                         <li><a class="dropdown-item text-warning" href="edit_restaurant.php?id=<?= $restaurant['id']; ?>">
                                             <i class="fa fa-edit text-warning"></i> Modifier
@@ -71,9 +69,7 @@
                                             <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                         </a></li>
 
-                                        <li><a class="dropdown-item text-primary" href="view_clients.php?id=<?= $restaurant['id']; ?>">
-                                            <i class="fa fa-user text-primary"></i> Voir clients
-                                        </a></li>
+                                       
                                     </ul>
                                 </div>
                             </td>

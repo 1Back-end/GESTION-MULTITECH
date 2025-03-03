@@ -112,6 +112,13 @@
                     </a>
                 </li>
 
+				<li>
+					<a href="../users/clients.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-building"></span><span class="mtext">Immo</span>
+					</a>
+				</li>
+
+
 
 
 
@@ -145,6 +152,13 @@
                         <span class="micon fas fa-users"></span><span class="mtext">Utilisateurs</span>
                     </a>
                 </li>
+
+				<li>
+					<a href="../admin/immo.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-building"></span><span class="mtext">IMMO</span>
+					</a>
+				</li>
+
 
                 
                 
