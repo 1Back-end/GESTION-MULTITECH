@@ -56,8 +56,8 @@ $total_pages = ceil($total_clients / $items_per_page);
                                 <td><?php echo $client['created_at']; ?></td>
                                 <td>
                                     <!-- Actions (par exemple, modifier, supprimer) -->
-                                    <a href="edit_client.php?id=<?php echo $client['id']; ?>" class="btn btn-info btn-sm">Modifier</a>
-                                    <a href="delete_client.php?id=<?php echo $client['id']; ?>" class="btn btn-danger btn-sm">Supprimer</a>
+                                    <a href="edit_client.php?id=<?php echo $client['id']; ?>" class="btn btn-info btn-sm btn-xs">Modifier</a>
+                                    
                                 </td>
                             </tr>
                         <?php endforeach; ?>

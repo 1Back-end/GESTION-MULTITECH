@@ -17,27 +17,27 @@ if (isset($_POST["submit"])) {
     $id = generateUUID();
 
     // Vérification si le motel avec le même nom existe déjà
-    $query = "SELECT COUNT(*) FROM motel WHERE name = ? AND is_deleted = 0";
+    $query = "SELECT COUNT(*) FROM restaurant WHERE name = ? AND is_deleted = 0";
     $stmt = $connexion->prepare($query);
     $stmt->execute([$name]);
     $count = $stmt->fetchColumn();
 
     if ($count > 0) {
         // Si un motel avec le même nom existe déjà, afficher une erreur
-        $erreur = "Un motel avec ce nom existe déjà.";
+        $erreur = "Un restaurant avec ce nom existe déjà.";
     } else {
         // Si le nom est unique, procéder à l'insertion
         try {
-            $query = "INSERT INTO motel (id, name, address, contact_email, contact_phone, description) 
+            $query = "INSERT INTO restaurant (id, name, address, contact_email, contact_phone, description) 
                       VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $connexion->prepare($query);
             $stmt->execute([$id, $name, $address, $email, $phone, $description]);
 
             // Si l'insertion réussie, afficher un message de succès
-            $success = "Le motel a été enregistré avec succès.";
+            $success = "Le restaurant a été enregistré avec succès.";
         } catch (PDOException $e) {
             // Si une erreur survient pendant l'insertion
-            $erreur = "Erreur lors de l'enregistrement du motel: " . $e->getMessage();
+            $erreur = "Erreur lors de l'enregistrement du restaurant: " . $e->getMessage();
         }
     }
 }

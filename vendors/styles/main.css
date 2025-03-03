@@ -115,6 +115,11 @@ input[type="file"]{
   font-family: "Rubik", system-ui;
 
 }
+input[type="datetime-local"]{
+  font-size: 12px;
+  font-family: "Rubik", system-ui;
+
+}
 input[type="tel"]{
   font-size: 12px;
   font-family: "Rubik", system-ui;
@@ -146,6 +151,9 @@ textarea.form-control {
   .btn-responsive {
       width: 100%; /* Réduire davantage la taille pour les écrans plus petits si nécessaire */
   }
+}
+.text-color{
+  color: #1F4283;
 }
 
 @media only screen and (max-width: 768px) {

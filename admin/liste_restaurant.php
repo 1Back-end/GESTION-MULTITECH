@@ -6,10 +6,10 @@
    <div class="card-box p-3">
         <div class="d-flex align-items-center justfify-content-between">
             <div class="mr-auto">
-                <h5 class="text-uppercase">Liste des motels</h5>
+                <h5 class="text-uppercase">Liste des restaurants</h5>
             </div>
             <div class="ml-auto">
-                <a href="add_motel.php" class="btn btn-customize text-white text-uppercase">
+                <a href="add_restaurant.php" class="btn btn-customize text-white text-uppercase">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                     Ajouter
                 </a>
@@ -42,16 +42,16 @@
                 </thead>
 
                 <tbody>
-                    <?php if (count($motels) > 0): ?>
-                        <?php foreach ($motels  as $index => $motel): ?>
+                    <?php if (count($restaurant) > 0): ?>
+                        <?php foreach ($restaurant  as $index => $restaurant): ?>
                             <tr>
                                 <td><?= ($index + 1) ?></td>
-                                <td><?= htmlspecialchars($motel['name']) ?></td>
-                                <td><?= htmlspecialchars($motel['address']) ?></td>
-                                <td><?= htmlspecialchars($motel['contact_email']) ?></td>
-                                <td><?= htmlspecialchars($motel['created_at']) ?></td>
+                                <td><?= htmlspecialchars($restaurant['name']) ?></td>
+                                <td><?= htmlspecialchars($restaurant['address']) ?></td>
+                                <td><?= htmlspecialchars($restaurant['contact_email']) ?></td>
+                                <td><?= htmlspecialchars($restaurant['created_at']) ?></td>
                                 <td>
-                                    <?= $motel['status'] === 'active' ? '<span class="badge badge-success">Actif</span>' : '<span class="badge badge-danger">Inactif</span>' ?>
+                                    <?= $restaurant['status'] === 'active' ? '<span class="badge badge-success">Actif</span>' : '<span class="badge badge-danger">Inactif</span>' ?>
                                 </td>
                                 <td>
                                 <div class="dropdown">
@@ -59,24 +59,20 @@
                                         <i class="fas fa-cogs"></i> 
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item text-success" href="details_sieste.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa fa-list-alt text-success"></i> Détails Sièstes
-                                        </a></li>
-
-                                        <li><a class="dropdown-item text-info" href="details_nuitee.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-list-alt text-info"></i> Détails nuitées
+                                        <li><a class="dropdown-item text-info" href="details_restaurant.php?id=<?= $restaurant['id']; ?>">
+                                            <i class="fa fa-info-circle text-info"></i> Détails
                                         </a></li>
                                         
-                                        <li><a class="dropdown-item text-warning" href="edit_motel.php?id=<?= $motel['id']; ?>">
+                                        <li><a class="dropdown-item text-warning" href="edit_restaurant.php?id=<?= $restaurant['id']; ?>">
                                             <i class="fa fa-edit text-warning"></i> Modifier
                                         </a></li>
                                         
-                                        <li><a class="dropdown-item text-danger" href="delete_motel.php?id=<?= $motel['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce motel ?');">
+                                        <li><a class="dropdown-item text-danger" href="delete_restaurant.php?id=<?= $restaurant['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce restaurant ?');">
                                             <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                         </a></li>
 
-                                        <li><a class="dropdown-item text-info" href="view_clients.php?id=<?= $motel['id']; ?>">
-                                            <i class="fa fa-user text-info"></i> Voir clients
+                                        <li><a class="dropdown-item text-primary" href="view_clients.php?id=<?= $restaurant['id']; ?>">
+                                            <i class="fa fa-user text-primary"></i> Voir clients
                                         </a></li>
                                     </ul>
                                 </div>

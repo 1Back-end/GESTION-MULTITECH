@@ -40,19 +40,25 @@ if (!$user) {
         font-size: 12px;
     }
 </style>
-
 <div class="main-container pb-5">
-    <div class="col-md-12 col-sm-12 mb-3">
-        <?php
-        if (isset($_SESSION['success_message'])) {
-            echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
-            unset($_SESSION['success_message']);
-            }
-        ?>
-    </div>
+<div class="col-md-12 col-sm-12 mb-3">
+    <?php include("process_update_profil.php"); ?>
+    <?php if ($erreur): ?>
+    <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+        <div class="alert alert-success text-center border-0"><?= $success ?></div>
+    <?php endif; ?>
+</div>
+
+
+
     <div class="container mt-2 p-2">
+   
         <!-- Account page navigation -->
         <nav class="nav nav-borders">
+ 
             <a class="nav-link active ms-0" href="#">Profile</a>
         </nav>
         <hr class="mt-0 mb-4">

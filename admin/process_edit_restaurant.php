@@ -14,15 +14,15 @@ if (isset($_POST["submit"])) {
     $id = $_GET["id"]; // Récupération de l'ID du motel depuis l'URL
 
     // Validation des données (par exemple, on vérifie que le nom est unique)
-    $stmt = $connexion->prepare("SELECT COUNT(*) FROM motel WHERE name = :name AND id != :id");
+    $stmt = $connexion->prepare("SELECT COUNT(*) FROM restaurant WHERE name = :name AND id != :id");
     $stmt->execute(['name' => $name, 'id' => $id]);
     $count = $stmt->fetchColumn();
 
     if ($count > 0) {
-        $erreur = "Ce nom de motel existe déjà.";
+        $erreur = "Ce nom de restaurant existe déjà.";
     } else {
         // Mise à jour dans la base de données
-        $sql = "UPDATE motel SET name = :name, contact_email = :email, contact_phone = :phone, address = :address, description = :description, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
+        $sql = "UPDATE restaurant SET name = :name, contact_email = :email, contact_phone = :phone, address = :address, description = :description, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
         $stmt = $connexion->prepare($sql);
         
         // Exécution de la requête
@@ -40,7 +40,7 @@ if (isset($_POST["submit"])) {
     }
 }
 $id = $_GET["id"];
-$stmt = $connexion->prepare("SELECT * FROM motel WHERE id = :id");
+$stmt = $connexion->prepare("SELECT * FROM restaurant WHERE id = :id");
 $stmt->execute(['id' => $id]);
 $resultat = $stmt->fetch();
 

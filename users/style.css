@@ -1,0 +1,5 @@
+input[type="date"], input[type="datetime-local"], input[type="month"], input[type="time"] {
+    -webkit-appearance: listbox;
+    font-size: 12px;
+    font-family: "Rubik", system-ui;
+  }

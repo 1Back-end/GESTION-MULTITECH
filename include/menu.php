@@ -49,7 +49,7 @@
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="user-icon shadow-none">
                         <!-- Vérifier si une photo est disponible dans la session, sinon utiliser une image par défaut -->
-                        <img src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
+                        <img class='rounded-circle img-fluid mt-1 text-center' style='object-fit: cover; width: 50px; height: 50px; max-width: 50px; max-height: 50px;' src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
                     </span>
                     <span class="user-name font-14"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
                 </a>
@@ -84,10 +84,26 @@
 				</li>
 
                 <li>
-                    <a href="../users/motel.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-hotel"></span><span class="mtext">Mon Motel</span>
-                    </a>
-                </li>
+					<a href="../users/sieste_motel.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-bed"></span><span class="mtext">Sieste Motel</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="../users/nuitee_motel.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-moon"></span><span class="mtext">Nuitée Motel</span>
+					</a>
+				</li>
+
+
+				<li>
+					<a href="../users/liste_restaurant.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-utensils"></span>
+						<span class="mtext">Restaurant</span>
+					</a>
+				</li>
+
+
 
 				
                  <li>
@@ -97,17 +113,9 @@
                 </li>
 
 
-                <li>
-                    <a href="../admin/vente_restaurant.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-cash-register"></span><span class="mtext">Vente Restaurant</span>
-                    </a>
-                </li>
 
 
-                <li>
-                    <a href="../admin/reservation_motel.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-bed"></span><span class="mtext">Réservation Motel</span>
-                    </a>
+               
                 </li>
                 <?php else: ?>
             
@@ -124,17 +132,13 @@
                 </a>
                 <ul class="submenu">
                     <li><a href="../admin/liste_motels.php">Motels</a></li>
-                    <li><a href="../admin/liste_restaurants.php">Restaurants</a></li>
-                    <li><a href="../admin/liste_clients.php">Affectation Motels</a></li>
-                    <li><a href="">Affection Restaurant</a></li>
+                    <li><a href="../admin/liste_restaurant.php">Restaurants</a></li>
+                    <li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
+                    <li><a href="../admin/affectation_restaurants.php">Affection Restaurant</a></li>
                 </ul>
                  </li>
 
-                <li>
-                    <a href="../admin/reservation.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fa fa-calendar"></span><span class="mtext">Réservation</span>
-                    </a>
-                </li>
+                
 
                 <li>
                     <a href="../admin/utilisateurs.php" class="dropdown-toggle no-arrow">
@@ -142,11 +146,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="../admin/restaurants.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-utensils"></span><span class="mtext">Restaurant</span>
-                    </a>
-                </li>
+                
                 
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">

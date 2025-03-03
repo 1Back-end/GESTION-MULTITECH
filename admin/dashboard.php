@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="ml-auto">
-                            <h6 class="mr-2 fs-3">0</h6>
+                            <h6 class="mr-2 fs-3"><?php echo $total_motels ?></h6>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="ml-auto">
-                        <h6 class="mr-2 fs-3">0</h6> <!-- Remplacer 0 par le total des ventes -->
+                        <h6 class="mr-2 fs-3"><?php echo $total_restaurants?></h6> <!-- Remplacer 0 par le total des ventes -->
                     </div>
                 </div>
             </div>
