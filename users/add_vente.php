@@ -26,6 +26,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-12 mb-3">
                 <div class="mb-3">
+                    <label for="">Type de vente <span class="text-danger">*</span></label>
                 <select name="type_vente" required class="shadow-none form-control select-custom" id="type_vente">
                 <option disabled selected>Veuillez choisir une option</option>
                 <option>Plat</option>
@@ -41,12 +42,12 @@
             <div class="col-md-6 col-sm-12 mb-3">
                 <div class="mb-3">
                     <label for="">Quantite <span class="text-danger">*</span></label>
-                    <input type="text" name="qte" class="form-control shadow-none" required>
+                    <input type="text" name="qte" min="0" class="form-control shadow-none" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="">prix unitaire<span class="text-danger">*</span></label>
-                    <input type="text" name="price" class="form-control shadow-none" required>
+                    <input type="number" min="0" name="price" class="form-control shadow-none" required>
                 </div>   
             </div>
             
