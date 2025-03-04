@@ -697,3 +697,39 @@ function get_total_reservations_nuitee($connexion, $user_id, $keyword = null, $d
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total'];
 }
+
+
+function get_clients($connexion, $limit, $offset) {
+    $stmt = $connexion->prepare("
+        SELECT 
+            c.id, 
+            c.first_name, 
+            c.last_name, 
+            c.address, 
+            c.phone, 
+            c.created_at,
+            u.first_name AS added_by_first_name,
+            u.last_name AS added_by_last_name,
+            m.name AS motel_name
+        FROM clients c
+        LEFT JOIN users u ON c.added_by = u.id
+        LEFT JOIN motel m ON c.motel_id = m.id
+        WHERE c.is_deleted = 0
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_total_clients_motel($connexion) {
+    $stmt = $connexion->prepare("
+        SELECT COUNT(*) AS total 
+        FROM clients 
+        WHERE is_deleted = 0
+    ");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+}
