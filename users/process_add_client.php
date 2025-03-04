@@ -1,6 +1,5 @@
 <?php
 include("../database/connexion.php");
-include("../fonction/fonction.php");
 include("fonction.php");
 
 $erreur = "";

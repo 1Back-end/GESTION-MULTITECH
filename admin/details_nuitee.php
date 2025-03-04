@@ -89,10 +89,15 @@ $totalPages = ceil($totalReservations / $perPage);
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
+                                
                                 <tr>
                                     <td colspan="12">Aucun élément trouvé</td>
                                 </tr>
                             <?php endif; ?>
+                            <div class="text-center">
+                            <p>Recette <?php echo $mois_actuelle ? : "du mois"; ?> : <strong><?php echo number_format($totalRecettesNuitee ) . ' FCFA'; ?></strong></p>
+
+                            </div>
                         </tbody>
                     </table>
 

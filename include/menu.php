@@ -154,6 +154,12 @@
                 </li>
 
 				<li>
+                    <a href="../admin/list_client.php" class="dropdown-toggle no-arrow">
+                        <span class="micon fas fa-users"></span><span class="mtext">liste des clients</span>
+                    </a>
+                </li>
+
+				<li>
 					<a href="../admin/immo.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-building"></span><span class="mtext">IMMO</span>
 					</a>
