@@ -21,6 +21,12 @@
         </div>
         </div>
         </div>
+        <div class="col-md-12 col-sm-12 mb-3">
+<?php if(!empty($_GET["msg"])) : ?>
+    <?php $msg = $_GET["msg"]; ?>
+    <div class="alert alert-success text-center border-0"><?= $msg ?> !</div>
+    <?php endif; ?>
+</div>
         <?php
 // Récupération de la page actuelle
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -50,7 +56,7 @@ $owners = get_all_owners($connexion, $page, $limit);
                 </thead>
                 <tbody>
                     <?php if (empty($owners)) : ?>
-                        <tr><td colspan="7">Aucun élément trouvé</td></tr>
+                        <tr><td colspan="10">Aucun élément trouvé</td></tr>
                     <?php else : ?>
                         <?php foreach ($owners as $index => $owner) : ?>
                             <tr>
@@ -71,7 +77,7 @@ $owners = get_all_owners($connexion, $page, $limit);
                                        
 
                                     <li>
-                                        <a class="dropdown-item text-info" href="view_locataire_owner.php?id=<?= $locataire['id']; ?>">
+                                        <a class="dropdown-item text-info" href="view_locataire_owner.php?id=<?= $owner['id']; ?>">
                                             <i class="fa fa-eye text-info"></i> Voir Locataires
                                         </a>
                                     </li>
