@@ -4,12 +4,10 @@
 	<!-- Basic admin Info -->
 	<meta charset="utf-8">
 	<title><?php echo strtoupper(ucfirst(str_replace(".php", "", basename($_SERVER['PHP_SELF']))));?></title>
-
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="../vendors/images/logo.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="../vendors/images/logo.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="../vendors/images/logo.png">
-
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
@@ -105,12 +103,12 @@
 
 
 
-				
+<!-- 				
                  <li>
                     <a href="../users/clients.php" class="dropdown-toggle no-arrow">
                         <span class="micon fas fa-user-plus"></span><span class="mtext">Liste des Clients</span>
                     </a>
-                </li>
+                </li> -->
 
 				<li>
 					<a href="../users/clients.php" class="dropdown-toggle no-arrow">
@@ -142,6 +140,7 @@
                     <li><a href="../admin/liste_restaurant.php">Restaurants</a></li>
                     <li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
                     <li><a href="../admin/affectation_restaurants.php">Affection Restaurant</a></li>
+					<li><a href="../admin/list_client.php">Liste des clients</a></li>
                 </ul>
                  </li>
 
@@ -153,21 +152,22 @@
                     </a>
                 </li>
 
-				<li>
-                    <a href="../admin/list_client.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-users"></span><span class="mtext">liste des clients</span>
-                    </a>
-                </li>
+				
 
-				<li>
-					<a href="../admin/immo.php" class="dropdown-toggle no-arrow">
-						<span class="micon fas fa-building"></span><span class="mtext">IMMO</span>
+				<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon fa fa-home"></span>
+						<span class="mtext">IMMO</span>
 					</a>
+					<ul class="submenu">
+						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
+						<li><a href="../admin/liste_restaurant.php">Locataires</a></li>
+					</ul>
 				</li>
 
 
-                
-                
+				
+
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon fa fa-cog"></span><span class="mtext">Paramètres</span>

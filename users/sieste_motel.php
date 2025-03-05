@@ -21,7 +21,7 @@
         </div>
     </div>
     </div>
-<!-- <?php include("check_expired_reservations.php");?> -->
+
     <?php
 // Connexion à la base de données
 include("../database/connexion.php");
@@ -33,6 +33,10 @@ $reservations = get_reservation_sieste_by_motel_id_and_added_by($connexion, $mot
 $totalReservations = get_total_reservations_sieste($connexion, $motel_id, $user_id);
 $totalPages = ceil($totalReservations / $perPage);
 ?>
+<div class="col-md-12 col-sm-12 mb-3">
+<div id="alert-container"></div> <!-- Zone pour afficher les alertes -->
+
+</div>
 
 
 
@@ -93,11 +97,11 @@ $totalPages = ceil($totalReservations / $perPage);
                     <?php endif; ?>
 
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>"><a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
+                        <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>"><a class="page-link w-100" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
                     <?php endfor; ?>
 
                     <?php if ($page < $totalPages): ?>
-                        <li class="page-item"><a class="page-link" href="?page=<?= $page + 1; ?>">Suivant</a></li>
+                        <li class="page-item w-100"><a class="page-link" href="?page=<?= $page + 1; ?>">Suivant</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
@@ -105,51 +109,22 @@ $totalPages = ceil($totalReservations / $perPage);
     </div>
 </div>
 
-
-
-    <script type="text/javascript">
-        // Fonction pour appeler le script PHP qui vérifie les réservations expirées
-        function checkReservations() {
-            $.ajax({
-                url: 'check_expired_reservations.php', // Remplace par le chemin correct vers ton script PHP
-                type: 'GET',
-                success: function(response) {
-                    // Afficher les alertes dans un pop-up
-                    if (response) {
-                        alert(response);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log("Erreur AJAX: " + error);
-                }
-            });
-        }
-
-        // Appeler la fonction quand la page est prête
-        $(document).ready(function() {
-            checkReservations();
-        });
-    </script>
-<script type="text/javascript">
-    // Fonction pour appeler le script PHP qui vérifie les réservations expirées
-    function checkReservations() {
+<script>
+    function checkExpiredReservations() {
         $.ajax({
-            url: 'check_expired_reservations.php', // Remplace par le chemin correct vers ton script PHP
-            type: 'GET',
-            success: function(response) {
-                // Afficher les alertes dans un pop-up
-                if (response) {
-                    alert(response);
+            url: 'check_expired_reservations_sieste.php',
+            method: 'GET',
+            success: function (response) {
+                if (response.trim() !== '') {
+                    $("#alert-container").html(response); // Injecte les alertes
                 }
-            },
-            error: function(xhr, status, error) {
-                console.log("Erreur AJAX: " + error);
             }
         });
     }
 
-    // Appeler la fonction quand la page est prête
-    $(document).ready(function() {
-        checkReservations();
-    });
+    // Vérification toutes les 30 secondes
+    setInterval(checkExpiredReservations, 30000);
+
+    // Vérification immédiate au chargement
+    checkExpiredReservations();
 </script>

@@ -36,14 +36,24 @@ $users = get_all_users($connexion, $page, $limit);
 </div>
 
 <div class="col-md-12 col-sm-12 mb-3">
-<?php include("process_assign_restaurant.php"); ?>
-
+<?php include("process_assign_motel.php"); ?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
     <?php endif; ?>
 
     <?php if ($success): ?>
         <div class="alert alert-success text-center border-0"><?= $success ?></div>
+    <?php endif; ?>
+</div>
+
+<div class="col-md-12 col-sm-12 mb-3">
+<?php include("process_assign_restaurant.php"); ?>
+    <?php if ($error): ?>
+    <div class="alert alert-danger text-center border-0"><?= $error ?></div>
+    <?php endif; ?>
+
+    <?php if ($succes): ?>
+        <div class="alert alert-success text-center border-0"><?= $succes ?></div>
     <?php endif; ?>
 </div>
 

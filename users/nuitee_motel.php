@@ -34,6 +34,11 @@ $reservations = get_reservation_by_motel_nuite_id_and_added_by($connexion, $mote
 $totalReservations = get_total_reservations_nuitee($connexion, $motel_id, $user_id);
 $totalPages = ceil($totalReservations / $perPage);
 ?>
+<div class="col-md-12 col-sm-12 mb-3">
+<div id="alert-container"></div> <!-- Zone pour afficher les alertes -->
+
+</div>
+
 
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
@@ -105,3 +110,23 @@ $totalPages = ceil($totalReservations / $perPage);
     </div>
 </div>
 
+
+<!-- <script>
+    function checkExpiredReservations() {
+        $.ajax({
+            url: 'check_expired_reservations_nuitee.php',
+            method: 'GET',
+            success: function (response) {
+                if (response.trim() !== '') {
+                    $("#alert-container").html(response); // Injecte les alertes
+                }
+            }
+        });
+    }
+
+    // Vérification toutes les 30 secondes
+    setInterval(checkExpiredReservations, 30000);
+
+    // Vérification immédiate au chargement
+    checkExpiredReservations();
+</script> -->
