@@ -1,5 +1,4 @@
 <?php include("../include/menu.php"); ?>
-<?php include("../fonction/fonction.php"); ?>
 
 <div class="main-container mt-3 pb-5">
     <div class="col-md-12 col-sm-12 mb-3">
@@ -9,6 +8,18 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12 col-sm-12 mb-3">
+    <?php include("process_add_proprietaire.php"); ?>
+    <?php if ($erreur): ?>
+    <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+        <div class="alert alert-success text-center border-0"><?= $success ?></div>
+    <?php endif; ?>
+</div>
+
+
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
         <form action="" method="post">
@@ -28,8 +39,8 @@
                     </div>
                     <div class="mb-3">
                     <div class="mb-3">
-                            <label for="type_chambre">Type propriété <span class="text-danger">*</span></label>
-                            <select name="type_chambre" id="type_chambre" required class="shadow-none form-control select-custom">
+                            <label for="type_property_type">Type propriété <span class="text-danger">*</span></label>
+                            <select name="property_type" id="property_type" required class="shadow-none form-control select-custom">
                                 <option disabled selected>Veuillez choisir une option</option>
                                 <?php foreach ($typesLocations as $typesLocation): ?>
                                     <option value="<?php echo htmlspecialchars($typesLocation); ?>">
@@ -52,18 +63,18 @@
                     </div>
                     <div class="mb-3">
                         <label for="">Résidence <span class="text-danger">*</span></label>
-                        <input type="text" name="residence"  class="form-control shadow-none" required>
+                        <input type="text" name="residence_location"  class="form-control shadow-none" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Localisation propriété <span class="text-danger">*</span></label>
-                    <input type="text" name="location"  class="form-control shadow-none" required>
+                    <input type="text" name="property_location"  class="form-control shadow-none" required>
                 </div>
             </div>
             </div>
 
             <div class="mb-3">
                 <label for="">Description <span class="text-danger">*</span></label>
-                <textarea name="description" id="description"rows="5" class="form-control shadow-none" required></textarea>
+                <textarea name="details" id="description"rows="5" class="form-control shadow-none" required></textarea>
             </div>
             <div class="d-flex justify-content-between">
             <button type="submit" name="submit" class="btn btn-customize text-white shadow-none">Enregistrer</button>
