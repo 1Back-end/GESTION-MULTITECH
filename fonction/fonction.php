@@ -749,3 +749,22 @@ function type_location(){
 }
 $typesLocations = type_location();
 
+function get_all_owners($connexion, $page = 1, $limit = 10) {
+    $offset = ($page - 1) * $limit; // Calcul du décalage
+
+    $stmt = $connexion->prepare("
+        SELECT * FROM owner WHERE is_deleted = False 
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Récupérer le nombre total de propriétaires pour la pagination
+function count_owners($connexion) {
+    $stmt = $connexion->query("SELECT COUNT(*) as total FROM owner WHERE is_deleted = False");
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
