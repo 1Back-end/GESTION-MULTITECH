@@ -19,5 +19,27 @@
                 </a>
             </div>
         </div>
+        <div class="col-md-12 col-sm-12 mb-3">
+       <div class="card-box p-3">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom complet</th>
+                            <th>Residence</th>
+                            <th>N° Téléphone</th>
+                            <th>Nationalité</th>
+                            <th>Créé le</th>
+                            <th>N° CNI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                <td colspan="7">Aucun élément trouvé</td>
+
+                    </tbody>
+                </table>
+            </div>
+
     </div>
    </div>
