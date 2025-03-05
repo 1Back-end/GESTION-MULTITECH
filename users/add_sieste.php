@@ -69,6 +69,7 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <a href="add_client.php" class="text-success text-uppercase text-decoration-none fw-bold">Ajouter un client</a>
                         </div>
                     </div>
 

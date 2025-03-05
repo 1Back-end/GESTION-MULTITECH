@@ -733,3 +733,19 @@ function get_total_clients_motel($connexion) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total'];
 }
+
+function type_location(){
+    $typesLocations = array(
+        'Duplex',
+        'Immeubles',
+        'Villa',
+        'Studio',
+        'Camp',
+        'Chambres',
+        'Appartements'
+
+    );
+    return $typesLocations;
+}
+$typesLocations = type_location();
+

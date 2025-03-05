@@ -1,10 +1,6 @@
 <?php 
 include("../include/menu.php"); 
 include("../fonction/fonction.php");
-include("../database/connexion.php");
-
-
-
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;

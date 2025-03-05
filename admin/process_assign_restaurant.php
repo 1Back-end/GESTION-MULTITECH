@@ -1,8 +1,8 @@
 <?php
 include("../database/connexion.php");
 
-$erreur = "";
-$success = "";
+$error = "";
+$succes = "";
 
 if (isset($_POST["submit"])) {
     $user_id = $_POST["user_id"] ?? null;
@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
         $exists = $stmt->fetchColumn();
 
         if ($exists) {
-            $erreur = "Cet utilisateur est déjà affecté à un restaurant.";
+            $error = "Cet utilisateur est déjà affecté à un restaurant.";
         } else {
             // Insérer l'affectation
             $stmt = $connexion->prepare("INSERT INTO user_restaurant (id, user_id, restaurant_id) VALUES (:id, :user_id, :restaurant_id)");
@@ -27,10 +27,10 @@ if (isset($_POST["submit"])) {
                 'restaurant_id' => $restaurant_id
             ]);
 
-            $success = "Affectation réussie !";
+            $succes = "Affectation réussie !";
         }
     } catch (PDOException $e) {
-        $erreur = "Erreur : " . $e->getMessage();
+        $error = "Erreur : " . $e->getMessage();
     }
 }
 ?>
