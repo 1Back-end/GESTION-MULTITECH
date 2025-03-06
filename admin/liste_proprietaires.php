@@ -77,7 +77,7 @@ $owners = get_all_owners($connexion, $page, $limit);
                                        
 
                                     <li>
-                                        <a class="dropdown-item text-info" href="view_locataire_owner.php?id=<?= $owner['id']; ?>">
+                                        <a class="dropdown-item text-info" href="../users/view_locataire_owner.php?id=<?= $owner['id']; ?>">
                                             <i class="fa fa-eye text-info"></i> Voir Locataires
                                         </a>
                                     </li>

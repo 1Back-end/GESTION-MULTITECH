@@ -768,3 +768,57 @@ function count_owners($connexion) {
     $stmt = $connexion->query("SELECT COUNT(*) as total FROM owner WHERE is_deleted = False");
     return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 }
+
+function get_tenants($connexion, $limit, $offset) {
+    try {
+        $stmt = $connexion->prepare("
+            SELECT 
+                t.id, 
+                t.first_name, 
+                t.last_name, 
+                t.num_cni AS id_number,  -- Correspondance avec 'id_number' dans ta table
+                t.phone, 
+                t.address, 
+                t.added_by, 
+                t.created_at,
+                t.property_type,
+                o.first_name AS owner_first_name, 
+                o.last_name AS owner_last_name
+            FROM tenants t
+            LEFT JOIN owner o ON t.owner_id = o.id
+            WHERE t.is_deleted = 0
+            LIMIT :limit OFFSET :offset
+        ");
+
+        // Vérification que limit et offset sont bien des entiers
+        $limit = (int) $limit;
+        $offset = (int) $offset;
+
+        // Bind des valeurs pour LIMIT et OFFSET
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur SQL dans get_tenants : " . $e->getMessage());
+    }
+}
+
+
+
+function get_total_tenants($connexion) {
+    try {
+        $stmt = $connexion->prepare("
+            SELECT COUNT(*) AS total 
+            FROM tenants 
+            WHERE is_deleted = 0
+        ");
+
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    } catch (PDOException $e) {
+        die("Erreur SQL dans get_total_tenants : " . $e->getMessage());
+    }
+}

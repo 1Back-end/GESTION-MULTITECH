@@ -100,6 +100,16 @@
 						<span class="mtext">Restaurant</span>
 					</a>
 				</li>
+				<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon fa fa-home"></span>
+						<span class="mtext">IMMO</span>
+					</a>
+					<ul class="submenu">
+						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
+						<li><a href="../admin/liste_restaurant.php">Locataires</a></li>
+					</ul>
+				</li>
 
 
 
