@@ -141,6 +141,9 @@ $users = get_all_users($connexion, $page, $limit);
                                                     <i class="fa fa-utensils text-success"></i> Affecter restaurant
                                                 </a>
                                             </li>
+                                            <li><a class="dropdown-item text-warning" href="process_assign_immo.php?id=<?= $user['id']; ?>">
+                                                 <i class="fa fa-house text-warning"></i> Affecter à IMMO
+                                            </a></li>
                                         <?php endif; ?>
 
 

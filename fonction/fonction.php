@@ -822,3 +822,14 @@ function get_total_tenants($connexion) {
         die("Erreur SQL dans get_total_tenants : " . $e->getMessage());
     }
 }
+
+
+function get_all_info_immo($connexion) {
+    $stmt = $connexion->prepare("SELECT id FROM immo LIMIT 1");
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC); // Récupère un seul enregistrement
+}
+// Appel de la fonction
+$info_immo = get_all_info_immo($connexion);
+// Vérification si un résultat est trouvé
+$info_immo_id = $info_immo["id"];

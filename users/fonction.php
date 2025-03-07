@@ -221,25 +221,13 @@ function get_total_reservations_nuitee($connexion, $motel_id, $user_id) {
 }
 
 //Fonction pour Generer le mois Actuel
-function moisActuelle(){
-    $moisEnAnglais = date('F');
- 
-    $correspondanceMois = [
-     'January' => 'Janvier',
-      'February' => 'Février',
-      'March' => 'Mars',
-      'April' => 'Avril',
-      'May' => 'Mai',
-      'June' => 'Juin',
-      'July' => 'Juillet',
-      'August' => 'Août',
-      'September' => 'Septembre',
-      'October' => 'Octobre',
-      'November' => 'Novembre',
-      'December' => 'Décembre'
+function tousLesMois() {
+    return [
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
     ];
-    return $correspondanceMois[$moisEnAnglais];
- }
+}
+
  
  function get_vente_by_added_by_and_restaurant_id($connexion, $restaurant_id, $user_id, $limit, $offset) {
     $sql = "SELECT * FROM reservation_menu 
@@ -280,6 +268,82 @@ function type_location(){
     return $typesLocations;
 }
 $typesLocations = type_location();
+
+function get_all_owners($connexion, $page = 1, $limit = 10) {
+    $offset = ($page - 1) * $limit; // Calcul du décalage
+
+    $stmt = $connexion->prepare("
+        SELECT * FROM owner WHERE is_deleted = False 
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Récupérer le nombre total de propriétaires pour la pagination
+function count_owners($connexion) {
+    $stmt = $connexion->query("SELECT COUNT(*) as total FROM owner WHERE is_deleted = False");
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
+function get_tenants($connexion, $limit, $offset, $owner_id) {
+    try {
+        $stmt = $connexion->prepare("
+            SELECT 
+                t.id, 
+                t.first_name, 
+                t.last_name, 
+                t.num_cni AS id_number,  -- Correspondance avec 'id_number' dans ta table
+                t.phone, 
+                t.address, 
+                t.added_by, 
+                t.created_at,
+                t.property_type,
+                t.price,
+                o.first_name AS owner_first_name, 
+                o.last_name AS owner_last_name
+            FROM tenants t
+            LEFT JOIN owner o ON t.owner_id = o.id
+            WHERE t.is_deleted = 0 AND t.owner_id = :owner_id
+            LIMIT :limit OFFSET :offset
+        ");
+
+        // Vérification que limit et offset sont bien des entiers
+        $limit = (int) $limit;
+        $offset = (int) $offset;
+
+        // Bind des valeurs pour LIMIT, OFFSET et owner_id
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':owner_id', $owner_id, PDO::PARAM_INT); // Ajout de owner_id
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur SQL dans get_tenants : " . $e->getMessage());
+    }
+}
+
+function get_total_tenants($connexion, $owner_id) {
+    try {
+        $stmt = $connexion->prepare("
+            SELECT COUNT(*) AS total 
+            FROM tenants 
+            WHERE is_deleted = 0 AND owner_id = :owner_id
+        ");
+
+        // Bind de l'owner_id pour la requête
+        $stmt->bindValue(':owner_id', $owner_id, PDO::PARAM_INT);
+
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    } catch (PDOException $e) {
+        die("Erreur SQL dans get_total_tenants : " . $e->getMessage());
+    }
+}
 
 
 ?>

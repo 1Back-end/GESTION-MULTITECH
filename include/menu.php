@@ -106,33 +106,19 @@
 						<span class="mtext">IMMO</span>
 					</a>
 					<ul class="submenu">
-						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
-						<li><a href="../admin/liste_restaurant.php">Locataires</a></li>
+						<li><a href="../users/liste_proprietaires.php">Propriétaires</a></li>
+						<li><a href="../users/liste_restaurant.php">Locataires</a></li>
 					</ul>
 				</li>
-
-
-
-<!-- 				
-                 <li>
-                    <a href="../users/clients.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-user-plus"></span><span class="mtext">Liste des Clients</span>
-                    </a>
-                </li> -->
 
 				<li>
 					<a href="../users/clients.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-building"></span><span class="mtext">Immo</span>
 					</a>
 				</li>
-
-
-
-
-
                
                 </li>
-                <?php else: ?>
+                <?php else : ?>
             
                 <li class="dropdown">
 
