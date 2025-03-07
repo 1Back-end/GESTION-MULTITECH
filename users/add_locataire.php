@@ -21,6 +21,10 @@
     <?php endif; ?>
 </div>
 
+<?php
+$id_owner = $_GET["id"];
+?>
+
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
     <form action="" method="post">
@@ -29,6 +33,7 @@
                 <div class="mb-3">
                 <label for="">Nom <span class="text-danger">*</span></label>
                 <input type="text" name="first_name" class="form-control shadow-none" required>
+                <input type="hidden" value=<?php echo $id_owner?> name="owner_id" class="form-control shadow-none" required>
                 </div>
                 
                 <div class="mb-3">
@@ -55,8 +60,8 @@
             </div>
             <div class="col-md-6 col-sm-12 mb-3">
                 <div class="mb-3">
-                    <label for="">Date d'intégration <span class="text-danger">*</span></label>
-                    <input type="date" name="integration_date" class="form-control shadow-none" required>
+                    <label for="">Montant du loyer à payer <span class="text-danger">*</span></label>
+                    <input type="text" name="price" class="form-control shadow-none" required>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 mb-3">
