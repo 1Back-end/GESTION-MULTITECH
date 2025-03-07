@@ -266,5 +266,20 @@ function count_ventes($connexion, $restaurant_id, $user_id) {
     return $stmt->fetchColumn();
 }
 
+function type_location(){
+    $typesLocations = array(
+        'Duplex',
+        'Immeubles',
+        'Villa',
+        'Studio',
+        'Camp',
+        'Chambres',
+        'Appartements'
+
+    );
+    return $typesLocations;
+}
+$typesLocations = type_location();
+
 
 ?>
