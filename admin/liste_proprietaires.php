@@ -75,7 +75,12 @@ $owners = get_all_owners($connexion, $page, $limit);
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                        
-
+                                    <li>                                        
+                                        <a class="dropdown-item text-info" href="../users/add_locataire.php?id=<?= $owner['id']; ?>">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            Ajouter
+                                        </a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item text-info" href="../users/view_locataire_owner.php?id=<?= $owner['id']; ?>">
                                             <i class="fa fa-eye text-info"></i> Voir Locataires

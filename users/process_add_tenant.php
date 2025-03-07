@@ -15,9 +15,10 @@ if (isset($_POST["submit"])) {
     $integration_date = $_POST["integration_date"] ?? null;
     $property_type = $_POST["property_type"] ?? null;
 
+
     $id = generateUUID(); // Générer un nouvel ID unique pour le locataire
     $user_id = $_SESSION['id'] ?? null;  // ID de l'utilisateur qui ajoute le locataire
-    $owner_id = $_SESSION['owner_id'] ?? null;  // ID du propriétaire (si disponible)
+    $owner_id = $owner['id'] ?? null;  // ID du propriétaire (si disponible)
 
     // Vérifier si le locataire existe déjà avec le même numéro CNI
     $stmt = $connexion->prepare("SELECT id FROM tenants WHERE num_cni = :num_cni");
