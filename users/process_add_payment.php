@@ -37,7 +37,7 @@ if (isset($_POST["submit"])) {
                         $erreur = "Le montant payé dépasse le montant à payer.";
                     } elseif ($montant + $payment_exists['montant'] <= $price_to_pay) {
                         // Mettre à jour le paiement partiel
-                        $status = "Partiellement payé";
+                        $status = "Partiellement payé";  // Définir le statut ici
                     }
                 }
             } else {
@@ -47,6 +47,11 @@ if (isset($_POST["submit"])) {
                 } elseif ($montant == $price_to_pay) {
                     $status = "Payé"; // Si le montant est égal au montant total
                 }
+            }
+
+            // Vérifier si le montant payé est valide
+            if ($montant > $price_to_pay) {
+                $erreur = "Le montant payé ne doit pas dépasser le montant à payer.";
             }
 
             // Si aucune erreur, on insère le paiement dans la table payment
