@@ -92,7 +92,7 @@ $total_pages = ceil($total_tenants / $limit);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="8">Aucun locataire trouvé</td>
+                                <td colspan="10">Aucun locataire trouvé</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
