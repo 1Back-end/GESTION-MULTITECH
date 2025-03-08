@@ -734,6 +734,31 @@ function get_total_clients_motel($connexion) {
     return $result['total'];
 }
 
+function get_total_owner($connexion) {
+    $stmt = $connexion->prepare("
+        SELECT COUNT(*) AS total 
+        FROM owner 
+        WHERE is_deleted = 0
+    ");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+} 
+$total_owner = get_total_owner($connexion);
+
+function get_total_count_tenants($connexion) {
+    $stmt = $connexion->prepare("
+        SELECT COUNT(*) AS total 
+        FROM tenants 
+        WHERE is_deleted = 0
+    ");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total'];
+} 
+$total_tenants = get_total_count_tenants($connexion);
+
+
 function type_location(){
     $typesLocations = array(
         'Duplex',

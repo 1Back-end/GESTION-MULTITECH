@@ -108,6 +108,46 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+            <div class="card-box p-3">
+                <div class="text-center">
+                    <h6 class="mb-3 text-uppercase">Total Proprietaires</h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="mr-auto">
+                            <div class="logo">
+                                <span class="icon-pending text-white font-weight-bold">
+                                    <i class="fas fa-users fs-3"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-auto">
+                            <h6 class="mr-2 fs-3"><?php echo $total_owner?></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+            <div class="card-box p-3">
+                <div class="text-center">
+                    <h6 class="mb-3 text-uppercase">Total locataires</h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="mr-auto">
+                            <div class="logo">
+                                <span class="icon-pending text-white font-weight-bold">
+                                    <i class="fas fa-users fs-3"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-auto">
+                            <h6 class="mr-2 fs-3"><?php echo $total_tenants?></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
