@@ -39,7 +39,7 @@ if (isset($_POST["submit"])) {
                     // Rediriger selon le rôle
                     if ($user['role'] == "super_admin") {
                         header("Location: ../admin/dashboard.php");
-                    } elseif ($user['role'] == "admin") {
+                    } elseif ($user['role'] == "Gestionnaire Motel & Restaurant" || $user['role'] =="Gestionnaire IMMO") {
                         header("Location: ../users/dashboard.php");
                     } else {
                         $erreur = "Accès refusé.";

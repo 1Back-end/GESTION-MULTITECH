@@ -13,6 +13,7 @@ if (isset($_POST["submit"])) {
     $adresse = $_POST["adresse"] ?? null;
     $phone = $_POST["phone"] ?? null;
     $photo = $_FILES['photo'] ?? null;
+    $role = $_POST["role"] ?? null;
 
     $id = generateUUID();
     $password = generatePassword(); // Génère un mot de passe sécurisé
@@ -35,9 +36,9 @@ if (isset($_POST["submit"])) {
 
             // Insérer l'utilisateur en base de données
             $stmt = $connexion->prepare("INSERT INTO users (id, first_name, last_name, email, address, phone_number, password, photo, role, is_deleted, status, created_at, updated_at) 
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'admin', 0, 'active', NOW(), NOW())");
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'active', NOW(), NOW())");
 
-            $stmt->execute([$id, $first_name, $last_name, $email, $adresse, $phone, password_hash($password, PASSWORD_BCRYPT), $photo_name]);
+            $stmt->execute([$id, $first_name, $last_name, $email, $adresse, $phone, password_hash($password, PASSWORD_BCRYPT), $photo_name,$role]);
 
             // Préparer l'email à envoyer à l'utilisateur
             $subject = 'Création de votre compte sur notre application';
