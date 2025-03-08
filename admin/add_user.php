@@ -52,6 +52,14 @@
                             <input type="file" class="form-control-file" id="photo" name="photo">
                         </div>
                     </div>
+                    <div class="col-md-12 col-sm-12 mb-3">
+                        <label for="">Role <span class="text-danger">*</span></label>
+                        <select name="role" id="role" required class="shadow-none form-control select-custom">
+                                <option disabled selected>Veuillez choisir une option</option>
+                               <option>Gestionnaire Motel & Restaurant</option>
+                               <option>Gestionnaire IMMO</option>
+                            </select>
+                    </div>
                 </div>
 
                 <div class="d-flex justify-content-between">

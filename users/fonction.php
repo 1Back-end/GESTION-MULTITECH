@@ -126,13 +126,16 @@ function get_reservation_sieste_by_motel_id_and_added_by($connexion, $motel_id, 
             r.client_id, 
             c.first_name, 
             c.last_name,
-            r.id_motel  -- Utilisation de id_motel ici
+            r.id_motel,
+            r.created_at
         FROM 
             reservation_sieste r
         JOIN 
             clients c ON r.client_id = c.id 
         WHERE 
-            r.id_motel = :motel_id AND r.added_by = :user_id  -- Modification ici aussi
+            r.id_motel = :motel_id 
+            AND r.added_by = :user_id
+            AND r.created_at >= CURDATE() - INTERVAL 2 DAY  -- Filtrer les réservations des 2 derniers jours
         ORDER BY 
             r.created_at DESC
         LIMIT :limit OFFSET :offset
@@ -144,13 +147,13 @@ function get_reservation_sieste_by_motel_id_and_added_by($connexion, $motel_id, 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-// Fonction pour récupérer le nombre total de réservations
 function get_total_reservations_sieste($connexion, $motel_id, $user_id) {
     $stmt = $connexion->prepare("
         SELECT COUNT(*) AS total 
         FROM reservation_sieste r
-        WHERE r.id_motel = :motel_id AND r.added_by = :user_id
+        WHERE r.id_motel = :motel_id 
+        AND r.added_by = :user_id
+        AND r.created_at >= CURDATE() - INTERVAL 2 DAY  -- Filtrer les réservations des 2 derniers jours
     ");
     $stmt->bindParam(':motel_id', $motel_id);
     $stmt->bindParam(':user_id', $user_id);
@@ -158,6 +161,7 @@ function get_total_reservations_sieste($connexion, $motel_id, $user_id) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total'];
 }
+
 
 // Function to retrieve reservations with pagination
 function get_reservation_by_motel_nuite_id_and_added_by($connexion, $motel_id, $user_id, $limit, $offset) {
@@ -176,13 +180,16 @@ function get_reservation_by_motel_nuite_id_and_added_by($connexion, $motel_id, $
             r.client_id, 
             c.first_name, 
             c.last_name,
-            r.id_motel
+            r.id_motel,
+            r.created_at
         FROM 
             reservation_nuitee r
         JOIN 
             clients c ON r.client_id = c.id 
         WHERE 
-            r.id_motel = :motel_id AND r.added_by = :user_id
+            r.id_motel = :motel_id 
+            AND r.added_by = :user_id
+            AND r.created_at >= CURDATE() - INTERVAL 2 DAY  -- Filtrer les réservations des 2 derniers jours
         ORDER BY 
             r.created_at DESC
         LIMIT :limit OFFSET :offset
@@ -207,6 +214,7 @@ function get_total_reservations_nuitee($connexion, $motel_id, $user_id) {
         SELECT COUNT(*) AS total 
         FROM reservation_nuitee r
         WHERE r.id_motel = :motel_id AND r.added_by = :user_id
+        AND r.created_at >= CURDATE() - INTERVAL 2 DAY  -- Filtrer les réservations des 2 derniers jours
     ");
     // Bind the parameters to the prepared statement
     $stmt->bindParam(':motel_id', $motel_id);
@@ -227,7 +235,26 @@ function tousLesMois() {
         "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
     ];
 }
-
+function moisActuelle(){
+    $moisEnAnglais = date('F');
+ 
+    $correspondanceMois = [
+     'January' => 'Janvier',
+      'February' => 'Février',
+      'March' => 'Mars',
+      'April' => 'Avril',
+      'May' => 'Mai',
+      'June' => 'Juin',
+      'July' => 'Juillet',
+      'August' => 'Août',
+      'September' => 'Septembre',
+      'October' => 'Octobre',
+      'November' => 'Novembre',
+      'December' => 'Décembre'
+    ];
+    return $correspondanceMois[$moisEnAnglais];
+ }
+ 
  
  function get_vente_by_added_by_and_restaurant_id($connexion, $restaurant_id, $user_id, $limit, $offset) {
     $sql = "SELECT * FROM reservation_menu 
@@ -301,12 +328,14 @@ function get_tenants($connexion, $limit, $offset, $owner_id) {
                 t.added_by, 
                 t.created_at,
                 t.property_type,
+                t.created_at,
                 t.price,
                 o.first_name AS owner_first_name, 
                 o.last_name AS owner_last_name
             FROM tenants t
             LEFT JOIN owner o ON t.owner_id = o.id
-            WHERE t.is_deleted = 0 AND t.owner_id = :owner_id
+            WHERE t.is_deleted = 0 AND t.owner_id = :owner_id ORDER BY 
+            t.created_at DESC;
             LIMIT :limit OFFSET :offset
         ");
 

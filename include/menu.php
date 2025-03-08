@@ -74,7 +74,7 @@
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 			<ul  id="accordion-menu">
-            <?php if ($IsAdmin) :?>
+            <?php if ($IsGestionnaireMotelRestaurant) :?>
 				<li>
 					<a href="../users/dashboard.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
@@ -92,14 +92,15 @@
 						<span class="micon fas fa-moon"></span><span class="mtext">Nuitée Motel</span>
 					</a>
 				</li>
-
-
 				<li>
 					<a href="../users/liste_restaurant.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-utensils"></span>
 						<span class="mtext">Restaurant</span>
 					</a>
 				</li>
+
+				<?php elseif ($IsGestionnaireIMMO) :?>
+
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon fa fa-home"></span>
@@ -107,21 +108,10 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="../users/liste_proprietaires.php">Propriétaires</a></li>
-						<li><a href="../users/liste_restaurant.php">Locataires</a></li>
 					</ul>
 				</li>
-
-				<li>
-					<a href="../users/clients.php" class="dropdown-toggle no-arrow">
-						<span class="micon fas fa-building"></span><span class="mtext">Immo</span>
-					</a>
-				</li>
-               
-                </li>
-                <?php else : ?>
-            
+                <?php elseif  ($IsSuperAdmin) : ?>
                 <li class="dropdown">
-
                 <li>
 					<a href="../admin/dashboard.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>

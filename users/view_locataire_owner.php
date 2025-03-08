@@ -77,7 +77,7 @@ $total_pages = ceil($total_tenants / $limit);
                                        
 
                                     <li>
-                                        <a class="dropdown-item text-info" href="../users/view_locataire_owner.php?id=<?= $tenant['id']; ?>">
+                                        <a class="dropdown-item text-info" href="view_payment_tenant.php?id=<?= $tenant['id']; ?>">
                                             <i class="fa fa-info-circle text-info"></i> Détails
                                         </a>
                                     </li>
