@@ -61,7 +61,7 @@
 	
 	<div class="left-side-bar">
 		<div class="brand-logo">
-			<a href="../admin/dashboard.php">
+			<a href="#">
 				<h4 class="text-uppercase text-white">
 					GESTION MULTITECH
 				</h4>
@@ -100,6 +100,11 @@
 				</li>
 
 				<?php elseif ($IsGestionnaireIMMO) :?>
+					<li>
+					<a href="#" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
+					</a>
+				</li>
 
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
