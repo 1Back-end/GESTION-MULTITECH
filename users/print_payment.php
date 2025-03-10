@@ -42,7 +42,7 @@
 
 .page {
     width: 210mm;
-    min-height: 297mm;
+    min-height: 200mm;
     padding: 20mm;
     margin: 5mn auto;
     border: 1px #D3D3D3 solid;
@@ -172,9 +172,11 @@ if ($paiement) {
                 <p>Ceci est un reçu officiel confirmant le paiement pour le mois de <strong><?= htmlspecialchars($paiement['mois']) ?></strong>.</p>
             </div>
             <div class="signature">
-                <p><strong>Signature</strong></p>
-                <p>_________</p>
+                <p><strong>Signature</strong> _________________  <strong>Fait le : </strong><span id="date"></span></p>
             </div>
+
+
+
         </div>
     </div>
 </div>
@@ -183,6 +185,9 @@ if ($paiement) {
     document.getElementById('btnPrint').addEventListener("click", function() {
         window.print();
     });
+</script>
+<script>
+    document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR');
 </script>
 
     

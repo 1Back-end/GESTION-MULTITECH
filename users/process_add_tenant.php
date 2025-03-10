@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
     $owner_id = $_POST["owner_id"];  // ID du propriétaire (si disponible)
 
     // Vérifier si le locataire existe déjà avec le même numéro CNI
-    $stmt = $connexion->prepare("SELECT id FROM tenants WHERE num_cni = :num_cni");
+    $stmt = $connexion->prepare("SELECT id FROM tenants WHERE num_cni = :num_cni AND is_deleted = 1");
     $stmt->execute(['num_cni' => $num_cni]);
     $existing_tenant = $stmt->fetch(PDO::FETCH_ASSOC);
 

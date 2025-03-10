@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
 
     try {
         // Vérifier si l'email ou le numéro de téléphone existent déjà
-        $stmt = $connexion->prepare("SELECT COUNT(*) FROM users WHERE email = ? OR phone_number = ?");
+        $stmt = $connexion->prepare("SELECT COUNT(*) FROM users WHERE email = ? OR phone_number = ? AND is_deleted = 1");
         $stmt->execute([$email, $phone]);
         $count = $stmt->fetchColumn();
 

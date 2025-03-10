@@ -20,13 +20,13 @@ if (isset($_POST["submit"])) {
     if ($first_name && $last_name && $phone_number && $nationality && $property_type && $cni && $property_location && $residence_location && $details) {
         try {
             // Vérification si le numéro de téléphone existe déjà dans la base de données
-            $sql_check_phone = "SELECT COUNT(*) FROM owner WHERE phone_number = :phone_number AND is_deleted = 0";
+            $sql_check_phone = "SELECT COUNT(*) FROM owner WHERE phone_number = :phone_number AND is_deleted = 1";
             $stmt_check_phone = $connexion->prepare($sql_check_phone);
             $stmt_check_phone->execute([':phone_number' => $phone_number]);
             $phone_exists = $stmt_check_phone->fetchColumn();
 
             // Vérification si le numéro de CNI existe déjà dans la base de données
-            $sql_check_cni = "SELECT COUNT(*) FROM owner WHERE id_number = :id_number AND is_deleted = 0";
+            $sql_check_cni = "SELECT COUNT(*) FROM owner WHERE id_number = :id_number AND AND is_deleted = 1";
             $stmt_check_cni = $connexion->prepare($sql_check_cni);
             $stmt_check_cni->execute([':id_number' => $cni]);
             $cni_exists = $stmt_check_cni->fetchColumn();

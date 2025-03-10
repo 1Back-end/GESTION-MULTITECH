@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
     $motel_id = $motel_data['id'] ?? null;  // ID du motel (si disponible)
 
     // Vérifier si le client existe déjà avec le même numéro CNI
-    $stmt = $connexion->prepare("SELECT id FROM clients WHERE num_cni = :cni");
+    $stmt = $connexion->prepare("SELECT id FROM clients WHERE num_cni = :cni AND is_deleted = 1");
     $stmt->execute(['cni' => $cni]);
     $existing_client = $stmt->fetch(PDO::FETCH_ASSOC);
 

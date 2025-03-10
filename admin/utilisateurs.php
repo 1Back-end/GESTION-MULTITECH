@@ -85,10 +85,10 @@ $users = get_all_users($connexion, $page, $limit);
                                 
                                 <!-- Badge pour le rôle -->
                                 <td>
-                                    <?php if ($user['role'] == 'admin'): ?>
-                                        <span class="badge bg-success text-white">Admin</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-white text-dark">Inconnu</span>
+                                    <?php if ($user['role'] == 'Gestionnaire Motel & Restaurant'): ?>
+                                        <span class="badge bg-success text-white">GM&R</span>
+                                    <?php elseif ($user['role'] == 'Gestionnaire IMMO'): ?>
+                                        <span class="badge bg-primary text-white">GIMMO</span>
                                     <?php endif; ?>
                                 </td>
 
@@ -118,7 +118,7 @@ $users = get_all_users($connexion, $page, $limit);
                                                  <i class="fa fa-trash-alt text-danger"></i> Supprimer
                                             </a></li>
 
-
+                                           
                                             <li>
                                                 <?php if ($user['status'] == 'active'): ?>
                                                     <a class="dropdown-item text-primary" href="deactivate_user.php?id=<?= $user['id']; ?>" onclick="return confirm('Voulez-vous vraiment désactiver cet utilisateur ?');">
@@ -130,6 +130,7 @@ $users = get_all_users($connexion, $page, $limit);
                                                     </a>
                                                 <?php endif; ?>
                                             </li>
+                                            <?php if ($user["role"] == 'Gestionnaire Motel & Restaurant'): ?>
                                             <?php if ($user['status'] == 'active'): ?>
                                             <li>
                                                 <a href="#" class="dropdown-item text-color" data-toggle="modal" data-target="#assignMotelModal" data-user="<?= htmlspecialchars($user['id']); ?>">
@@ -141,9 +142,8 @@ $users = get_all_users($connexion, $page, $limit);
                                                     <i class="fa fa-utensils text-success"></i> Affecter restaurant
                                                 </a>
                                             </li>
-                                            <li><a class="dropdown-item text-warning" href="process_assign_immo.php?id=<?= $user['id']; ?>">
-                                                 <i class="fa fa-house text-warning"></i> Affecter à IMMO
-                                            </a></li>
+                                            <?php endif; ?>
+                                           
                                         <?php endif; ?>
 
 
@@ -211,7 +211,7 @@ $users = get_all_users($connexion, $page, $limit);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm btn-xs" data-dismiss="modal">Annuler</button>
-                    <button type="submit" name="submit" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
+                    <button type="submit" name="assign_motel" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
                 </div>
             </form>
         </div>
@@ -258,7 +258,7 @@ $users = get_all_users($connexion, $page, $limit);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm btn-xs" data-dismiss="modal">Annuler</button>
-                    <button type="submit" name="submit" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
+                    <button type="submit" name="assign_restaurant" class="btn btn-customize text-white btn-sm btn-xs">Affecter</button>
                 </div>
             </form>
         </div>

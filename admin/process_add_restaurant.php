@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
     $id = generateUUID();
 
     // Vérification si le motel avec le même nom existe déjà
-    $query = "SELECT COUNT(*) FROM restaurant WHERE name = ? AND is_deleted = 0";
+    $query = "SELECT COUNT(*) FROM restaurant WHERE name = ? AND AND is_deleted = 1";
     $stmt = $connexion->prepare($query);
     $stmt->execute([$name]);
     $count = $stmt->fetchColumn();

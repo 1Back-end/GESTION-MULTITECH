@@ -138,7 +138,7 @@ function get_all_users($connexion, $page = 1, $limit = 10) {
     $sql = "SELECT id, first_name, last_name, email, phone_number, role, status, created_at 
         FROM users 
         WHERE is_deleted = 0 
-        AND role = 'admin' 
+        AND role = 'Gestionnaire Motel & Restaurant'  || role ='Gestionnaire IMMO'
         ORDER BY created_at DESC 
         LIMIT :limit OFFSET :offset";
 

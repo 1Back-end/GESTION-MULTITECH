@@ -4,7 +4,7 @@ include("../database/connexion.php");
 $erreur = "";
 $success = "";
 
-if (isset($_POST["submit"])) {
+if (isset($_POST["assign_motel"])) {
     $user_id = $_POST["user_id"] ?? null;
     $motel_id = $_POST["motel_id"] ?? null;
     $id = generateUUID();

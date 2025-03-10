@@ -4,7 +4,7 @@ include("../database/connexion.php");
 $error = "";
 $succes = "";
 
-if (isset($_POST["submit"])) {
+if (isset($_POST["assign_restaurant"])) {
     $user_id = $_POST["user_id"] ?? null;
     $restaurant_id = $_POST["restaurant_id"] ?? null;
     $id = generateUUID();

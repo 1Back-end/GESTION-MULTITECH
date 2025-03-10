@@ -152,7 +152,7 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
-						<li><a href="../admin/liste_restaurant.php">Locataires</a></li>
+						
 					</ul>
 				</li>
 
@@ -184,5 +184,7 @@
 	<script src="../vendors/scripts/process.js"></script>
 	<script src="../vendors/scripts/layout-settings.js"></script>
 	<script src="../vendors/scripts/dashboard.js"></script>
+	<script src="../vendors/scripts/main.js"></script>
+
 </body>
 </html>
