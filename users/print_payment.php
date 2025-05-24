@@ -144,7 +144,14 @@ if ($paiement) {
     
     <div class="container mt-5 pb-5 d-flex justify-content-center">
     <div class="col-md-8 col-sm-12 mb-3">
-        <button id="btnPrint" class="btn btn-success btn-print  btn-sm mb-4">Imprimer en PDF <i class="fa fa-print"></i></button>
+       <div class="d-flex align-items-center justify-content-between">
+        <div class="mb-0">
+             <button id="btnPrint" class="btn btn-success btn-print  btn-sm mb-4">Imprimer en PDF <i class="fa fa-print"></i></button>
+        </div>
+        <a href="" class="btn btn-secondary">
+            Retour
+        </a>
+       </div>
         <div class="page">
             <div class="cote-a-cote">
                 <img src="logo_immo.jpeg" alt="Logo" class="img-fluid" style="max-width: 150px;">

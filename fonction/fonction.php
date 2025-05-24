@@ -858,3 +858,49 @@ function get_all_info_immo($connexion) {
 $info_immo = get_all_info_immo($connexion);
 // Vérification si un résultat est trouvé
 $info_immo_id = $info_immo["id"];
+
+
+
+
+function get_all_ouvertures_dossiers(PDO $connexion, int $limit = 10): array {
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $limit;
+
+    // Nombre total des dossiers non supprimés
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM customers_dossiers WHERE is_deleted = 0");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit);
+
+    // Récupération avec jointure sur prestations_client
+    $stmt = $connexion->prepare("
+        SELECT cd.*, pc.prestation
+        FROM customers_dossiers cd
+        LEFT JOIN prestations_client pc ON pc.client_uuid = cd.uuid AND pc.is_deleted = 0
+        WHERE cd.is_deleted = 0
+        ORDER BY cd.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $dossiers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $dossiers,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+
+function generateDossierCode(): string {
+    $prefix = "DOSS";
+    $dateTime = date('YmdHis'); // Exemple : 20250524153045
+    $randomDigits = '';
+
+    for ($i = 0; $i < 3; $i++) {
+        $randomDigits .= random_int(0, 9);
+    }
+
+    return $prefix . $dateTime . $randomDigits;
+}

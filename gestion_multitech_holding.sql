@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 08 mars 2025 à 10:43
+-- Généré le : sam. 24 mai 2025 à 20:34
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -95,6 +95,91 @@ INSERT INTO `clients` (`id`, `first_name`, `last_name`, `num_cni`, `phone`, `add
 ('b801-f18d-9ab0-406e-85fb', 'MacKensie', 'Calhoun', 'CNI456789012', '+1 (267) 668-3189', '4567 Rue de l\'Exempl', 'bb95-7bfb-133d-4396-8dab', '3f22-ded3-02e0-4e3a-86d1', '2025-03-04 10:39:42', '2025-03-04 10:39:42', 0),
 ('ca29-5cef-c65d-40cf-b867', 'Althea', 'Morgan', '+1 (657) 278-4224', '+1 (325) 991-4382', '+1 (685) 962-6416', 'bb95-7bfb-133d-4396-8dab', '3f22-ded3-02e0-4e3a-86d1', '2025-03-07 18:11:25', '2025-03-07 18:11:25', 0),
 ('f131-3755-c6ce-4af4-af37', 'Lavinia', 'Adkins', 'CNI345678901', '+1 (326) 253-8994', '4567 Rue de l\'Exempl', 'bb95-7bfb-133d-4396-8dab', '3f22-ded3-02e0-4e3a-86d1', '2025-02-28 19:05:22', '2025-02-28 19:05:22', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `customers`
+--
+
+CREATE TABLE `customers` (
+  `uuid` varchar(36) NOT NULL,
+  `prefixe` varchar(10) DEFAULT NULL,
+  `nom_complet` varchar(100) DEFAULT NULL,
+  `profession` varchar(100) DEFAULT NULL,
+  `cni` varchar(50) DEFAULT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `condition_visite` varchar(20) DEFAULT NULL,
+  `option_visite` varchar(50) DEFAULT NULL,
+  `date_soumission` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `customers_dossiers`
+--
+
+CREATE TABLE `customers_dossiers` (
+  `uuid` varchar(36) NOT NULL,
+  `code_dossier` varchar(255) DEFAULT NULL,
+  `prefixe` varchar(10) DEFAULT NULL,
+  `nom_complet` varchar(100) DEFAULT NULL,
+  `profession` varchar(100) DEFAULT NULL,
+  `cni` varchar(50) DEFAULT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `condition_visite` varchar(20) DEFAULT NULL,
+  `option_visite` varchar(50) DEFAULT NULL,
+  `date_soumission` datetime DEFAULT current_timestamp(),
+  `added_by` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `is_deleted` tinyint(1) DEFAULT 0,
+  `status` varchar(255) NOT NULL DEFAULT 'En cours',
+  `frais_ouverture` int(255) NOT NULL DEFAULT 5000
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `customers_dossiers`
+--
+
+INSERT INTO `customers_dossiers` (`uuid`, `code_dossier`, `prefixe`, `nom_complet`, `profession`, `cni`, `telephone`, `email`, `description`, `condition_visite`, `option_visite`, `date_soumission`, `added_by`, `created_at`, `updated_at`, `is_deleted`, `status`, `frais_ouverture`) VALUES
+('a8f3-39a2-beb9-408b-9721', 'DOSS20250524153732123', 'M', 'Jean Marie', 'Bureautique', 'CNI3456789016', '+331234567890', 'adminuser@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:27:41', '8226-7654-379e-454e-8459', '2025-05-24 16:27:41', '2025-05-24 17:48:48', 1, 'En cours', 5000),
+('b951-668c-dafc-4e41-a6b8', 'DOSS20250524153732456', 'Mme', 'Sharonne Mila', 'Manager', 'CNI345678901', '+33123456789', 'partenaire1@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Autres', 'Sur négociation', '2025-05-24 17:20:13', '8226-7654-379e-454e-8459', '2025-05-24 16:20:13', '2025-05-24 18:28:09', 0, 'Finalisé', 5000),
+('d51a-3344-5ba3-41af-a2fd', 'DOSS20250524153732987', 'Mlle', 'Ophelie Lynn', 'Dévéloppeuse', 'CNI456789000', '+237650654328', 'sharonne@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:06:18', '8226-7654-379e-454e-8459', '2025-05-24 16:06:18', '2025-05-24 18:32:05', 0, 'Finalisé', 5000),
+('e5d7-3f14-3e68-4c0d-9102', 'DOSS20250524153732401', 'M', 'Jean Luis', 'Analyste', 'CNI123456789', '+33123456788', 'fournisseurb@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Location', 'Chambre / Studio - 5 000 FCFA', '2025-05-24 17:23:27', '8226-7654-379e-454e-8459', '2025-05-24 16:23:27', '2025-05-24 18:26:29', 0, 'Finalisé', 5000),
+('fbcb-8e84-84c7-4b4a-9e0e', 'DOSS20250524153732159\n', 'M', 'Laurent Alphonse', 'Dévéloppeur Fullstack', 'CNI123456799', '+237650654321', 'test@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:04:16', '8226-7654-379e-454e-8459', '2025-05-24 16:04:16', '2025-05-24 17:49:26', 0, 'En cours', 5000);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `finalisations_dossiers`
+--
+
+CREATE TABLE `finalisations_dossiers` (
+  `uuid` varchar(36) NOT NULL,
+  `dossier_uuid` char(36) NOT NULL,
+  `montant_verse` int(11) NOT NULL,
+  `references_personnes` text NOT NULL,
+  `date_finalisation` datetime DEFAULT current_timestamp(),
+  `added_by` varchar(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `finalisations_dossiers`
+--
+
+INSERT INTO `finalisations_dossiers` (`uuid`, `dossier_uuid`, `montant_verse`, `references_personnes`, `date_finalisation`, `added_by`, `is_deleted`, `created_at`, `updated_at`) VALUES
+('0a5d-db8e-eca8-41a7-ab54', 'e5d7-3f14-3e68-4c0d-9102', 50000, 'Jean Marie,Alain Paul', '2025-05-24 19:26:29', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:26:29', NULL),
+('0fde-1f6c-83b6-4659-b8d9', 'd51a-3344-5ba3-41af-a2fd', 77000, 'Velit tempora delen', '2025-05-24 19:32:05', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:32:05', NULL),
+('60a9-30f1-60a2-4079-834e', 'b951-668c-dafc-4e41-a6b8', 94000, 'Sed provident sint ', '2025-05-24 19:28:09', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:28:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -201,6 +286,33 @@ INSERT INTO `payment` (`id`, `tenant_id`, `date_payment`, `montant`, `added_by`,
 ('25d3-8f0d-e903-4265-a553', '2407-7ef7-8106-4576-bff9', '2025-03-08 09:26:54', 250000, '1a0f-1f19-89a1-4931-bc88', 'Partiellement payé', 'Avril'),
 ('afa0-56aa-c23e-4bbc-b21e', 'dd90-35d2-29d1-47cf-bee8', '2025-03-08 09:33:18', 75000, '1a0f-1f19-89a1-4931-bc88', 'Partiellement payé', 'Mai'),
 ('b2ad-66cd-3409-4dcb-932b', '2407-7ef7-8106-4576-bff9', '2025-03-08 09:32:17', 250000, '1a0f-1f19-89a1-4931-bc88', 'Partiellement payé', 'Mai');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `prestations_client`
+--
+
+CREATE TABLE `prestations_client` (
+  `uuid` varchar(36) NOT NULL,
+  `client_uuid` varchar(36) DEFAULT NULL,
+  `prestation` varchar(255) DEFAULT NULL,
+  `added_by` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `prestations_client`
+--
+
+INSERT INTO `prestations_client` (`uuid`, `client_uuid`, `prestation`, `added_by`, `created_at`, `updated_at`, `is_deleted`) VALUES
+('1bb5-a9a1-0cc7-4a10-887b', 'fbcb-8e84-84c7-4b4a-9e0e', 'Prestations sur achat terrain', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('5da2-7a9b-0d63-464e-b29c', 'd51a-3344-5ba3-41af-a2fd', 'Projet location/construction long terme', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('624c-9759-0047-4a09-8d15', 'b951-668c-dafc-4e41-a6b8', 'Service de rénovation', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('a858-df89-6bc9-4ec9-940f', 'a8f3-39a2-beb9-408b-9721', 'Service de rénovation', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', '2025-05-24 17:02:23', 1),
+('b168-5e21-7cf2-4870-904b', 'e5d7-3f14-3e68-4c0d-9102', 'Service de déménagement', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -530,6 +642,26 @@ ALTER TABLE `clients`
   ADD KEY `motel_id` (`motel_id`);
 
 --
+-- Index pour la table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`uuid`);
+
+--
+-- Index pour la table `customers_dossiers`
+--
+ALTER TABLE `customers_dossiers`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Index pour la table `finalisations_dossiers`
+--
+ALTER TABLE `finalisations_dossiers`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `dossier_uuid` (`dossier_uuid`);
+
+--
 -- Index pour la table `immo`
 --
 ALTER TABLE `immo`
@@ -554,6 +686,14 @@ ALTER TABLE `owner`
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tenant_id` (`tenant_id`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Index pour la table `prestations_client`
+--
+ALTER TABLE `prestations_client`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `client_uuid` (`client_uuid`),
   ADD KEY `added_by` (`added_by`);
 
 --
@@ -649,11 +789,30 @@ ALTER TABLE `clients`
   ADD CONSTRAINT `clients_ibfk_2` FOREIGN KEY (`motel_id`) REFERENCES `motel` (`id`);
 
 --
+-- Contraintes pour la table `customers_dossiers`
+--
+ALTER TABLE `customers_dossiers`
+  ADD CONSTRAINT `customers_dossiers_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `finalisations_dossiers`
+--
+ALTER TABLE `finalisations_dossiers`
+  ADD CONSTRAINT `finalisations_dossiers_ibfk_1` FOREIGN KEY (`dossier_uuid`) REFERENCES `customers_dossiers` (`uuid`) ON DELETE CASCADE;
+
+--
 -- Contraintes pour la table `payment`
 --
 ALTER TABLE `payment`
   ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`),
   ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `prestations_client`
+--
+ALTER TABLE `prestations_client`
+  ADD CONSTRAINT `prestations_client_ibfk_1` FOREIGN KEY (`client_uuid`) REFERENCES `customers_dossiers` (`uuid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `prestations_client_ibfk_2` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `reservation_menu`

@@ -152,6 +152,7 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
+						<li><a href="../admin/ouvertures_dossiers.php">Ouvertures dossiers</a></li>
 						
 					</ul>
 				</li>
