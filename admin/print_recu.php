@@ -23,7 +23,7 @@
 /* CONTENEUR GLOBAL */
 .page {
     width: 210mm;
-    height: 297mm;
+    height: 190mm;
     padding: 20mm;
     margin: 0 auto;
     border: 1px solid #D3D3D3;
@@ -94,39 +94,56 @@
     margin: 0;
 }
 
-/* CONFIGURATION IMPRESSION */
 @page {
-    size: A4;
+    size: 210mm 148.5mm; /* A4 largeur, demi-hauteur */
     margin: 0;
 }
 
 @media print {
     html, body {
         width: 210mm;
-        height: 297mm;
+        height: 148.5mm;
         margin: 0;
         padding: 0;
     }
 
     .page {
+        align-items: center;
+        justify-content: center;
+        width: 210mm;
+        height: 148.5mm;
         margin: 0;
+        padding: 20mm 10mm; /* moins de padding horizontal */
+        box-sizing: border-box;
         border: none;
         border-radius: 0;
-        width: 100%;
-        height: 100%;
         box-shadow: none;
         background: white;
         page-break-after: avoid;
         page-break-inside: avoid;
+        overflow: hidden;
+        border: 1px solid red; /* pour debug */
+    }
+
+    .btn-print {
+        display: none !important;
     }
 }
 
+
+
 </style>
+
 <?php
-$uuid = $_GET['uuid'];
+$uuid = $_GET['uuid'] ?? null;
+if (!$uuid) {
+    echo "<p class='text-danger'>UUID du dossier manquant.</p>";
+    exit;
+}
+
 include_once("../database/connexion.php");
 
-// Récupération des données du dossier
+// Récupérer les données du dossier client
 $sql = $connexion->prepare("SELECT 
     cd.nom_complet,
     cd.cni,
@@ -137,97 +154,94 @@ $sql = $connexion->prepare("SELECT
     cd.code_dossier,
     cd.frais_ouverture,
     cd.condition_visite,
-    cd.option_visite
+    cd.option_visite,
+    cd.is_deleted
 FROM customers_dossiers cd
-WHERE cd.uuid = :uuid AND cd.is_deleted = 0");
-
+WHERE cd.uuid = :uuid AND cd.is_deleted = 0
+LIMIT 1");
 $sql->execute(['uuid' => $uuid]);
 $dossier = $sql->fetch(PDO::FETCH_ASSOC);
 
-// Récupération de la prestation du client
-$req = $connexion->prepare("SELECT prestation FROM prestations_client WHERE client_uuid = :uuid LIMIT 1");
-$req->execute(['uuid' => $uuid]);
-$prestation = $req->fetchColumn();
+if (!$dossier) {
+    echo "<p class='text-danger'>Aucun dossier trouvé ou dossier supprimé.</p>";
+    exit;
+}
 
-$code_recu = random_int(1000000000, 9999999999) . random_int(1000000000, 9999999999);
+// Récupérer les infos de finalisation du dossier
+$sqlFin = $connexion->prepare("SELECT montant_verse, date_finalisation FROM finalisations_dossiers WHERE dossier_uuid = :uuid AND is_deleted = 0 ORDER BY date_finalisation DESC LIMIT 1");
+$sqlFin->execute(['uuid' => $uuid]);
+$finalisation = $sqlFin->fetch(PDO::FETCH_ASSOC);
+
+if (!$finalisation) {
+    echo "<p class='text-danger'>Aucune finalisation enregistrée pour ce dossier.</p>";
+    exit;
+}
+
+// Récupérer la prestation
+$reqPresta = $connexion->prepare("SELECT prestation FROM prestations_client WHERE client_uuid = :uuid LIMIT 1");
+$reqPresta->execute(['uuid' => $uuid]);
+$prestation = $reqPresta->fetchColumn() ?: "Prestation non précisée";
+
+// Générer un code reçu aléatoire
+
+$code_recu = random_int(1000000000, 9999999999);
 ?>
 
 <?php if ($dossier): ?>
-    <div class="container mt-5 pb-5 d-flex justify-content-center">
+   <div class="container mt-5 pb-5 d-flex justify-content-center">
         <div class="col-md-8 col-sm-12 mb-3">
             <div class="cote-a-cote">
                 <div>
-                    <a href="ouvertures_dossiers.php" class="btn btn-secondary btn-print btn-sm">
+                    <a href="ouvertures_dossiers.php" class="btn btn-secondary btn-print btn-sm text-start">
                     <i class="fa-solid fa-backward-fast"></i> Retour sur le menu
                 </a>
                 </div>
                 <div>
-                    <button id="btnPrint" class="btn btn-success btn-print btn-sm">
-                    Imprimer la fiche en PDF <i class="fa fa-print"></i>
+                    <button id="btnPrint" class="btn btn-success btn-print btn-sm text-end">
+                    Imprimer le reçu  en PDF <i class="fa fa-print"></i>
                 </button>
                 </div>
             </div>
-
-            <div class="page border-0">
-                 <h5 class="text-uppercase text-center fw-bold">Fiche d'ouverture du dosssier</h5>
+            <div class="page border-0"> 
+                <h5 class="text-uppercase text-center fw-bold">Reçu de finalisation du dosssier</h5>
                 <div class="cote-a-cote">
-                    <img src="logo_immo.jpeg" class="logo-cercle" alt="Logo">
+                    <img src="logo_immo.jpeg" alt="Logo"  class="logo-cercle" style="margin-bottom:15px">
                     <div>
-                        <p><strong>Fiche N° :</strong> #<?= htmlspecialchars($code_recu) ?></p>
+                        <p><strong>Reçu N° :</strong> #<?= htmlspecialchars($code_recu) ?></p>
                         <p><strong>Référence :</strong> <?= htmlspecialchars($dossier['code_dossier']) ?></p>
                         <p><strong>Date et Heure :</strong> <?= (new DateTime($dossier['date_soumission']))->format('d/m/Y H:i:s') ?></p>
                     </div>
                 </div>
-
                 <hr>
                 <div class="text-center">
                     <small class="text-center">Informations du client</small>
                 </div>
                 <div class="cote-a-cote">
                         <div>
-                        <p class="mb-3"><strong>Nom & Prénom :</strong> <?= htmlspecialchars($dossier['nom_complet']) ?></p>
-                        <p class="mb-3"><strong>Numéro CNI :</strong> <?= htmlspecialchars($dossier['cni']) ?></p>
+                            <p><strong>Nom & Prénom :</strong> <?= htmlspecialchars($dossier['nom_complet']) ?></p>
+                        <p><strong>Numéro CNI :</strong> <?= htmlspecialchars($dossier['cni']) ?></p>
                         </div>
                     <div>
-                        <p class="mb-3"><strong>Téléphone :</strong> <?= htmlspecialchars($dossier['telephone']) ?></p>
-                        <p class="mb-3"><strong>Profession :</strong> <?= htmlspecialchars($dossier['profession']) ?></p>
+                        <p><strong>Téléphone :</strong> <?= htmlspecialchars($dossier['telephone']) ?></p>
+                        <p><strong>Profession :</strong> <?= htmlspecialchars($dossier['profession']) ?></p>
                     </div>
                 </div>
 
+
                 <hr>
 
-                <p class="text-justify">
-                    Cette fiche atteste que le client <strong><?= htmlspecialchars($dossier['nom_complet']) ?></strong> a réglé la somme de 
-                    <strong><?= number_format($dossier['frais_ouverture'], 0, ',', ' ') ?> FCFA</strong> 
-                    au titre des frais d’ouverture de dossier, en date du <strong><?= (new DateTime($dossier['date_soumission']))->format('d/m/Y H:i:s') ?></strong>, pour la prestation suivante
-                    <strong><?= htmlspecialchars($prestation) ?></strong>,
+                 <p>
+                    Ce reçu atteste que le client <strong><?= htmlspecialchars($dossier['nom_complet']) ?></strong> a réglé la somme de 
+                    <strong><?= number_format($finalisation['montant_verse'], 0, ',', ' ') ?> FCFA</strong> au titre de la finalisation du dossier, 
+                    en date du <strong><?= (new DateTime($finalisation['date_finalisation']))->format('d/m/Y H:i:s') ?></strong>, 
+                    pour la prestation <strong><?= htmlspecialchars($prestation) ?></strong>, 
                     réalisée sous la condition <strong><?= htmlspecialchars($dossier['condition_visite']) ?></strong>, 
                     avec l'option <strong><?= htmlspecialchars($dossier['option_visite']) ?></strong>.
                 </p>
 
-                <div class="footer mt-4">
-                    <p><strong>Clauses et conditions :</strong></p>
-                    <ul>
-                        <p class="text-justify">Les frais d’ouverture de dossier ne sont ni remboursables, ni inclus dans les frais de commission.</p>
-
-                        <?php if ($dossier['condition_visite'] == 'Achat Terrain' || $dossier['condition_visite'] == 'Achat Maison'): ?>
-                            <p class="text-justify">Le client s’engage à verser à l’agence une commission équivalente à <strong>5% du montant de la transaction</strong>, le jour du versement.
-                            en cas de contact direct avec le vendeur sans passer par l’agence, le client devra payer une amende de <strong>5% supplémentaires</strong>.</p>
-                        <?php elseif ($dossier['condition_visite']== 'Location'): ?>
-                            <p class="text-justify">Le client s’engage à verser à l’agence une commission équivalente à <strong>un mois de loyer</strong>, le jour du versement.
-                            En cas de contact direct avec le bailleur sans passer par l’agence, le client devra payer une amende de <strong>un mois de loyer supplémentaire</strong>.</p>
-                        <?php else: ?>
-                            <p class="text-justify">La commission sera déterminée selon la nature spécifique de la prestation.</p>
-                        <?php endif; ?>
-
-                        <p class="text-justify">La SCIIMAO ne peut prétendre à la prime convenue que si la transaction connaît un heureux aboutissement.
-                        Le client s’expose à une clause pénale de 10 000 FCFA par jour de retard dès le premier jour après la date d’échéance de la transaction.
-                       Une fois la visite faite, si le client contacte directement le vendeur ou le bailleur sans l’agence, il s’expose à une pénalité conformément aux clauses ci-dessus.</p>
-                    </ul>
-                </div>
 
 
-                <div class="signature mt-5">
+<div class="signature mt-5">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="mr-auto">
                             <p><strong>Nom du client :</strong> <?= htmlspecialchars($dossier['nom_complet']) ?></p>
@@ -239,16 +253,14 @@ $code_recu = random_int(1000000000, 9999999999) . random_int(1000000000, 9999999
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-<?php else: ?>
-    <p class="text-danger">Aucun dossier trouvé.</p>
-<?php endif; ?>
+
+</div>
 
 <script>
-    document.getElementById('btnPrint').addEventListener("click", function () {
+    document.getElementById('btnPrint').addEventListener('click', function () {
         window.print();
     });
     document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR');
 </script>
+
+<?php endif; ?>

@@ -148,6 +148,82 @@
                 </div>
             </div>
         </div>
+    </div>
+     </div>
+
+
+ <?php
+$usersStats = get_users_dossiers_stats($connexion);
+
+// Tu peux garder tous les utilisateurs même sans dossier si tu veux, ou filtrer :
+$usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
+?>
+
+<div class="col-lg-8 col-sm-12 mb-3">  
+    <div class="card shadow border-0 p-3">
+        <p class="text-muted">Statistiques d'ouvertures des dossiers par gestionnaires</p> 
+        <div class="table-responsive-md">
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Gestionnaire</th>
+                        <th>Total Dossiers</th>
+                        <th>Dossiers Finalisés</th>
+                        <th>Montant Générés</th>
+                        <th>Dernière Création</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($usersStats)): ?>
+                        <tr>
+                            <td colspan="9" class="text-center">Aucune donnée disponible</td>
+                        </tr>
+                    <?php else: 
+                        $i = 1;
+                        foreach ($usersStats as $user):
+                            // Calcul dossiers en cours (s'il existe dans les statuts)
+                            $enCoursCount = $user['statuts']['En cours'] ?? 0;
+                    ?>
+                        <tr>
+                            <td><?= $i++ ?></td>
+                            <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
+                            <td><?= (int)$user['total_dossiers'] ?></td>
+                            <td><?= (int)$user['finalised_dossiers'] ?></td>
+                            <td><?= number_format($user['finalised_montant'], 0, ',', ' ') ?> XAF</td>
+                          
+                            <td><?= $user['last_created_at'] ? date('d/m/Y H:i', strtotime($user['last_created_at'])) : '-' ?></td>
+                            <td class="d-flex align-items-center justify-content-center">
+                                <div class="mx-2">
+                                    <?php if (!empty($user['statuts'])): ?>
+                                    <?php foreach ($user['statuts'] as $statut => $count): 
+                                        $badgeClass = match (strtolower($statut)) {
+                                            'en cours' => 'badge bg-warning text-white',
+                                            'finalisé' => 'badge bg-success text-white',
+                                            default => 'badge bg-secondary',
+                                        };
+                                    ?>
+                                        <span class="<?= $badgeClass ?> me-1"><?= htmlspecialchars($statut) ?> : <?= (int)$count ?></span>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                                </div>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
     </div>
 </div>

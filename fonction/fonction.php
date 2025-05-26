@@ -866,16 +866,15 @@ function get_all_ouvertures_dossiers(PDO $connexion, int $limit = 10): array {
     $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
     $offset = ($page - 1) * $limit;
 
-    // Nombre total des dossiers non supprimés
     $countStmt = $connexion->query("SELECT COUNT(*) FROM customers_dossiers WHERE is_deleted = 0");
     $total = $countStmt->fetchColumn();
     $total_pages = ceil($total / $limit);
 
-    // Récupération avec jointure sur prestations_client
     $stmt = $connexion->prepare("
-        SELECT cd.*, pc.prestation
+        SELECT cd.*, pc.prestation, u.first_name, u.last_name
         FROM customers_dossiers cd
         LEFT JOIN prestations_client pc ON pc.client_uuid = cd.uuid AND pc.is_deleted = 0
+        LEFT JOIN users u ON u.id = cd.added_by
         WHERE cd.is_deleted = 0
         ORDER BY cd.created_at DESC
         LIMIT :limit OFFSET :offset
@@ -893,6 +892,7 @@ function get_all_ouvertures_dossiers(PDO $connexion, int $limit = 10): array {
 }
 
 
+
 function generateDossierCode(): string {
     $prefix = "DOSS";
     $dateTime = date('YmdHis'); // Exemple : 20250524153045
@@ -903,4 +903,92 @@ function generateDossierCode(): string {
     }
 
     return $prefix . $dateTime . $randomDigits;
+}
+function get_users_dossiers_stats(PDO $connexion): array {
+    // 1. Récupérer tous les utilisateurs actifs sauf super_admin
+    $stmtUsers = $connexion->prepare("
+        SELECT id, first_name, last_name 
+        FROM users 
+        WHERE is_deleted = 0 AND role != 'super_admin' 
+        ORDER BY first_name, last_name
+    ");
+    $stmtUsers->execute();
+    $users = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
+
+    $userIds = array_column($users, 'id');
+    if (count($userIds) > 0) {
+        $placeholders = implode(',', array_fill(0, count($userIds), '?'));
+
+        // 2.a Statistiques globales sur tous les dossiers (non supprimés)
+        $stmtStats = $connexion->prepare("
+            SELECT added_by,
+                   COUNT(*) AS total_dossiers,
+                   COALESCE(SUM(frais_ouverture), 0) AS total_montant,
+                   MAX(created_at) AS last_created_at
+            FROM customers_dossiers
+            WHERE added_by IN ($placeholders) AND is_deleted = 0
+            GROUP BY added_by
+        ");
+        $stmtStats->execute($userIds);
+        $statsByUser = $stmtStats->fetchAll(PDO::FETCH_ASSOC);
+
+        // 2.b Statuts par utilisateur (ex: en cours, finalisé, etc)
+        $stmtStatus = $connexion->prepare("
+            SELECT added_by,
+                   status,
+                   COUNT(*) AS count_statut
+            FROM customers_dossiers
+            WHERE added_by IN ($placeholders) AND is_deleted = 0
+            GROUP BY added_by, status
+        ");
+        $stmtStatus->execute($userIds);
+        $statusByUser = $stmtStatus->fetchAll(PDO::FETCH_ASSOC);
+
+        // 2.c Statistiques pour dossiers finalisés uniquement (facultatif, on peut extraire de status)
+        $stmtFinalised = $connexion->prepare("
+            SELECT added_by,
+                   COUNT(*) AS total_finalised_dossiers,
+                   COALESCE(SUM(frais_ouverture), 0) AS total_finalised_montant
+            FROM customers_dossiers
+            WHERE added_by IN ($placeholders) AND is_deleted = 0 AND status = 'Finalisé'
+            GROUP BY added_by
+        ");
+        $stmtFinalised->execute($userIds);
+        $finalisedByUser = $stmtFinalised->fetchAll(PDO::FETCH_ASSOC);
+
+        // Transformer les résultats en maps pour accès facile
+        $statsMap = [];
+        foreach ($statsByUser as $stat) {
+            $statsMap[$stat['added_by']] = $stat;
+        }
+
+        $statusMap = [];
+        foreach ($statusByUser as $stat) {
+            $statusMap[$stat['added_by']][$stat['status']] = $stat['count_statut'];
+        }
+
+        $finalisedMap = [];
+        foreach ($finalisedByUser as $stat) {
+            $finalisedMap[$stat['added_by']] = $stat;
+        }
+    } else {
+        $statsMap = [];
+        $statusMap = [];
+        $finalisedMap = [];
+    }
+
+    // 3. Assembler résultat final avec stats et statuts
+    foreach ($users as &$user) {
+        $id = $user['id'];
+        $user['total_dossiers'] = $statsMap[$id]['total_dossiers'] ?? 0;
+        $user['total_montant'] = $statsMap[$id]['total_montant'] ?? 0;
+        $user['last_created_at'] = $statsMap[$id]['last_created_at'] ?? null;
+
+        $user['statuts'] = $statusMap[$id] ?? [];
+
+        $user['finalised_dossiers'] = $finalisedMap[$id]['total_finalised_dossiers'] ?? 0;
+        $user['finalised_montant'] = $finalisedMap[$id]['total_finalised_montant'] ?? 0;
+    }
+
+    return $users;
 }

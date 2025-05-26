@@ -21,100 +21,108 @@
 <body>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+/* CONTENEUR GLOBAL */
+.page {
+    width: 210mm;
+    height: 297mm;
+    padding: 20mm;
+    margin: 0 auto;
+    border: 1px solid #D3D3D3;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* SOUS-PAGE */
+.subpage {
+    padding: 0;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* COTE À COTE */
 .cote-a-cote {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 .cote-a-cote img {
     max-width: 150px;
 }
+
+.logo-cercle {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #1F4283;
+}
+
 .cote-a-cote div {
     margin-left: 20px;
 }
+
 .cote-a-cote p {
-    margin: 5px 0;
+    margin: 3px 0;
 }
 
-
-.page {
-    width: 210mm;
-    min-height: 200mm;
-    padding: 20mm;
-    margin: 5mn auto;
-    border: 1px #D3D3D3 solid;
-    border-radius: 5px;
-    background: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    
-}
-.subpage {
-    padding: 1cm;
-    
-    height: 257mm;
-    
+/* BOUTON NON IMPRIMÉ */
+@media print {
+    .btn-print {
+        display: none !important;
+    }
 }
 
+/* TEXTE ET TABLEAU */
+.total-row {
+    font-weight: bold;
+    text-align: right;
+}
+
+.footer {
+    margin-top: 30px;
+}
+
+.signature {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.signature p {
+    margin: 0;
+}
+
+/* CONFIGURATION IMPRESSION */
 @page {
     size: A4;
     margin: 0;
 }
+
 @media print {
     html, body {
         width: 210mm;
-        height: 297mm;        
+        height: 297mm;
+        margin: 0;
+        padding: 0;
     }
+
     .page {
         margin: 0;
-        border: initial;
-        border-radius: initial;
-        width: initial;
-        min-height: initial;
-        box-shadow: initial;
-        background: initial;
-        page-break-after: always;
+        border: none;
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
+        background: white;
+        page-break-after: avoid;
+        page-break-inside: avoid;
     }
 }
 
-    
-    .bouton {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-       
-    }
-    .cote-a-cote img {
-        max-width: 150px;
-    }
-    .cote-a-cote p {
-        margin: 3px 0;
-    }
-    
-    
-    .total-row {
-        font-weight: bold;
-    }
-    .footer {
-        margin-top: 30px;
-    }
-    .signature {
-        margin-top: 20px;
-        text-align: right;
-    }
-    .total-row {
-        text-align: right;
-    }
-    .signature p {
-        margin: 0;
-    }
-    @media print {
-        .btn-print {
-            display: none !important; /* Masque le bouton lors de l'impression */
-        }
-    }
 
 </style>
 <?php 
@@ -148,7 +156,7 @@ if ($paiement) {
         <div class="mb-0">
              <button id="btnPrint" class="btn btn-success btn-print  btn-sm mb-4">Imprimer en PDF <i class="fa fa-print"></i></button>
         </div>
-        <a href="" class="btn btn-secondary">
+        <a href="liste_proprietaires.php" id="btnPrint" class="btn btn-secondary btn-print">
             Retour
         </a>
        </div>

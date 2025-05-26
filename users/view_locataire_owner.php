@@ -127,7 +127,7 @@ $total_pages = ceil($total_tenants / $limit);
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="paymentModalLabel">Paiement du loyer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <button type="button" class="btn-close border-0 shadow-none" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
                 <form id="paymentForm" method="POST">
@@ -150,8 +150,9 @@ $total_pages = ceil($total_tenants / $limit);
                     </select>
                     </div>
                     
-                    <div class="mb-3">
-                        <button type="submit" name="submit" class="btn btn-success">Enregistrer le Paiement</button>
+                    <div class="mb-3 modal-footer">
+                        <button type="submit" name="submit" class="btn btn-success border-0 rounded-0">Enregistrer le Paiement</button>
+                        <button type="button" class="btn btn-secondary border-0 rounded-0" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>

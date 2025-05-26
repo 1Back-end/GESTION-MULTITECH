@@ -37,11 +37,7 @@ if (isset($_POST["submit"])) {
             $update = $connexion->prepare("UPDATE customers_dossiers SET status = 'Finalisé' WHERE uuid = ?");
             $update->execute([$uuid]);
             $success = "Le dossier a été finalisé avec succès.";
-            if (isset($success)) {
-                echo "<div class='alert alert-success'>$success</div>";
-                echo "<script>setTimeout(function() { window.location.href = 'ouvertures_dossiers.php'; }, 3000);</script>";
-            }
-
+            echo "<script>setTimeout(function {window.location.href='ouvertures_dossiers.php'; } , 3000)</script>";
         } else {
             $erreur = "Une erreur s'est produite lors de la finalisation.";
         }

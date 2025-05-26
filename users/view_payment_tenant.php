@@ -50,7 +50,7 @@ if (isset($_GET["id"])) {
 
     <div class="col-md-12 col-sm-12 mb-3">
         <div class="card-box p-3">
-            <div class="table-responsive">
+            <div class="table-responsive-md">
                 <table class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
@@ -98,7 +98,7 @@ if (isset($_GET["id"])) {
                         <?php } ?>
                         <?php } else { ?>
                             <tr>
-                                <td colspan="8" class="text-center">Aucun paiement trouvé pour ce locataire.</td>
+                                <td colspan="12" class="text-center">Aucun paiement trouvé pour ce locataire.</td>
                             </tr>
                         <?php } ?>
                     </tbody>

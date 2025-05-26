@@ -1,8 +1,8 @@
 <?php
 include("../include/menu.php");
-include("../fonction/fonction.php");
+include("fonction.php");
 
-$result = get_all_ouvertures_dossiers($connexion, 10);
+$result = get_all_ouvertures_dossiers($connexion, 10,$user_id);
 $dossiers = $result['data'];
 $total_pages = $result['total_pages'];
 $current_page = $result['current_page'];
@@ -47,6 +47,7 @@ $current_page = $result['current_page'];
                         <tr>
                             <th>#</th>
                             <th>Nom complet</th>
+                            <th>Profession</th>
                             <th>CNI</th>
                             <th>Téléphone</th>
                             <th>Email</th>
@@ -55,7 +56,6 @@ $current_page = $result['current_page'];
                             <th>Option</th>
                             <th>Date Ouverture</th>
                             <th>Statut</th>
-                            <th>Crée par</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -67,6 +67,7 @@ $current_page = $result['current_page'];
                             <tr>
                                 <td><?= $i++ ?></td>
                                 <td><?= htmlspecialchars($dossier['prefixe'] . ' ' . $dossier['nom_complet']) ?></td>
+                                <td><?= htmlspecialchars($dossier['profession']) ?></td>
                                 <td><?= htmlspecialchars($dossier['cni']) ?></td>
                                 <td><?= htmlspecialchars($dossier['telephone']) ?></td>
                                 <td><?= htmlspecialchars($dossier['email']) ?></td>
@@ -85,8 +86,8 @@ $current_page = $result['current_page'];
                                         </span>
                                      <?php endif; ?>
 
-                                <td><?= htmlspecialchars($dossier['first_name'] . ' ' . $dossier['last_name']) ?></td>
 
+                                </td>
                                 <td>
                                     <div class="dropdown">
                                     <button class="btn btn-outline-secondary btn-sm btn-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

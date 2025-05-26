@@ -99,6 +99,7 @@
 					</a>
 				</li>
 
+
 				<?php elseif ($IsGestionnaireIMMO) :?>
 					<li>
 					<a href="#" class="dropdown-toggle no-arrow">
@@ -113,8 +114,10 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="../users/liste_proprietaires.php">Propriétaires</a></li>
+						<li><a href="../users/ouvertures_dossiers.php">Ouvertures dossiers</a></li>
 					</ul>
 				</li>
+				
                 <?php elseif  ($IsSuperAdmin) : ?>
                 <li class="dropdown">
                 <li>
