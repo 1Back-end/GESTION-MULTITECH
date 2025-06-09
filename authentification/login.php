@@ -27,23 +27,15 @@
   
 </style>
 
-<div class="container mt-5 pb-5">
-
-<div class="message-container" style="max-width: 400px; margin: 0 auto;">
 <?php include("process_login.php"); ?>
-        <?php if ($erreur): ?>
-            <div class="alert alert-danger mt-3 text-center border-0"><?= $erreur ?></div>
-        <?php endif; ?>
-        <?php if(!empty($_GET["msg"])) : ?>
-    <?php $msg = $_GET["msg"]; ?>
-    <div class="alert alert-success text-center border-0"><?= $msg ?> !</div>
-    <?php endif; ?>
-</div>
+<div class="container mt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
+          <div class="card border border-light-subtle rounded-3 shadow-sm">
+            <div class="card-body p-3 p-md-4 p-xl-5">
+              
+            <p class="fs-6 fw-normal text-center text-secondary mb-4">Veuillez vous connecter à votre compte pour accéder à toutes les fonctionnalités disponibles.</hp>
 
-    <div class="login-box card-box border-radius-10">
-        <div class="login-title text-center mb-4">
-            <h5>Veuillez vous connectez à votre compte</h5>
-        </div>
         <form method="POST"> 
             <!-- Email Field -->
             <div class="mb-3">
@@ -74,9 +66,21 @@
                     <i class="fa fa-sign-in" id="submit_icon"></i>
                 </button>
             </div>
+            <div class="mb-3">
+                 <?php if ($erreur): ?>
+                    <p class="text-danger"><?= $erreur ?></div>
+                <?php endif; ?>
+
+                <?php if(!empty($_GET["msg"])) : ?>
+                <?php $msg = $_GET["msg"]; ?>
+                    <div class="text-danger"><?= $msg ?> !</div>
+                <?php endif; ?>
+
+            </div>
         </form>
     </div>
-
+</div>
+</div>
 </div>
 
 <script>

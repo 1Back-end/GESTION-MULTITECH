@@ -8,6 +8,12 @@ function generateUUID() {
     return vsprintf('%s-%s-%s-%s-%s', str_split(bin2hex($data), 4));
 }
 
+function generate_livraison_reference() {
+    $date = date('Ymd');
+    $random = strtoupper(substr(md5(uniqid()), 0, 6));
+    return "LIVR-$date-$random"; // ex: LIVR-20250609-7F3C1A
+}
+
 
 function generatePassword($length = 12) {
     // Définir les caractères utilisés dans le mot de passe
@@ -138,7 +144,7 @@ function get_all_users($connexion, $page = 1, $limit = 10) {
     $sql = "SELECT id, first_name, last_name, email, phone_number, role, status, created_at 
         FROM users 
         WHERE is_deleted = 0 
-        AND role = 'Gestionnaire Motel & Restaurant'  || role ='Gestionnaire IMMO'
+        AND role = 'Gestionnaire Motel & Restaurant'  || role ='Gestionnaire IMMO' || role = 'Gestionnaire de livraison' || role = 'Gestionnaire de ramassage'
         ORDER BY created_at DESC 
         LIMIT :limit OFFSET :offset";
 
@@ -891,6 +897,137 @@ function get_all_ouvertures_dossiers(PDO $connexion, int $limit = 10): array {
     ];
 }
 
+function get_all_clients_abonnes(PDO $connexion, int $limit = 25): array {
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $limit;
+
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM clients_abonnes WHERE is_deleted = 0");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit);
+
+    $stmt = $connexion->prepare("
+        SELECT ca.*, u.first_name, u.last_name
+        FROM clients_abonnes ca
+        LEFT JOIN users u ON u.id = ca.added_by
+        WHERE ca.is_deleted = 0
+        ORDER BY ca.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $clients_abonnes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $clients_abonnes,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+
+
+function get_all_product_by_clients(PDO $connexion, int $limit = 25): array {
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $limit;
+
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM client_products WHERE is_deleted = 0");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit);
+
+    $stmt = $connexion->prepare("
+        SELECT 
+            cp.*, 
+            u.first_name AS user_first_name, 
+            u.last_name AS user_last_name,
+            ca.firstname AS client_first_name,
+            ca.lastname AS client_last_name
+        FROM client_products cp
+        LEFT JOIN users u ON u.id = cp.added_by
+        LEFT JOIN clients_abonnes ca ON ca.uuid = cp.client_uuid
+        WHERE cp.is_deleted = 0
+        ORDER BY cp.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $products_clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $products_clients,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+function get_all_users_where_role_is_livreur($connexion){
+    $stmt = $connexion->prepare("
+        SELECT * FROM users WHERE role = 'Gestionnaire de livraison'
+    ");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+function get_all_users_where_role_is_ramasseur($connexion){
+    $stmt = $connexion->prepare("
+        SELECT * FROM users WHERE role = 'Gestionnaire de ramassage'
+    ");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getLivraisonsPaginated(PDO $connexion, int $page = 1, int $limit = 25): array {
+    $offset = ($page - 1) * $limit;
+
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM livraisons_products");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit);
+
+    $sql = "SELECT 
+                lp.uuid,
+                lp.reference,
+                lp.recipient_name,
+                lp.phone,
+                lp.delivery_price,
+                lp.quantity,
+                lp.location,
+                lp.is_home_delivery,
+                lp.status,
+                lp.created_at,
+                cp.product_name AS product_name,
+                u.first_name AS livreur_first_name,
+                u.last_name AS livreur_last_name,
+                creator.first_name AS creator_first_name,
+                creator.last_name AS creator_last_name
+            FROM livraisons_products lp
+            INNER JOIN client_products cp ON lp.product_uuid = cp.uuid
+            INNER JOIN users u ON lp.delivery_man_id = u.id
+            INNER JOIN users creator ON lp.added_by = creator.id
+            ORDER BY lp.created_at DESC
+            LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $livraisons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $livraisons,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+
+
+
+
+
+
 
 
 function generateDossierCode(): string {
@@ -904,6 +1041,8 @@ function generateDossierCode(): string {
 
     return $prefix . $dateTime . $randomDigits;
 }
+
+
 function get_users_dossiers_stats(PDO $connexion): array {
     // 1. Récupérer tous les utilisateurs actifs sauf super_admin
     $stmtUsers = $connexion->prepare("

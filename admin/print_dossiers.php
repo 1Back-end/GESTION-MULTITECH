@@ -219,10 +219,20 @@ $code_recu = random_int(1000000000, 9999999999) . random_int(1000000000, 9999999
                         <?php else: ?>
                             <p class="text-justify">La commission sera déterminée selon la nature spécifique de la prestation.</p>
                         <?php endif; ?>
-
-                        <p class="text-justify">La SCIIMAO ne peut prétendre à la prime convenue que si la transaction connaît un heureux aboutissement.
+                        <?php if ($dossier['condition_visite'] == 'Achat Terrain' || $dossier['condition_visite'] == 'Achat Maison'): ?>
+                        <p class="text-justify">La IMMO INVESTMENT SCI ne peut prétendre à la prime convenue que si la transaction connaît un heureux aboutissement.
+                        Le client s’expose à une clause pénale de 50 000 FCFA par jour de retard dès le premier jour après la date d’échéance de la transaction.
+                       Une fois la visite faite, si le client ne saurait contacté directement le vendeur ou le bailleur sans la présence de  l’agence qui démeure le seule intermédiaire entre le client , 
+                        le bailleur ou le vendeur faute de payer une amende de un mois de commission supplémentaire pour la location ou 5% de plus pour les achats.
+                       </p>
+                       <?php elseif ($dossier['condition_visite']== 'Location'): ?>
+                        <p class="text-justify">La IMMO INVESTMENT SCI ne peut prétendre à la prime convenue que si la transaction connaît un heureux aboutissement.
                         Le client s’expose à une clause pénale de 10 000 FCFA par jour de retard dès le premier jour après la date d’échéance de la transaction.
-                       Une fois la visite faite, si le client contacte directement le vendeur ou le bailleur sans l’agence, il s’expose à une pénalité conformément aux clauses ci-dessus.</p>
+                       Une fois la visite faite, si le client ne saurait contacté directement le vendeur ou le bailleur sans la présence de  l’agence qui démeure le seule intermédiaire entre le client , 
+                        le bailleur ou le vendeur faute de payer une amende de un mois de commission supplémentaire pour la location ou 5% de plus pour les achats.
+                       </p>
+                       <?php endif; ?>
+
                     </ul>
                 </div>
 

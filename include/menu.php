@@ -47,13 +47,13 @@
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="user-icon shadow-none">
                         <!-- Vérifier si une photo est disponible dans la session, sinon utiliser une image par défaut -->
-                        <img class='rounded-circle img-fluid mt-1 text-center' style='object-fit: cover; width: 50px; height: 50px; max-width: 50px; max-height: 50px;' src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
+                        <img class='rounded-circle img-fluid text-center' src="<?php echo !empty($_SESSION['photo']) ? '../uploads/' . $_SESSION['photo'] : '../vendors/images/profile.png'; ?>">
                     </span>
                     <span class="user-name font-14"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
                 </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                        <a class="dropdown-item" href="../authentification/profile.php"><i class="fa fa-user"></i> Profile</a>
-                        <a class="dropdown-item" href="../authentification/logout.php"><i class="fa fa-sign-out-alt"></i> Log Out</a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list border-0 rounded-0">
+                        <a class="dropdown-item" href="../authentification/profile.php"><i class="fa fa-user"></i>Mon compte</a>
+                        <a class="dropdown-item" href="../authentification/logout.php"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
                     </div>
                 </div>
             </div>
@@ -171,6 +171,56 @@
 						<li><a href="../admin/menu.php">Menu</a></li>
 					</ul>
 				</li>
+
+
+				<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon fa fa-cog"></span><span class="mtext">Service de livraisons</span>
+					</a>
+					<ul class="submenu">
+
+					<li class="dropdown">
+							<a href="javascript:;" class="dropdown-toggle">
+								<span></span><span class="mtext">Livraisons Extra Urbains</span>
+							</a>
+							<ul class="submenu">
+								<li><a href="../admin/abonnement_clients.php">Abonnement clients</a></li>
+								<li><a href="../admin/liste_produits_clients.php">Liste des produits clients</a></li>
+								<li><a href="../admin/liste_livraisons_products.php">Liste des livraisons</a></li>
+							</ul>
+						</li>
+
+						
+						<li class="dropdown">
+							<a href="javascript:;" class="dropdown-toggle">
+								<span></span><span class="mtext">Livraisons Intra urbains</span>
+							</a>
+							<ul class="submenu">
+								<li><a href="../admin/menu.php">Liste des livraisons</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown">
+							<a href="javascript:;" class="dropdown-toggle">
+								<span></span><span class="mtext">Livraisons Inter Urbains</span>
+							</a>
+							<ul class="submenu">
+								<li><a href="../admin/menu.php">Liste des agences</a></li>
+								<li><a href="../admin/menu.php">Liste des livraisons</a></li>
+							</ul>
+						</li>
+
+
+
+					</ul>
+
+					
+
+
+
+				</li>
+
+
                 <?php endif;?>
 				
 			</ul>

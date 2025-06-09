@@ -58,6 +58,8 @@
                                 <option disabled selected>Veuillez choisir une option</option>
                                <option>Gestionnaire Motel & Restaurant</option>
                                <option>Gestionnaire IMMO</option>
+                               <option>Gestionnaire de livraison</option>
+                                <option>Gestionnaire de ramassage</option>
                             </select>
                     </div>
                 </div>

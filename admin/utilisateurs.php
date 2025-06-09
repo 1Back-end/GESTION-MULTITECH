@@ -86,9 +86,13 @@ $users = get_all_users($connexion, $page, $limit);
                                 <!-- Badge pour le rôle -->
                                 <td>
                                     <?php if ($user['role'] == 'Gestionnaire Motel & Restaurant'): ?>
-                                        <span class="badge bg-success text-white">GM&R</span>
+                                        <span class="badge bg-success text-white">Gestionnaire Motel & Restaurant</span>
                                     <?php elseif ($user['role'] == 'Gestionnaire IMMO'): ?>
-                                        <span class="badge bg-primary text-white">GIMMO</span>
+                                        <span class="badge bg-primary text-white">Gestionnaire IMMO</span>
+                                    <?php elseif ($user['role'] == 'Gestionnaire de livraison'): ?>
+                                        <span class="badge bg-warning text-white">Gestionnaire de livraison</span>
+                                    <?php elseif ($user['role'] == 'Gestionnaire de ramassage'): ?>
+                                        <span class="badge bg-info text-white">Gestionnaire de ramassage</span>
                                     <?php endif; ?>
                                 </td>
 

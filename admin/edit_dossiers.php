@@ -89,35 +89,66 @@ $prestations = $stmt2->fetchAll(PDO::FETCH_COLUMN);
             </div>
 
             <div class="text-muted mt-4 mb-3">
-                Veuillez cocher l'une des cases ci-dessous
+                Veuillez cochez l'une des cases ci-dessous
             </div>
             <div class="row">
-                <?php
-                // Liste des prestations possibles
-                $allPrestations = [
-                    "Prestations sur achat terrain",
-                    "Prestations sur location terrain",
-                    "Prestations sur gestion terrain",
-                    "Service de nettoyage",
-                    "Service de rénovation",
-                    "Clé en main",
-                    "Service de déménagement",
-                    "Projet location/construction long terme",
-                    "Autres prestations"
-                ];
-                foreach ($allPrestations as $prest) {
-                    $checked = in_array($prest, $prestations) ? 'checked' : '';
-                    // generate id from value for label
-                    $id = strtolower(str_replace([' ', '/'], '-', $prest));
-                    echo '<div class="col-md-4 mb-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input fs-3" type="checkbox" id="'. $id .'" name="prestations[]" value="'. htmlspecialchars($prest) .'" '. $checked .'>
-                            <label class="form-check-label" for="'. $id .'">'. htmlspecialchars($prest) .'</label>
-                        </div>
-                    </div>';
-                }
-                ?>
+                <!-- Cases à cocher -->
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="achat" name="prestations[]" value="Prestations sur achat Immobilière">
+                        <label class="form-check-label" for="achat">Prestations sur achat Immobilière</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="location" name="prestations[]" value="Prestations sur location Immobilière">
+                        <label class="form-check-label" for="location">Prestations sur location Immobilière</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="gestion" name="prestations[]" value="Prestations sur gestion Immobilière">
+                        <label class="form-check-label" for="gestion">Prestations sur gestion Immobilière</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="nettoyage" name="prestations[]" value="Service de nettoyage">
+                        <label class="form-check-label" for="nettoyage">Service de nettoyage</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="renovation" name="prestations[]" value="Service de rénovation">
+                        <label class="form-check-label" for="renovation">Service de rénovation</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="cle-en-main" name="prestations[]" value="Construction clé en main">
+                        <label class="form-check-label" for="cle-en-main">Construction clé en main</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="deménagement" name="prestations[]" value="Service de déménagement">
+                        <label class="form-check-label" for="deménagement">Service de déménagement</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="projet-long" name="prestations[]" value="Projet location/construction long terme">
+                        <label class="form-check-label" for="projet-long">Projet location/construction long terme</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input fs-3" type="checkbox" id="autres" name="prestations[]" value="Autres prestations">
+                        <label class="form-check-label" for="autres">Autres prestations</label>
+                    </div>
+                </div>
             </div>
+
 
             <div class="text-muted mb-3">Bien vouloir détailler la prestation</div>
             <div class="mb-3">
@@ -133,7 +164,7 @@ $prestations = $stmt2->fetchAll(PDO::FETCH_COLUMN);
     <!-- Choix des conditions -->
     <div class="col-md-3 mb-3">
         <label>Conditions <span class="text-danger">*</span></label>
-        <select required class="form-control shadow-none select-custom" id="conditions-select" name="condition_type">
+        <select class="form-control shadow-none select-custom" id="conditions-select" name="condition_type" required>
             <option selected disabled>Choisir une option</option>
             <option value="Achat Terrain">Achat Terrain</option>
             <option value="Achat Maison">Achat Maison</option>
@@ -167,8 +198,10 @@ $prestations = $stmt2->fetchAll(PDO::FETCH_COLUMN);
                 <label for="location-option">Location</label>
                 <select class="form-control shadow-none select-custom" id="location-option" name="option_visite">
                     <option disabled selected>Choisir une option</option>
-                    <option>Chambre / Studio</option>
-                    <option>Appartement / Villa</option>
+                    <option>Chambre</option>
+                    <option>Studio</option>
+                    <option>Appartement</option>
+                    <option>Villa</option>
                     <option>Duplex</option>
                     <option>Espace commercial</option>
                 </select>
@@ -185,35 +218,24 @@ $prestations = $stmt2->fetchAll(PDO::FETCH_COLUMN);
 
     <!-- Montant à choisir ou saisir -->
     <div class="col-md-4 mb-3" id="montant-block" style="display:none;">
-        <label id="montant-label">Choisir le montant <span class="text-danger">*</span></label>
-
-        <!-- Sélection du montant -->
-        <select id="montant-select" name="frais_ouverture" class="form-control shadow-none select-custom">
-            <option selected disabled>Choisir une option</option>
-            <option>5 000</option>
-            <option>10 000</option>
-            <option>15 000</option>
-            <option>20 000</option>
-            <option>50 000</option>
-            <option>100 000</option>
-        </select>
-
-        <!-- Champ pour négociation -->
-        <input type="text" id="montant-input" name="frais_ouverture" class="form-control shadow-none" placeholder="Entrer le montant négocié" style="display:none;">
+        <label id="montant-label">Entrer le montant <span class="text-danger">*</span></label>
+        <input type="text" id="montant-input" name="frais_ouverture" class="form-control shadow-none" placeholder="Entrer le montant">
     </div>
 </div>
 
 <!-- Bouton de soumission -->
 <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
+
+        </form>
+    </div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const conditionSelect = document.getElementById("conditions-select");
     const detailsOptions = document.querySelectorAll("#details-prestation .details-option");
     const montantBlock = document.getElementById("montant-block");
-    const montantSelect = document.getElementById("montant-select");
     const montantInput = document.getElementById("montant-input");
 
-    // Fonction de mise à jour de l'affichage
     function updateDetailsVisibility() {
         // Masquer tous les détails
         detailsOptions.forEach(div => {
@@ -222,58 +244,49 @@ document.addEventListener("DOMContentLoaded", function () {
             if (select) select.disabled = true;
         });
 
-        // Masquer montant
+        // Masquer champ montant
         montantBlock.style.display = "none";
-        montantSelect.style.display = "none";
         montantInput.style.display = "none";
 
-        // Afficher en fonction de la sélection
+        // Afficher selon la condition sélectionnée
         switch (conditionSelect.value) {
-             case "Achat Terrain":
+            case "Achat Terrain":
                 document.getElementById("achat-terrain-details").style.display = "block";
                 document.getElementById("achat-terrain-option").disabled = false;
-                montantSelect.style.display = "block";
                 montantBlock.style.display = "block";
+                montantInput.style.display = "block";
                 break;
 
             case "Achat Maison":
                 document.getElementById("achat-maison-details").style.display = "block";
                 document.getElementById("achat-maison-option").disabled = false;
-                montantSelect.style.display = "block";
                 montantBlock.style.display = "block";
+                montantInput.style.display = "block";
                 break;
 
             case "Location":
                 document.getElementById("location-details").style.display = "block";
                 document.getElementById("location-option").disabled = false;
-                montantSelect.style.display = "block";
                 montantBlock.style.display = "block";
+                montantInput.style.display = "block";
                 break;
 
-            case "Autres":
+            case "Autres prestations":
                 document.getElementById("autres-details").style.display = "block";
                 document.getElementById("autres-option").disabled = false;
-                montantInput.style.display = "block"; // Champ de saisie visible
                 montantBlock.style.display = "block";
+                montantInput.style.display = "block";
                 break;
         }
     }
 
-    // Initialiser à l'ouverture
+    // Initialisation
     updateDetailsVisibility();
 
-    // Mettre à jour au changement de la sélection
+    // Événement de changement
     conditionSelect.addEventListener("change", updateDetailsVisibility);
 });
 </script>
-
-
-
-
-
-
-
-
 
 
 
