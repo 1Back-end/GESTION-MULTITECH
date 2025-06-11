@@ -19,32 +19,38 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
+    
 <div class="container mt-5 p-0">
-
-    <div class="col-md-6 col-sm-12 mx-auto">
-        <div class="card-box p-3 text-center">
+    <div class="col-lg-6 col-sm-12 mx-auto">
+        <div class="card shadow border-0 rounded-0 p-3 text-center">
             <div class="mb-2">
                 <div class="login-title text-center mb-4">
                     <img src="vendors/images/logo.png" alt="Logo" style="width:80px;" class="img-fluid">
                 </div>
             </div>
             <div class="mb-2">
-                <p class="text-muted">
-                    GESTION MULTITECH est un système complet conçu pour gérer efficacement les motels et restaurants. Il permet de gérer les réservations, les types de repas, les utilisateurs et les ventes, tout en offrant une interface intuitive pour faciliter la gestion quotidienne de l'entreprise.
+                <p class="text-muted mb-0">
+                    Bienvenue sur l'application GESTION MULTITECH — Version : 1.1 — Date création : 2025-02-28
                 </p>
-                <div class="d-flex justify-content-between">
-                    <p class="text-muted mb-0">Version : 1.0</p>
-                    <p class="text-muted mb-0">Date création : 2025-02-28</p>
-                </div>
+
+                
             </div>
-            <div class="mb-2">
-                <a href="authentification/login.php" class="btn btn-customize text-white shadow-none">Cliquer pour continuer <i class="fa fa-sign-in" aria-hidden="true"></i></a>
+            <div class="row g-2 mt-3">
+                <div class="col-6 text-start">
+                    <a href="package/add_package.php" class="btn btn-outline-primary w-100 rounded-0 shadow-none">
+                        <i class="fas fa-box"></i> Expédier votre colis
+                    </a>
+                </div>
+                <div class="col-6 text-end">
+                    <a href="authentification/login.php" class="btn btn-customize border-0 rounded-0 text-white w-100 shadow-none">
+                        Cliquer pour continuer <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
+
 
 
 </body>

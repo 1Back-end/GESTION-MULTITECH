@@ -95,20 +95,3 @@ $livreurs = get_all_users_where_role_is_livreur($connexion);
         </div>
     </div>
 </div>
-
-<script>
-// Bootstrap validation JS
-(function () {
-  'use strict';
-  var forms = document.querySelectorAll('.needs-validation');
-  Array.prototype.slice.call(forms).forEach(function (form) {
-    form.addEventListener('submit', function (event) {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-    }, false);
-  });
-})();
-</script>

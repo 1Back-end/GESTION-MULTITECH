@@ -7,3 +7,7 @@ password :OtmpY3$*9=#9
 
 username :xiyqpczopolciffmlg@nbmbb.com
 Mot de passe : Y#hhXQLIC*(h
+
+
+
+https://www.fakemail.net/

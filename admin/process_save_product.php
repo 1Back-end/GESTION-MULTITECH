@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
     $declared_value = isset($_POST['declared_value']) && $_POST['declared_value'] !== '' ? floatval($_POST['declared_value']) : null;
     $description = trim($_POST['description'] ?? '');
     $added_by = $_SESSION['id'] ?? null;
+    $ref = generate_products_code();
 
     // Validation des champs obligatoires
     if (empty($client_uuid)) {
@@ -58,12 +59,13 @@ if (isset($_POST['submit'])) {
         $created_at = date('Y-m-d H:i:s');
 
         $sql = "INSERT INTO client_products 
-                (uuid, client_uuid, product_name, category, quantity, price, weight, declared_value, description, product_image, created_at,added_by)
+                (uuid,ref, client_uuid, product_name, category, quantity, price, weight, declared_value, description, product_image, created_at,added_by)
                 VALUES
-                (:uuid, :client_uuid, :product_name, :category, :quantity, :price, :weight, :declared_value, :description, :product_image, :created_at, :added_by)";
+                (:uuid,:ref, :client_uuid, :product_name, :category, :quantity, :price, :weight, :declared_value, :description, :product_image, :created_at, :added_by)";
 
         $stmt = $connexion->prepare($sql);
         $stmt->bindParam(':uuid', $product_uuid);
+        $stmt->bindParam(':ref', $ref);
         $stmt->bindParam(':client_uuid', $client_uuid);
         $stmt->bindParam(':product_name', $product_name);
         $stmt->bindParam(':category', $category);

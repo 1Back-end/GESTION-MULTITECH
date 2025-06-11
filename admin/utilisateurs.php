@@ -93,6 +93,8 @@ $users = get_all_users($connexion, $page, $limit);
                                         <span class="badge bg-warning text-white">Gestionnaire de livraison</span>
                                     <?php elseif ($user['role'] == 'Gestionnaire de ramassage'): ?>
                                         <span class="badge bg-info text-white">Gestionnaire de ramassage</span>
+                                    <?php elseif ($user['role'] == 'Chef d’agence'): ?>
+                                        <span class="badge bg-secondary text-white">Chef d'agence</span>
                                     <?php endif; ?>
                                 </td>
 

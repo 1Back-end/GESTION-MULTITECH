@@ -60,6 +60,7 @@
                                <option>Gestionnaire IMMO</option>
                                <option>Gestionnaire de livraison</option>
                                 <option>Gestionnaire de ramassage</option>
+                                <option>Chef d’agence</option>
                             </select>
                     </div>
                 </div>

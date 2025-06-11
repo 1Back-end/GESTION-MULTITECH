@@ -88,7 +88,7 @@ $current_page = $result['current_page'];
                                     </td>
                                 <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary btn-xs btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-outline-secondary rounded-0 btn-xs btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Actions
                                             </button>
                                             <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="dropdownMenuButton">

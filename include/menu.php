@@ -15,6 +15,10 @@
 	<link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="../vendors/styles/main.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+	
 </head>
 <body>
 
@@ -177,47 +181,14 @@
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon fa fa-cog"></span><span class="mtext">Service de livraisons</span>
 					</a>
+
 					<ul class="submenu">
-
-					<li class="dropdown">
-							<a href="javascript:;" class="dropdown-toggle">
-								<span></span><span class="mtext">Livraisons Extra Urbains</span>
-							</a>
-							<ul class="submenu">
-								<li><a href="../admin/abonnement_clients.php">Abonnement clients</a></li>
-								<li><a href="../admin/liste_produits_clients.php">Liste des produits clients</a></li>
-								<li><a href="../admin/liste_livraisons_products.php">Liste des livraisons</a></li>
-							</ul>
-						</li>
-
-						
-						<li class="dropdown">
-							<a href="javascript:;" class="dropdown-toggle">
-								<span></span><span class="mtext">Livraisons Intra urbains</span>
-							</a>
-							<ul class="submenu">
-								<li><a href="../admin/menu.php">Liste des livraisons</a></li>
-							</ul>
-						</li>
-
-						<li class="dropdown">
-							<a href="javascript:;" class="dropdown-toggle">
-								<span></span><span class="mtext">Livraisons Inter Urbains</span>
-							</a>
-							<ul class="submenu">
-								<li><a href="../admin/menu.php">Liste des agences</a></li>
-								<li><a href="../admin/menu.php">Liste des livraisons</a></li>
-							</ul>
-						</li>
-
-
-
+						<li><a href="../admin/abonnement_clients.php">Abonnement clients</a></li>
+						<li><a href="../admin/liste_produits_clients.php">Liste des produits clients</a></li>
+						<li><a href="../admin/liste_livraisons_products.php">Liste des livraisons clients</a></li>
+						<li><a href="../admin/list_of_agencies.php">Liste des agences</a></li>
+						<li><a href="../admin/menu.php">Liste des livraisons agences</a></li>
 					</ul>
-
-					
-
-
-
 				</li>
 
 
@@ -239,6 +210,7 @@
 	<script src="../vendors/scripts/layout-settings.js"></script>
 	<script src="../vendors/scripts/dashboard.js"></script>
 	<script src="../vendors/scripts/main.js"></script>
-
+	<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </body>
 </html>

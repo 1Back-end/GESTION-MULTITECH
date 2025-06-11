@@ -29,7 +29,7 @@ $currentPage = $pagination['current_page'];
 <div class="col-lg-12 col-sm-12 mb-3">
 <div class="card shadow p-3 mt-4 rounded-0 border-0">
     <h5 class="mb-3">📦 Liste des livraisons</h5>
-    <div class="table-responsive-md">
+    <div class="table-responsive">
         <table class="table table-bordered table-striped align-middle">
             <thead class="table-dark">
                 <tr>
@@ -42,10 +42,9 @@ $currentPage = $pagination['current_page'];
                     <th>Prix livraison</th>
                     <th>Lieu</th>
                     <th>À domicile</th>
-                    <th>Livreur</th>
                     <th>Statut</th>
+                    <th>Livreur</th>
                     <th>Date Livraison</th>
-                     <th>Ajouté par</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -69,7 +68,6 @@ $currentPage = $pagination['current_page'];
                                 <?php endif; ?>
                                 </td>
 
-                            <td><?= htmlspecialchars($liv['livreur_first_name'] . ' ' . $liv['livreur_last_name']) ?></td>
                             <td>
                                 <?php
                                 $status = $liv['status'];
@@ -82,29 +80,35 @@ $currentPage = $pagination['current_page'];
                                 ?>
                                 <span class="badge border-0 rounded-0 text-white bg-<?= $badge ?>"><?= $status ?></span>
                             </td>
-                            <td><?= date('d/m/Y H:i', strtotime($liv['created_at'])) ?></td>
-                           <td>
-                                    <?= 
+
+                            <td><?= htmlspecialchars($liv['livreur_first_name'] . ' ' . $liv['livreur_last_name']) ?></td>
+                            
+                            <td>
+                                <?= date('d/m/Y', strtotime($liv['created_at'])) ?>
+                                <span>
+                                     <?= 
                                         !empty($liv['creator_first_name']) && !empty($liv['creator_last_name']) 
                                             ? htmlspecialchars($liv['creator_first_name'] . ' ' . $liv['creator_last_name']) 
                                             : "<em>Utilisateur inconnu</em>" 
                                     ?>
+                                </span>
                             </td>
+                          
 
                            <td class="d-flex gap-2">
                                 <?php if ($liv['status'] === 'En cours'): ?>
-                                    <a href="traiter_livraison.php?uuid=<?= htmlspecialchars($liv['uuid']) ?>" class="btn btn-success btn-sm border-0 rounded-0 shadow-none mx-2" title="Finaliser">
+                                    <a href="close_livraison.php?uuid=<?= htmlspecialchars($liv['uuid']) ?>" class="btn btn-success btn-sm border-0 rounded-0 shadow-none mx-2" title="Finaliser">
                                         <i class="fas fa-check"></i> Finaliser
                                     </a>
                                     <a href="process_annuler_livraison.php?uuid=<?= htmlspecialchars($liv['uuid']) ?>" class="btn btn-danger btn-sm border-0 rounded-0 shadow-none mx-2" title="Annuler">
                                         <i class="fas fa-times"></i> Annuler
                                     </a>
                                 <?php elseif ($liv['status'] === 'Livré'): ?>
-                                    <span class="btn btn-info rounded-0 shadow-none btn-sm border-0 disabled">
+                                    <span class="btn btn-info rounded-0 shadow-none btn-sm border-0 rounded-0 disabled btn-xs">
                                         Livraison déjà éffectuée
                                     </span>
                                 <?php else: ?>
-                                    <span class="btn btn-danger rounded-0 shadow-none btn-sm border-0 disabled">
+                                    <span class="btn btn-danger rounded-0 shadow-none btn-sm border-0 rounded-0 disabled btn-xs">
                                         Livraison déjà annulée
                                     </span>
                                 <?php endif; ?>

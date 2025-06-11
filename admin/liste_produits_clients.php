@@ -26,8 +26,9 @@ $current_page = $result['current_page'];
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
+                            <th>Ref.</th>
                             <th>Image</th>
-                            <th>Nom du produit</th>
+                            <th>produit</th>
                             <th>Catégorie</th>
                             <th>Quantité</th>
                             <th>Prix</th>
@@ -44,13 +45,14 @@ $current_page = $result['current_page'];
                             <?php foreach ($products_clients as $index => $product): ?>
                                 <tr>
                                     <td><?= ($index + 1) + (($current_page - 1) * 25) ?></td>
+                                      <td><?= htmlspecialchars($product['ref']) ?></td>
                                     <?php
                                         $image = !empty($product['product_image']) 
                                             ? '../uploads/products/' . $product['product_image'] 
                                             : '../vendors/images/product.svg'; // image par défaut
                                     ?>
                                    
-                                    <td><img src="<?= htmlspecialchars($image) ?>" alt="Produit" width="60" height="60" class="img-thumbnail"></td>
+                                    <td><img src="<?= htmlspecialchars($image) ?>" alt="Produit" width="80" height="80" class="img-thumbnail"></td>
                                     <td><?= htmlspecialchars($product['product_name']) ?></td>
                                     <td><?= htmlspecialchars($product['category']) ?></td>
                                     <td><?= (int) $product['quantity'] ?></td>

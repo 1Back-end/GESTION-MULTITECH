@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Nouvel envoi de colis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+           font-family: "Montserrat", sans-serif;
+            background-color: #f6f8fb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+        .header {
+            background-color: #1F4283;
+            padding: 20px;
+            color: #ffffff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        table.details {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table.details th, table.details td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: top;
+        }
+        table.details th {
+            background-color: #1F4283;
+            color: white;
+            width: 30%;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        strong {
+            color: #1F4283;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Notification de nouveau colis</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour <strong>{{AGENCY_NAME}}</strong>,</p>
+
+            <p>Un nouveau colis venant du quartier {{SENDER_ADDRESS}} vient d’être enregistré dans votre agence.</p>
+
+            <table class="details" role="presentation" aria-label="Détails du colis">
+                <tr>
+                    <th>Référence</th>
+                    <td>{{PACKAGE_REF}}</td>
+                </tr>
+                <tr>
+                    <th>Expéditeur</th>
+                    <td>
+                        Nom complet : {{SENDER_NAME}}<br>
+                        Téléphone : {{SENDER_PHONE}}<br>
+                        Adresse : {{SENDER_ADDRESS}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Destinataire</th>
+                    <td>
+                        Nom complet : {{RECIPIENT_NAME}}<br>
+                        Téléphone : {{RECIPIENT_PHONE}}<br>
+                        Adresse : {{RECIPIENT_ADDRESS}}
+                    </td>
+                </tr>
+            </table>
+
+            <p>Veuillez consulter votre tableau de bord pour plus de détails.</p>
+            <p>
+                <a href="https://multitechholdingservices.com/authentification/login.php" 
+                style="display: inline-block; background-color: #1F4283; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+                    Accéder au tableau de bord
+                </a>
+            </p>
+
+            <p>Cordialement,<br>
+            <em>GESTION MULTITECH</em></p>
+            <p>Date et heure d'envoi : <strong>{{CURRENT_DATE}}</strong></p>
+
+        </div>
+        <div class="footer">
+            © <span id="currentYear"></span> GESTION MULTITECH. Tous droits réservés.
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>

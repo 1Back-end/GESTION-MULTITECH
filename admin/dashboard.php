@@ -162,8 +162,8 @@ $usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
 <div class="col-lg-8 col-sm-12 mb-3">  
     <div class="card shadow border-0 p-3">
         <p class="text-muted">Statistiques d'ouvertures des dossiers par gestionnaires</p> 
-        <div class="table-responsive-md">
-            <table class="table table-striped table-bordered table-hover text-center">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover text-center" id="example" class="display">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -194,13 +194,13 @@ $usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
                             <td><?= number_format($user['finalised_montant'], 0, ',', ' ') ?> XAF</td>
                           
                             <td><?= $user['last_created_at'] ? date('d/m/Y H:i', strtotime($user['last_created_at'])) : '-' ?></td>
-                            <td class="d-flex align-items-center justify-content-center">
-                                <div class="mx-2">
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center mx-2">
                                     <?php if (!empty($user['statuts'])): ?>
                                     <?php foreach ($user['statuts'] as $statut => $count): 
                                         $badgeClass = match (strtolower($statut)) {
-                                            'en cours' => 'badge bg-warning text-white',
-                                            'finalisé' => 'badge bg-success text-white',
+                                            'en cours' => 'badge bg-warning text-white mx-2 border-0 rounded-0',
+                                            'finalisé' => 'badge bg-success text-white mx-2 border-0 rounded-0',
                                             default => 'badge bg-secondary',
                                         };
                                     ?>

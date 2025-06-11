@@ -33,7 +33,7 @@ if (isset($_POST["submit"])) {
                     $_SESSION['id'] = $user['id'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['name'] = $user['first_name'] . ' ' . $user['last_name'];
-                    $_SESSION['photo'] = $user['photo'] ?? 'default.png';  // Si la photo est nulle, on met une image par défaut
+                    $_SESSION['photo'] = $user['photo'] ?? '../vendors/images/profile.png';  // Si la photo est nulle, on met une image par défaut
                     $_SESSION['role'] = $user['role'];  // Statut de l'utilisateur
 
                     // Rediriger selon le rôle

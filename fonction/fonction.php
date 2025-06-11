@@ -14,6 +14,24 @@ function generate_livraison_reference() {
     return "LIVR-$date-$random"; // ex: LIVR-20250609-7F3C1A
 }
 
+function generate_products_code(){
+    $date = date("Ymd");
+    $random = strtoupper(substr(md5(uniqid()), 0, 6));
+    return "PR-$date-$random"; // ex: LIVR-20250609-7F3C1A
+}
+
+function generate_agency_code(){
+    $date = date("Ymd");
+    $random = strtoupper(substr(md5(uniqid()), 0, 6));
+    return "AG-$date-$random"; // ex: LIVR-20250609-7F3C1A
+}
+
+function generate_package_code(){
+    $date = date("Ymd");
+    $random = strtoupper(substr(md5(uniqid()), 0, 6));
+    return "COLIS-$date-$random"; // ex: LIVR-20250609-7F3C1A
+}
+
 
 function generatePassword($length = 12) {
     // Définir les caractères utilisés dans le mot de passe
@@ -142,11 +160,17 @@ function get_all_users($connexion, $page = 1, $limit = 10) {
 
     // Requête SQL avec pagination
     $sql = "SELECT id, first_name, last_name, email, phone_number, role, status, created_at 
-        FROM users 
-        WHERE is_deleted = 0 
-        AND role = 'Gestionnaire Motel & Restaurant'  || role ='Gestionnaire IMMO' || role = 'Gestionnaire de livraison' || role = 'Gestionnaire de ramassage'
-        ORDER BY created_at DESC 
-        LIMIT :limit OFFSET :offset";
+            FROM users 
+            WHERE is_deleted = 0 
+            AND (
+                role = 'Gestionnaire Motel & Restaurant' OR 
+                role = 'Gestionnaire IMMO' OR 
+                role = 'Gestionnaire de livraison' OR
+                role = 'Chef d’agence' OR  
+                role = 'Gestionnaire de ramassage'
+            )
+            ORDER BY created_at DESC 
+            LIMIT :limit OFFSET :offset";
 
     $stmt = $connexion->prepare($sql);
     $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
@@ -961,6 +985,49 @@ function get_all_product_by_clients(PDO $connexion, int $limit = 25): array {
     ];
 }
 
+function get_all_agencyform_system(PDO $connexion, int $limit = 25): array {
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $limit;
+
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM main_agencies WHERE is_deleted = 0");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit); // corrigé ici aussi
+
+    $stmt = $connexion->prepare("
+        SELECT 
+            cp.*, 
+            u.first_name AS user_first_name, 
+            u.last_name AS user_last_name,
+            m.first_name AS manager_first_name,
+            m.last_name AS manager_last_name
+        FROM main_agencies cp
+        LEFT JOIN users u ON u.id = cp.added_by
+        LEFT JOIN users m ON m.id = cp.manager_uuid
+        WHERE cp.is_deleted = 0
+        ORDER BY cp.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $agency_main = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $agency_main,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+
+
+
+
+
+
+
+
+
 function get_all_users_where_role_is_livreur($connexion){
     $stmt = $connexion->prepare("
         SELECT * FROM users WHERE role = 'Gestionnaire de livraison'
@@ -977,6 +1044,15 @@ function get_all_users_where_role_is_ramasseur($connexion){
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function get_all_users_where_role_is_chef_agence($connexion){
+    $stmt = $connexion->prepare("
+        SELECT * FROM users WHERE role = 'Chef d’agence'
+    ");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 function getLivraisonsPaginated(PDO $connexion, int $page = 1, int $limit = 25): array {
     $offset = ($page - 1) * $limit;
@@ -1024,7 +1100,11 @@ function getLivraisonsPaginated(PDO $connexion, int $page = 1, int $limit = 25):
 
 
 
-
+function get_active_agency($connexion) {
+    $stmt = $connexion->prepare('SELECT uuid, name FROM main_agencies WHERE is_active = 1 AND is_deleted = 0');
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 
