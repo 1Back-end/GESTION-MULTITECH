@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 24 mai 2025 à 20:34
+-- Généré le : jeu. 12 juin 2025 à 20:56
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -20,6 +20,39 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `gestion_multitech_holding`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `agents_for_agency`
+--
+
+CREATE TABLE `agents_for_agency` (
+  `uuid` varchar(100) NOT NULL,
+  `agency_uuid` varchar(100) NOT NULL,
+  `fullname` varchar(150) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `phone_2` varchar(255) DEFAULT NULL,
+  `position` varchar(100) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `is_deleted` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `added_by` varchar(100) DEFAULT NULL,
+  `cni_number` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `agents_for_agency`
+--
+
+INSERT INTO `agents_for_agency` (`uuid`, `agency_uuid`, `fullname`, `email`, `phone`, `phone_2`, `position`, `photo`, `is_active`, `is_deleted`, `created_at`, `updated_at`, `added_by`, `cni_number`, `address`) VALUES
+('457c-fa6f-07ed-4802-8b92', 'c0cc-1ef0-0933-4374-8085', 'Laurent Alphonse', 'test@gmail.com', '65423776889', '', 'Livreur', 'agent_68499e520ab965.47403404.jpeg', 1, 0, '2025-06-11 15:18:42', '2025-06-11 17:49:52', '8ca1-ff26-3de6-4279-af58', 'CNI8765345467', '90 Place des Marchés'),
+('8f5d-4151-e86a-4f45-9e00', 'c0cc-1ef0-0933-4374-8085', 'ETOUDI BODO', 'partenaire1@gmail.com', '6542378765', '653890913', 'Ramasseur', '1bec-4f15-1694-464d-813b.png', 1, 0, '2025-06-11 15:24:25', '2025-06-11 18:03:12', '8ca1-ff26-3de6-4279-af58', 'CNI876534587', '123 Rue Principale, YaoundéII'),
+('c962-25ee-1fdc-4a15-bac0', 'c0cc-1ef0-0933-4374-8085', 'cifu@mailinator.com', 'purojezyve@mailinator.com', '678536865', '+1 (706) 695-4988', 'Ramasseur', NULL, 1, 0, '2025-06-11 15:47:12', '2025-06-11 19:50:54', '8ca1-ff26-3de6-4279-af58', 'CNI8765345765253', '123 Rue Principale, Yaoundé');
 
 -- --------------------------------------------------------
 
@@ -99,6 +132,75 @@ INSERT INTO `clients` (`id`, `first_name`, `last_name`, `num_cni`, `phone`, `add
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `clients_abonnes`
+--
+
+CREATE TABLE `clients_abonnes` (
+  `uuid` varchar(255) NOT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `tel1` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `tel2` varchar(255) DEFAULT NULL,
+  `cni_number` varchar(255) NOT NULL,
+  `price_for_abonnement` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `added_by` varchar(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `stock_total` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `clients_abonnes`
+--
+
+INSERT INTO `clients_abonnes` (`uuid`, `firstname`, `lastname`, `email`, `tel1`, `address`, `tel2`, `cni_number`, `price_for_abonnement`, `created_at`, `updated_at`, `added_by`, `is_deleted`, `is_active`, `stock_total`) VALUES
+('24bc-09eb-7241-4338-bd25', 'Laurent', 'Alphonse', 'luis@example123.com', '678536884', '90 Place des Marchés', '689095423', 'CNI8765345E', '25000', '2025-06-08 15:43:06', NULL, '8226-7654-379e-454e-8459', 0, 1, 0),
+('290e-13d1-ad10-47a7-8c2c', 'Zacharie', 'Dogo', 'maneuh@gmail.com', '678096543', 'Limbé , Cameroun', '689095420', 'CNI8765345E', '50000', '2025-06-08 15:44:10', '2025-06-09 02:17:52', '8226-7654-379e-454e-8459', 0, 1, 17),
+('438d-803b-f72c-44e5-85e9', 'Tinto', 'Fabiona', 'chouchou@gmail.com', '6780965434', 'Yaoundé,Cameroun', '689095420', 'CNI8765345787', '75000', '2025-06-08 16:02:45', '2025-06-09 01:59:51', '8226-7654-379e-454e-8459', 0, 1, 50),
+('5469-3903-0dad-4f8d-ae16', 'Paula', 'Norris', 'bihico@mailinator.com', '6780965434', 'Edéa Cameroun', '689095400', 'CNI8765345467', '76000', '2025-06-09 00:10:07', '2025-06-11 19:49:40', '8226-7654-379e-454e-8459', 0, 1, 40),
+('eade-08ce-91a7-4c67-88a8', 'William', 'Dev', 'williamdev@gmail.com', '678127812', '15 Avenue Portuaire, Douala', '689095499', 'CNI8765345467', '54000', '2025-06-08 16:21:18', '2025-06-08 23:21:44', '8226-7654-379e-454e-8459', 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `client_products`
+--
+
+CREATE TABLE `client_products` (
+  `uuid` varchar(255) NOT NULL,
+  `ref` varchar(255) DEFAULT NULL,
+  `client_uuid` char(36) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `price` decimal(12,2) NOT NULL,
+  `weight` decimal(8,3) DEFAULT NULL,
+  `declared_value` decimal(12,2) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `product_image` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `is_deleted` tinyint(1) DEFAULT 0,
+  `added_by` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `client_products`
+--
+
+INSERT INTO `client_products` (`uuid`, `ref`, `client_uuid`, `product_name`, `category`, `quantity`, `price`, `weight`, `declared_value`, `description`, `product_image`, `created_at`, `updated_at`, `is_deleted`, `added_by`) VALUES
+('530b-9848-0497-42ab-864b', 'PR-20250609-BE3DA3', '5469-3903-0dad-4f8d-ae16', 'Iphone 11', 'Electronique', 40, 3500.00, 2.700, NULL, 'n addition to our border-radius utilities, you can use .img-thumbnail to give an image a rounded 1px border appearance.', '4fd5-c1e7-8c95-4a63-b159.jpeg', '2025-06-09 09:16:02', '2025-06-11 13:58:43', 0, '8226-7654-379e-454e-8459'),
+('68461702-4f14-8003-bc92-e5adb9ab3c3b', 'PR-20250609-A1B2C3  ', '438d-803b-f72c-44e5-85e9', 'Montre Connectée', 'Electronique', 5, 199.99, 0.250, 180.00, 'Montre connectée avec écran OLED, Bluetooth et cardiofréquencemètre.', '645b-a63c-2f2d-4eb8-a8f5.png', '2025-06-09 00:49:35', '2025-06-09 19:00:38', 0, '8226-7654-379e-454e-8459'),
+('b7ce-c8d7-6a9a-4f43-9414', 'PR-20250609-4F6D9E', '290e-13d1-ad10-47a7-8c2c', 'Cahier', 'Papeterie', 17, 3.00, NULL, NULL, 'Cahier format A4, 100 pages', 'f1c3-1e76-e907-4816-9ecd.jpeg', '2025-06-09 01:01:07', '2025-06-09 19:02:53', 0, '8226-7654-379e-454e-8459'),
+('ca64-793a-b165-4a51-a5f9', 'PR-20250609-C7E1A8', '438d-803b-f72c-44e5-85e9', 'Papeterie', 'Papeterie', 45, 1.25, 0.010, 0.50, 'Stylo bille à encre bleue.', 'bee9-2052-aae4-435f-b352.jpeg', '2025-06-09 00:57:26', '2025-06-09 19:02:12', 0, '8226-7654-379e-454e-8459');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `customers`
 --
 
@@ -148,11 +250,24 @@ CREATE TABLE `customers_dossiers` (
 --
 
 INSERT INTO `customers_dossiers` (`uuid`, `code_dossier`, `prefixe`, `nom_complet`, `profession`, `cni`, `telephone`, `email`, `description`, `condition_visite`, `option_visite`, `date_soumission`, `added_by`, `created_at`, `updated_at`, `is_deleted`, `status`, `frais_ouverture`) VALUES
-('a8f3-39a2-beb9-408b-9721', 'DOSS20250524153732123', 'M', 'Jean Marie', 'Bureautique', 'CNI3456789016', '+331234567890', 'adminuser@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:27:41', '8226-7654-379e-454e-8459', '2025-05-24 16:27:41', '2025-05-24 17:48:48', 1, 'En cours', 5000),
-('b951-668c-dafc-4e41-a6b8', 'DOSS20250524153732456', 'Mme', 'Sharonne Mila', 'Manager', 'CNI345678901', '+33123456789', 'partenaire1@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Autres', 'Sur négociation', '2025-05-24 17:20:13', '8226-7654-379e-454e-8459', '2025-05-24 16:20:13', '2025-05-24 18:28:09', 0, 'Finalisé', 5000),
-('d51a-3344-5ba3-41af-a2fd', 'DOSS20250524153732987', 'Mlle', 'Ophelie Lynn', 'Dévéloppeuse', 'CNI456789000', '+237650654328', 'sharonne@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:06:18', '8226-7654-379e-454e-8459', '2025-05-24 16:06:18', '2025-05-24 18:32:05', 0, 'Finalisé', 5000),
-('e5d7-3f14-3e68-4c0d-9102', 'DOSS20250524153732401', 'M', 'Jean Luis', 'Analyste', 'CNI123456789', '+33123456788', 'fournisseurb@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Location', 'Chambre / Studio - 5 000 FCFA', '2025-05-24 17:23:27', '8226-7654-379e-454e-8459', '2025-05-24 16:23:27', '2025-05-24 18:26:29', 0, 'Finalisé', 5000),
-('fbcb-8e84-84c7-4b4a-9e0e', 'DOSS20250524153732159\n', 'M', 'Laurent Alphonse', 'Dévéloppeur Fullstack', 'CNI123456799', '+237650654321', 'test@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat', 'Milieu urbain - 20 000 FCFA', '2025-05-24 17:04:16', '8226-7654-379e-454e-8459', '2025-05-24 16:04:16', '2025-05-24 17:49:26', 0, 'En cours', 5000);
+('0ace-c95d-cffc-4218-b372', 'DOSS20250529112918144', 'Mme', 'Velit architecto fug', 'Cumque dolore itaque', 'Recusandae Earum qu', '+1 (945) 616-5757', 'gaxolacoru@mailinator.com', 'Sint et sit consequ', 'Autres prestations', 'Sur négociation', '2025-05-29 10:29:18', '8226-7654-379e-454e-8459', '2025-05-29 09:29:18', NULL, 0, 'En cours', 45000),
+('260d-61d5-7502-4e9e-9a1a', 'DOSS20250529120359895', 'Mlle', 'Ad dolore omnis dolo', 'Deserunt dolorem vel', 'Sit enim in autem d', '+1 (923) 351-8465', 'dyxaxiboce@mailinator.com', 'Earum odio ea eius d', 'Autres prestations', 'Sur négociation', '2025-05-29 11:03:59', '8226-7654-379e-454e-8459', '2025-05-29 10:03:59', '2025-05-29 10:05:03', 0, 'Finalisé', 25000),
+('3a8c-fb60-3e93-42ef-b1ed', 'DOSS20250526012428768', NULL, 'Sint sapiente quisqu', 'Illum libero repreh', 'Mollit veniam vel i', '+1 (241) 827-2759', 'wabyzedizi@mailinator.com', 'Fugiat laudantium s', 'Autres', 'Sur négociation', '2025-05-26 00:24:28', '1a0f-1f19-89a1-4931-bc88', '2025-05-25 23:24:28', '2025-05-26 01:27:53', 0, 'Finalisé', 450000),
+('4810-cd12-9c96-4689-a742', 'DOSS20250529114123263', 'Mme', 'Et saepe sunt volupt', 'Nulla assumenda nost', 'Consectetur ex reru', '+1 (649) 849-9062', 'fanodaqa@mailinator.com', 'Ut do commodo molest', 'Location', 'Appartement', '2025-05-29 10:41:23', '8226-7654-379e-454e-8459', '2025-05-29 09:41:23', '2025-05-29 09:43:16', 0, 'En cours', 10000),
+('490c-2196-8200-487f-a757', 'DOSS20250602151535542', 'Mlle', 'Et sunt explicabo Q', 'Cupidatat commodo ex', 'Proident sit cumqu', '+1 (657) 214-6905', 'coxocyre@mailinator.com', 'Reprehenderit omnis ', 'Achat Maison', 'Milieu urbain', '2025-06-02 14:15:35', '8226-7654-379e-454e-8459', '2025-06-02 13:15:35', '2025-06-02 13:20:05', 0, 'En cours', 150000),
+('55f0-3603-9907-491f-980d', 'DOSS20250529114649018', 'Mme', 'Error qui ut eum pos', 'Esse quidem rem amet', 'Et voluptatibus cons', '+1 (546) 435-1142', 'likij@mailinator.com', 'Et et et dolorum est', 'Location', 'Studio', '2025-05-29 10:46:49', '8226-7654-379e-454e-8459', '2025-05-29 09:46:49', '2025-05-29 09:51:51', 0, 'En cours', 10000),
+('9129-f551-dbf8-48ea-b3b1', 'DOSS20250526011253468', 'M', 'Eu ad voluptatum min', 'Rerum ullamco explic', 'Laborum Deserunt ne', '+1 (426) 926-2719', 'vuwyqo@mailinator.com', 'Cumque possimus in ', 'Achat Terrain', 'Milieu urbain', '2025-05-26 00:12:53', '1a0f-1f19-89a1-4931-bc88', '2025-05-25 23:12:53', '2025-05-26 01:26:32', 0, 'Finalisé', 5000),
+('94e9-ce41-6cb2-4717-a09d', 'DOSS20250525230522936', 'Mlle', 'Marie Louise', 'Commercante', 'CNI4567890234', '+331234567824', 'admin@gmail.com', 'Below is a static modal example (meaning its position and display have been overridden). Included are the modal header, modal body (required for padding), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.', 'Autres', 'Sur négociation', '2025-05-25 22:05:22', '8226-7654-379e-454e-8459', '2025-05-25 21:05:22', NULL, 0, 'En cours', 5000),
+('a8f3-39a2-beb9-408b-9721', 'DOSS20250524153732123', 'M', 'Jean Marie', 'Bureautique', 'CNI3456789016', '+331234567890', 'adminuser@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat Maison', 'Milieu urbain', '2025-05-24 17:27:41', '8226-7654-379e-454e-8459', '2025-05-24 16:27:41', '2025-05-25 23:42:52', 1, 'En cours', 5000),
+('b951-668c-dafc-4e41-a6b8', 'DOSS20250524153732456', 'Mme', 'Sharonne Mila', 'Manager', 'CNI345678901', '+33123456789', 'partenaire1@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Location', 'Chambre / Studio', '2025-05-24 17:20:13', '8226-7654-379e-454e-8459', '2025-05-24 16:20:13', '2025-05-25 23:43:12', 0, 'Finalisé', 5000),
+('c2fd-8ee0-6e0d-45db-8d25', 'DOSS20250529112541329', 'Mlle', 'Esse quas qui ut nes', 'Blanditiis excepteur', 'Corrupti numquam el', '+1 (421) 876-9807', 'calyvuma@mailinator.com', 'Cumque autem est fu', 'Autres prestations', 'Négociations', '2025-05-29 10:25:41', '8226-7654-379e-454e-8459', '2025-05-29 09:25:41', '2025-05-29 09:43:09', 0, 'En cours', 10000),
+('d51a-3344-5ba3-41af-a2fd', 'DOSS20250524153732987', 'Mlle', 'Ophelie Lynn', 'Dévéloppeuse', 'CNI456789000', '+237650654328', 'sharonne@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat Maison', 'Milieu urbain', '2025-05-24 17:06:18', '8226-7654-379e-454e-8459', '2025-05-24 16:06:18', '2025-05-25 23:43:20', 0, 'Finalisé', 5000),
+('d851-220f-08a9-409c-a4c0', 'DOSS20250529120622890', 'M', 'Nam consequatur vel', 'Officia quam necessi', 'Sint eos esse vero', '+1 (131) 701-9082', 'togisyk@mailinator.com', 'Iste ut obcaecati an', 'Autres prestations', 'Sur négociation', '2025-05-29 11:06:22', '8226-7654-379e-454e-8459', '2025-05-29 10:06:22', '2025-05-29 10:07:16', 0, 'Finalisé', 40000),
+('dba2-eada-fda0-4c6f-b632', 'DOSS20250526042833463', 'M', 'In aut veniam error', 'Nihil pariatur Inci', 'Enim similique natus', '+1 (695) 906-3724', 'vysuhipen@mailinator.com', 'Mollitia non officia', 'Achat Maison', 'Milieu rural', '2025-05-26 03:28:33', '1a0f-1f19-89a1-4931-bc88', '2025-05-26 02:28:33', '2025-05-29 09:52:02', 0, 'En cours', 10000),
+('e5d7-3f14-3e68-4c0d-9102', 'DOSS20250524153732401', 'M', 'Jean Luis', 'Analyste', 'CNI123456789', '+33123456788', 'fournisseurb@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Location', 'Chambre / Studio', '2025-05-24 17:23:27', '8226-7654-379e-454e-8459', '2025-05-24 16:23:27', '2025-05-25 23:43:25', 0, 'Finalisé', 5000),
+('e9e5-1857-4dd1-4bb6-b1dd', 'DOSS20250529110844840', 'M', 'At eaque totam dolor', 'Reiciendis voluptate', 'Consequuntur recusan', '+1 (435) 378-4359', 'hafatep@mailinator.com', 'Ut sed exercitation ', 'Location', 'Duplex', '2025-05-29 10:08:44', '8226-7654-379e-454e-8459', '2025-05-29 09:08:44', '2025-05-29 09:43:22', 0, 'Finalisé', 10000),
+('f609-a928-e689-4a3e-a3a7', 'DOSS20250529115133304', 'Mme', 'Repellendus Cillum ', 'Quasi tempor dolor o', 'Voluptas nesciunt a', '+1 (654) 549-4157', 'hiwi@mailinator.com', 'Quos est natus cum a', 'Achat Terrain', 'Milieu urbain', '2025-05-29 10:51:33', '8226-7654-379e-454e-8459', '2025-05-29 09:51:33', '2025-05-29 09:51:56', 0, 'En cours', 10000),
+('fbcb-8e84-84c7-4b4a-9e0e', 'DOSS20250524153732159\n', 'M', 'Laurent Alphonse', 'Dévéloppeur Fullstack', 'CNI123456799', '+237650654321', 'test@gmail.com', 'Progressively enhance your switches for mobile Safari (iOS 17.4+) by adding a switch attribute to your input to enable haptic feedback when toggling switches, just like native iOS switches. There are no style changes attached to using this attribute in Bootstrap as all our switches use custom styles.', 'Achat Maison', 'Milieu rural', '2025-05-24 17:04:16', '8226-7654-379e-454e-8459', '2025-05-24 16:04:16', '2025-05-29 09:43:27', 0, 'En cours', 10000);
 
 -- --------------------------------------------------------
 
@@ -179,7 +294,12 @@ CREATE TABLE `finalisations_dossiers` (
 INSERT INTO `finalisations_dossiers` (`uuid`, `dossier_uuid`, `montant_verse`, `references_personnes`, `date_finalisation`, `added_by`, `is_deleted`, `created_at`, `updated_at`) VALUES
 ('0a5d-db8e-eca8-41a7-ab54', 'e5d7-3f14-3e68-4c0d-9102', 50000, 'Jean Marie,Alain Paul', '2025-05-24 19:26:29', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:26:29', NULL),
 ('0fde-1f6c-83b6-4659-b8d9', 'd51a-3344-5ba3-41af-a2fd', 77000, 'Velit tempora delen', '2025-05-24 19:32:05', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:32:05', NULL),
-('60a9-30f1-60a2-4079-834e', 'b951-668c-dafc-4e41-a6b8', 94000, 'Sed provident sint ', '2025-05-24 19:28:09', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:28:09', NULL);
+('30ab-911b-8c2d-4cbf-9b0a', 'd851-220f-08a9-409c-a4c0', 50000, 'Id labore voluptates', '2025-05-29 11:07:16', '8226-7654-379e-454e-8459', 0, '2025-05-29 10:07:16', NULL),
+('60a9-30f1-60a2-4079-834e', 'b951-668c-dafc-4e41-a6b8', 94000, 'Sed provident sint ', '2025-05-24 19:28:09', '8226-7654-379e-454e-8459', 0, '2025-05-24 18:28:09', NULL),
+('6fb1-9e95-d8d1-4b9c-8cec', 'e9e5-1857-4dd1-4bb6-b1dd', 250000, 'Mr Laurent', '2025-05-29 10:10:41', '8226-7654-379e-454e-8459', 0, '2025-05-29 09:10:41', NULL),
+('c2d8-fd17-6539-4702-8cb6', '9129-f551-dbf8-48ea-b3b1', 34000, 'Aspernatur voluptas ', '2025-05-26 02:26:32', '1a0f-1f19-89a1-4931-bc88', 0, '2025-05-26 01:26:32', NULL),
+('f0eb-ed75-8198-4333-9022', '3a8c-fb60-3e93-42ef-b1ed', 20000, 'Quae excepteur deser', '2025-05-26 02:27:53', '1a0f-1f19-89a1-4931-bc88', 0, '2025-05-26 01:27:53', NULL),
+('fe54-a3ce-aeff-4a02-a70d', '260d-61d5-7502-4e9e-9a1a', 27000, 'Enim consectetur aut', '2025-05-29 11:05:03', '8226-7654-379e-454e-8459', 0, '2025-05-29 10:05:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -199,6 +319,73 @@ CREATE TABLE `immo` (
 
 INSERT INTO `immo` (`id`, `name`, `created_at`) VALUES
 ('550e8400-e29b-41d4-a716-446655440000', 'IMMO', '2025-03-07 14:46:57');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `livraisons_products`
+--
+
+CREATE TABLE `livraisons_products` (
+  `uuid` varchar(36) NOT NULL,
+  `reference` varchar(30) NOT NULL,
+  `product_uuid` varchar(36) NOT NULL,
+  `recipient_name` varchar(100) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `delivery_price` decimal(10,2) NOT NULL,
+  `price_delivery_exactly` varchar(255) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `is_home_delivery` tinyint(1) DEFAULT 0,
+  `delivery_man_id` varchar(36) NOT NULL,
+  `status` enum('En cours','Livré','Annulé') DEFAULT 'En cours',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `added_by` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `livraisons_products`
+--
+
+INSERT INTO `livraisons_products` (`uuid`, `reference`, `product_uuid`, `recipient_name`, `phone`, `delivery_price`, `price_delivery_exactly`, `quantity`, `location`, `is_home_delivery`, `delivery_man_id`, `status`, `created_at`, `added_by`) VALUES
+('1cb9-f0ca-a57a-493e-adb1', 'LIVR-20250609-4D9DA1', 'b7ce-c8d7-6a9a-4f43-9414', 'Dev', '6459012923', 4500.00, NULL, 3, 'Mokolo', 1, '045c-bfb2-a22e-4946-8048', 'Annulé', '2025-06-09 02:17:52', '8226-7654-379e-454e-8459'),
+('6aae-34c2-b50a-481c-b59f', 'LIVR-20250609-91DE87', 'ca64-793a-b165-4a51-a5f9', 'Preston Hart', '645901290', 1500.00, '25000', 2, 'Voluptate alias magn', 0, '045c-bfb2-a22e-4946-8048', 'Livré', '2025-06-09 01:59:51', '8226-7654-379e-454e-8459'),
+('8bfd-fdc2-49ea-4f4f-8e9b', 'LIVR-20250611-FDE941', '530b-9848-0497-42ab-864b', 'Ezekiel Wright', '+1 (572) 537-9987', 2000.00, '25000', 5, 'Tempor dolore at eiu', 1, '045c-bfb2-a22e-4946-8048', 'Livré', '2025-06-11 13:58:43', '8226-7654-379e-454e-8459'),
+('9aaf-e449-4606-42e6-b0d6', 'LIVR-20250609-21C1BF', 'ca64-793a-b165-4a51-a5f9', 'Paki Nichols', '654237808', 2500.00, NULL, 3, 'Emana', 1, '045c-bfb2-a22e-4946-8048', 'Annulé', '2025-06-09 01:39:04', '8226-7654-379e-454e-8459');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `main_agencies`
+--
+
+CREATE TABLE `main_agencies` (
+  `uuid` varchar(100) NOT NULL,
+  `ref` varchar(255) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `region` varchar(100) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `manager_uuid` varchar(100) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `is_deleted` tinyint(1) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `added_by` varchar(2555) DEFAULT NULL,
+  `can_create_agents` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `main_agencies`
+--
+
+INSERT INTO `main_agencies` (`uuid`, `ref`, `name`, `phone`, `email`, `city`, `region`, `logo`, `manager_uuid`, `is_active`, `is_deleted`, `created_at`, `updated_at`, `added_by`, `can_create_agents`) VALUES
+('015c-8e58-0ee2-4a27-8a8a', 'AG-20250611-F851F0', 'wohyq@mailinator.com', '+1 (873) 819-8998', 'alvis.crash@fsitip.com', 'Maroua', 'Nord', NULL, '741f-0b2d-605d-46f3-b597', 1, 0, '2025-06-11 07:23:23', '2025-06-11 07:23:23', '8226-7654-379e-454e-8459', 0),
+('620d-5b73-4e41-49f8-8973', 'AG-20250609-C9456F', 'Agence E', '6542378765', 'agenceC@gmail.com', 'Douala', 'Centre', '7637-4f1d-dbdc-4729-b079.jpeg', 'd824-17c8-3549-455b-bd2f', 0, 0, '2025-06-09 19:21:34', '2025-06-11 07:18:06', '8226-7654-379e-454e-8459', 0),
+('68a4-b424-6bc0-4517-aac6', 'AG-20250611-A8A617', 'hefoxat@mailinator.com', '+1 (873) 779-6697', 'zymir.alix@fsitip.com', 'Douala', 'Centre', NULL, 'fcc8-c5ba-212f-49c7-ab98', 1, 0, '2025-06-11 18:46:13', '2025-06-11 19:50:15', '8226-7654-379e-454e-8459', 0),
+('c0cc-1ef0-0933-4374-8085', 'AG-20250609-054BBF', 'Agence A', '645901290', 'agenceA@gmail.com', 'Yaoundé', 'Centre', NULL, '8ca1-ff26-3de6-4279-af58', 1, 0, '2025-06-09 14:11:25', '2025-06-09 19:17:53', '8226-7654-379e-454e-8459', 1);
 
 -- --------------------------------------------------------
 
@@ -265,6 +452,45 @@ INSERT INTO `owner` (`id`, `last_name`, `first_name`, `phone_number`, `id_number
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `packages`
+--
+
+CREATE TABLE `packages` (
+  `uuid` varchar(100) NOT NULL,
+  `sender_name` varchar(100) NOT NULL,
+  `sender_phone` varchar(20) NOT NULL,
+  `sender_address` varchar(255) NOT NULL,
+  `recipient_name` varchar(100) NOT NULL,
+  `recipient_phone` varchar(20) NOT NULL,
+  `recipient_address` varchar(255) NOT NULL,
+  `home_delivery` tinyint(1) DEFAULT 0,
+  `package_name` varchar(100) NOT NULL,
+  `package_type` enum('Document','Petit colis','Gros colis') NOT NULL,
+  `description` text NOT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `main_agency_uuid` varchar(100) NOT NULL,
+  `status` enum('en attente','en transit','livré','annulé') DEFAULT 'en attente',
+  `is_deleted` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `qr_code` varchar(255) DEFAULT NULL,
+  `ref` varchar(255) DEFAULT NULL,
+  `is_collected` tinyint(1) DEFAULT 0,
+  `is_delivery` tinyint(1) NOT NULL DEFAULT 0,
+  `collected_by` varchar(255) DEFAULT NULL,
+  `delivery_by` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `packages`
+--
+
+INSERT INTO `packages` (`uuid`, `sender_name`, `sender_phone`, `sender_address`, `recipient_name`, `recipient_phone`, `recipient_address`, `home_delivery`, `package_name`, `package_type`, `description`, `image_path`, `main_agency_uuid`, `status`, `is_deleted`, `created_at`, `updated_at`, `qr_code`, `ref`, `is_collected`, `is_delivery`, `collected_by`, `delivery_by`) VALUES
+('c4b0-92f8-f9ed-4220-8744', 'Laurent Alphonse', '654128076', 'Yaoundé', 'Sharonne Mila', '654347890', '90 Place des Marchés, Bafoussam', 1, 'Iphone 13', 'Petit colis', 'Documentation and examples for opting images into responsive behavior', '6849cf472e874_iphone-12-frandroid-2020-768x768.png', 'c0cc-1ef0-0933-4374-8085', 'en attente', 0, '2025-06-11 18:47:35', '2025-06-11 19:29:43', 'c4b0-92f8-f9ed-4220-8744.png', 'COLIS-20250611-1DFC65', 0, 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `payment`
 --
 
@@ -308,11 +534,25 @@ CREATE TABLE `prestations_client` (
 --
 
 INSERT INTO `prestations_client` (`uuid`, `client_uuid`, `prestation`, `added_by`, `created_at`, `updated_at`, `is_deleted`) VALUES
-('1bb5-a9a1-0cc7-4a10-887b', 'fbcb-8e84-84c7-4b4a-9e0e', 'Prestations sur achat terrain', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('08bb-5af6-bb77-4fa5-ae12', 'fbcb-8e84-84c7-4b4a-9e0e', 'Prestations sur achat terrain', '8226-7654-379e-454e-8459', '2025-05-26 17:43:25', NULL, 0),
+('0efa-0b89-0970-4835-bcdd', '55f0-3603-9907-491f-980d', 'Prestations sur gestion Immobilière', '8226-7654-379e-454e-8459', '2025-05-29 09:46:49', NULL, 0),
+('3bd0-265b-20db-440e-9ead', '490c-2196-8200-487f-a757', 'Service de nettoyage', '8226-7654-379e-454e-8459', '2025-06-02 13:20:05', NULL, 0),
+('41b9-51b7-7991-44e2-9275', '94e9-ce41-6cb2-4717-a09d', 'Autres prestations', '8226-7654-379e-454e-8459', '2025-05-25 21:05:22', NULL, 0),
+('4817-135c-e32b-451e-b756', '260d-61d5-7502-4e9e-9a1a', 'Service de nettoyage', '8226-7654-379e-454e-8459', '2025-05-29 10:03:59', NULL, 0),
+('5876-d93b-e0bc-4ca4-a27d', '4810-cd12-9c96-4689-a742', 'Prestations sur location Immobilière', '8226-7654-379e-454e-8459', '2025-05-29 09:41:23', NULL, 0),
+('5985-3620-3d19-4848-aae5', '0ace-c95d-cffc-4218-b372', 'Prestations sur gestion Immobilière', '8226-7654-379e-454e-8459', '2025-05-29 09:29:18', NULL, 0),
 ('5da2-7a9b-0d63-464e-b29c', 'd51a-3344-5ba3-41af-a2fd', 'Projet location/construction long terme', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
-('624c-9759-0047-4a09-8d15', 'b951-668c-dafc-4e41-a6b8', 'Service de rénovation', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('6231-ba2b-6026-424c-ac0c', 'e9e5-1857-4dd1-4bb6-b1dd', 'Service de nettoyage', '8226-7654-379e-454e-8459', '2025-05-29 09:08:44', NULL, 0),
+('975f-5941-7f53-4259-a975', 'c2fd-8ee0-6e0d-45db-8d25', 'Prestations sur location terrain', '8226-7654-379e-454e-8459', '2025-05-29 09:25:41', NULL, 0),
+('a71e-f751-93fb-41f8-9334', 'f609-a928-e689-4a3e-a3a7', 'Prestations sur achat Immobilière', '8226-7654-379e-454e-8459', '2025-05-29 09:51:33', '2025-05-29 09:54:10', 0),
 ('a858-df89-6bc9-4ec9-940f', 'a8f3-39a2-beb9-408b-9721', 'Service de rénovation', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', '2025-05-24 17:02:23', 1),
-('b168-5e21-7cf2-4870-904b', 'e5d7-3f14-3e68-4c0d-9102', 'Service de déménagement', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0);
+('b168-5e21-7cf2-4870-904b', 'e5d7-3f14-3e68-4c0d-9102', 'Service de déménagement', '8226-7654-379e-454e-8459', '2025-05-24 16:56:42', NULL, 0),
+('ba4d-e9f3-6638-475c-8355', 'd851-220f-08a9-409c-a4c0', 'Service de rénovation', '8226-7654-379e-454e-8459', '2025-05-29 10:06:22', NULL, 0),
+('c8c1-f557-80ab-4e23-9a5f', '9129-f551-dbf8-48ea-b3b1', 'Prestations sur achat terrain', '1a0f-1f19-89a1-4931-bc88', '2025-05-25 23:12:53', NULL, 0),
+('cdcf-be9b-23e1-4d06-aa3c', 'b951-668c-dafc-4e41-a6b8', 'Clé en main', '8226-7654-379e-454e-8459', '2025-05-25 21:46:19', NULL, 0),
+('ea9e-ac0d-567f-4b73-a881', 'c2fd-8ee0-6e0d-45db-8d25', 'Prestations sur achat terrain', '8226-7654-379e-454e-8459', '2025-05-29 09:25:41', NULL, 0),
+('fc04-74d6-df74-4f43-9d9b', '3a8c-fb60-3e93-42ef-b1ed', 'Service de nettoyage', '1a0f-1f19-89a1-4931-bc88', '2025-05-25 23:33:39', NULL, 0),
+('fc18-a338-33e9-475b-bf1d', 'dba2-eada-fda0-4c6f-b632', 'Service de déménagement', '1a0f-1f19-89a1-4931-bc88', '2025-05-26 02:28:33', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -410,9 +650,9 @@ CREATE TABLE `reservation_sieste` (
 
 INSERT INTO `reservation_sieste` (`id`, `type_chambre`, `type_service`, `numero`, `id_motel`, `prix`, `date_entre`, `date_sortie`, `client_id`, `is_deleted`, `status`, `added_by`, `mois`, `created_at`, `updated_at`) VALUES
 ('0e56-13ce-70f5-4697-847a', 'Chambre VIP', 'SIESTE', '106', '3f22-ded3-02e0-4e3a-86d1', 7000, '15:41:00', '17:41:00', '49ce-cea5-17d2-49e4-873f', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 16:08:22', '2025-03-03 17:14:39'),
-('1682-c055-6b5e-4bd4-bb11', 'Chambre Simple', 'SIESTE', '102', '3f22-ded3-02e0-4e3a-86d1', 5000, '20:00:00', '22:00:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 19:12:22', '2025-03-03 19:12:22'),
+('1682-c055-6b5e-4bd4-bb11', 'Chambre Simple', 'SIESTE', '102', '3f22-ded3-02e0-4e3a-86d1', 5000, '20:00:00', '22:00:00', '6700-df38-bcd6-4daf-818c', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 19:12:22', '2025-05-25 22:08:36'),
 ('1f2e-ea52-0209-4e52-a1fd', 'Chambre standard', 'SIESTE', '104', '3f22-ded3-02e0-4e3a-86d1', 5000, '18:15:00', '20:15:00', '49ce-cea5-17d2-49e4-873f', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 17:15:51', '2025-03-07 19:41:30'),
-('1f67-ca79-a9e8-455a-8c01', 'Chambre standard', 'SIESTE', '104', '3f22-ded3-02e0-4e3a-86d1', 5000, '20:06:00', '22:06:00', '6700-df38-bcd6-4daf-818c', '0', 'en cours', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 19:07:03', '2025-03-03 19:07:03'),
+('1f67-ca79-a9e8-455a-8c01', 'Chambre standard', 'SIESTE', '104', '3f22-ded3-02e0-4e3a-86d1', 5000, '20:06:00', '22:06:00', '6700-df38-bcd6-4daf-818c', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-03 19:07:03', '2025-05-25 22:08:36'),
 ('1fa3-46cf-d338-409c-8ed0', 'Chambre VIP', 'SIESTE', '103', '3f22-ded3-02e0-4e3a-86d1', 3000, '17:12:00', '19:12:00', 'ca29-5cef-c65d-40cf-b867', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-07 18:12:30', '2025-03-07 18:12:34'),
 ('2593-45c4-e15b-4b54-86e7', 'Chambre standard', 'SIESTE', '101', '3f22-ded3-02e0-4e3a-86d1', 5000, '15:46:00', '17:46:00', '6700-df38-bcd6-4daf-818c', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 14:48:59', '2025-03-03 15:59:50'),
 ('29d7-c607-c379-4297-be67', 'Chambre Simple', 'SIESTE', '102', '3f22-ded3-02e0-4e3a-86d1', 5000, '16:20:00', '18:20:00', '49ce-cea5-17d2-49e4-873f', '0', 'terminée', 'bb95-7bfb-133d-4396-8dab', 'Mars', '2025-03-02 15:20:47', '2025-03-03 15:59:50'),
@@ -541,16 +781,21 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `address`, `phone_number`, `password`, `photo`, `role`, `is_deleted`, `status`, `created_at`, `updated_at`) VALUES
+('045c-bfb2-a22e-4946-8048', 'Courtney', 'Carrillo', 'papybytyn@mailinator.com', 'Facere optio proide', '+1 (422) 439-5373', '$2y$10$3FVmCmckv7LJH3MHxeBmd.04SBgzzriaQXnuqCyv6K6vOeHT7eqGe', NULL, 'Gestionnaire de livraison', 0, 'active', '2025-06-09 01:09:03', '2025-06-09 01:09:03'),
 ('1a0f-1f19-89a1-4931-bc88', 'Jescie', 'Russell', 'xiyqpczopolciffmlg@nbmbb.com', 'Garoua', '+1 (774) 781-2629', '$2y$10$U6oM7JZy5m8wSzURT0kjoe8J16i.VF0eFbEanI398o9EvOGx3Nf5y', NULL, 'Gestionnaire IMMO', 0, 'active', '2025-03-08 07:53:03', '2025-03-08 07:54:37'),
 ('34fa-6718-b5c8-4dcc-8449', 'Samson', 'Small', 'manekengsorelle99@gmail.com', 'Aliquip cum tempore', '+1 (904) 895-7703', '$2y$10$gcMW9cdXHY.rZJ2ypw6Fu./IuO76CIgTGMOqdWg3W.wYWIH5Pg1JO', '67c1cf93cbaa3_images.jpeg', 'admin', 0, 'active', '2025-02-28 15:00:35', '2025-02-28 19:50:47'),
 ('64d8-6c65-9a3a-4b27-9838', 'Unity', 'Kane', 'waxirefo@mailinator.com', 'Quod omnis veritatis', '+1 (882) 236-5024', '$2y$10$UjNGohmbQQNiwVXkAVVcEurlO2QJtln2L0aikobF2p1s1.unLEPBa', NULL, 'admin', 1, 'active', '2025-02-28 13:55:24', '2025-02-28 14:04:34'),
 ('6fbc-5e43-4760-4b57-ab4c', 'Cheryl', 'Rutledge', 'pizir@mailinator.com', 'Eum sint amet conse', '+1 (987) 706-3406', '$2y$10$6mTaMlNLvJx2yUOX/rOrHeY6lMhedHkm.YMTYMI1RMrKevuWgiW3W', NULL, 'admin', 0, 'active', '2025-02-28 13:55:37', '2025-02-28 13:55:37'),
 ('719a-bec0-3b45-482c-a331', 'Zephania', 'Steele', 'roosveltkuenkam237@gmail.com', 'Ratione nihil rerum ', '+1 (624) 812-4146', '$2y$10$DIBVORcNGW1aY7ifaNS0M.sVylzi7tiiCjyCLjin/hLYbDyz//F1C', NULL, 'admin', 0, 'active', '2025-02-28 14:54:19', '2025-03-02 17:56:45'),
-('8226-7654-379e-454e-8459', 'Alphonse', 'Laurent ', 'admin@gmail.com', '123 Rue de Paris, Paris, France', '612891290', '$2y$10$s.DIfIFXIWesGeN6WkbKdeKNgmeIjcVQ1k3Ap/kquZJa5Il6JDUI6', '67c1bab443bf3_images.png', 'super_admin', 0, 'active', '2025-02-28 13:31:32', '2025-03-03 14:24:33'),
+('741f-0b2d-605d-46f3-b597', 'Imelda', 'Richardson', 'fipazynil@mailinator.com', 'Non distinctio Unde', '+1 (331) 494-2953', '$2y$10$iIlPOWBMGUK8WcB5tk06kOlc.LB8dyoFR6kg4ifBVlUSO/7X9ktdW', NULL, 'Chef d’agence', 0, 'active', '2025-06-11 07:20:29', '2025-06-11 07:20:29'),
+('8226-7654-379e-454e-8459', 'Laurent ', 'Alphonse', 'admin@gmail.com', '123 Rue de Paris, Paris, France', '612891290', '$2y$10$s.DIfIFXIWesGeN6WkbKdeKNgmeIjcVQ1k3Ap/kquZJa5Il6JDUI6', 'profile.png', 'super_admin', 0, 'active', '2025-02-28 13:31:32', '2025-06-12 18:55:59'),
+('8ca1-ff26-3de6-4279-af58', 'Test', 'Test', 'testagence@gmail.com', '456 Avenue de la République, Paris, France', '65423776889', '$2y$10$MIZvP7PAgfXb2kXgPwitLuXH9wStgvNpbaguZICknLcBCtfqRFKPi', NULL, 'Chef d’agence', 0, 'active', '2025-06-09 13:16:21', '2025-06-11 14:11:15'),
 ('9ba6-16fa-065b-4245-88e6', 'Kenyon', 'Estrada', 'bavetyfeke@mailinator.com', 'Aut est consequatur', '+1 (315) 609-5792', '$2y$10$QBOzUCh2fE7ieh8ofGirueldYeLmE/.vi/PFNWOPGknOW5pcemGMu', NULL, 'admin', 1, 'active', '2025-02-28 13:29:12', '2025-02-28 14:03:11'),
 ('a4d4-cdc8-c90b-4b82-a1bf', 'Lester', 'Farmer', 'wapumufy@mailinator.com', 'Doloremque recusanda', '+1 (467) 438-9514', '$2y$10$1xCDAvxdj/1Mti/NQxmxwewubqc0eIThEX12h/Pg8ZkcT1t4O2ZGG', NULL, 'admin', 0, 'inactive', '2025-02-28 13:55:32', '2025-02-28 15:14:33'),
 ('bb95-7bfb-133d-4396-8dab', 'Tanisha', 'Knight', 'manekengsorelle94@gmail.com', 'Ratione in Nam magna', '+1 (865) 967-6675', '$2y$10$gjfadqVkM2SKIRUkEUtFoOECMNeIJ7QIFe9I0ROOfBsGCQMp/7J2m', NULL, 'Gestionnaire Motel & Restaurant', 0, 'active', '2025-02-28 15:03:33', '2025-03-08 07:54:15'),
-('e7a3-08e5-2ec5-454d-b19d', 'Reece', 'Austin', 'direnevami@mailinator.com', 'Reprehenderit ab ul', '+1 (126) 496-7742', '$2y$10$7Id3C0VnlDsLaqqFc/6O/.MXUoJwJiPPeqfedhcmxcFdGMv1hHs/O', NULL, 'admin', 1, 'active', '2025-02-28 13:53:12', '2025-02-28 14:03:38');
+('d824-17c8-3549-455b-bd2f', 'Devin', 'Horn', 'xeqyme@mailinator.com', 'Et tempor voluptates', '+1 (664) 511-9921', '$2y$10$fET.VjefKgRXBK5Uy/RjyOdjmsPUkIYxBI6uX6QTRmEf4bVlr22Oe', NULL, 'Chef d’agence', 0, 'inactive', '2025-06-09 19:20:46', '2025-06-11 07:18:06'),
+('e7a3-08e5-2ec5-454d-b19d', 'Reece', 'Austin', 'direnevami@mailinator.com', 'Reprehenderit ab ul', '+1 (126) 496-7742', '$2y$10$7Id3C0VnlDsLaqqFc/6O/.MXUoJwJiPPeqfedhcmxcFdGMv1hHs/O', NULL, 'admin', 1, 'active', '2025-02-28 13:53:12', '2025-02-28 14:03:38'),
+('fcc8-c5ba-212f-49c7-ab98', 'Sean', 'Rivas', 'qixifywo@mailinator.com', 'Dolorem qui ratione ', '+1 (894) 282-3574', '$2y$10$1MrmEEKz78bPV3LeJUbeO.KLapHxEVVcoNYBEVtqe6T185.K6PIDG', NULL, 'Chef d’agence', 0, 'active', '2025-06-11 18:45:22', '2025-06-11 19:50:15');
 
 -- --------------------------------------------------------
 
@@ -626,6 +871,14 @@ INSERT INTO `user_restaurant` (`id`, `user_id`, `restaurant_id`, `created_at`, `
 --
 
 --
+-- Index pour la table `agents_for_agency`
+--
+ALTER TABLE `agents_for_agency`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `agency_uuid` (`agency_uuid`),
+  ADD KEY `added_by` (`added_by`);
+
+--
 -- Index pour la table `chambres`
 --
 ALTER TABLE `chambres`
@@ -640,6 +893,21 @@ ALTER TABLE `clients`
   ADD UNIQUE KEY `num_cni` (`num_cni`),
   ADD KEY `added_by` (`added_by`),
   ADD KEY `motel_id` (`motel_id`);
+
+--
+-- Index pour la table `clients_abonnes`
+--
+ALTER TABLE `clients_abonnes`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Index pour la table `client_products`
+--
+ALTER TABLE `client_products`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `client_uuid` (`client_uuid`);
 
 --
 -- Index pour la table `customers`
@@ -668,6 +936,22 @@ ALTER TABLE `immo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `livraisons_products`
+--
+ALTER TABLE `livraisons_products`
+  ADD PRIMARY KEY (`uuid`),
+  ADD UNIQUE KEY `reference` (`reference`),
+  ADD KEY `product_uuid` (`product_uuid`),
+  ADD KEY `delivery_man_id` (`delivery_man_id`);
+
+--
+-- Index pour la table `main_agencies`
+--
+ALTER TABLE `main_agencies`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `manager_uuid` (`manager_uuid`);
+
+--
 -- Index pour la table `motel`
 --
 ALTER TABLE `motel`
@@ -679,6 +963,15 @@ ALTER TABLE `motel`
 --
 ALTER TABLE `owner`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `packages`
+--
+ALTER TABLE `packages`
+  ADD PRIMARY KEY (`uuid`),
+  ADD KEY `main_agency_uuid` (`main_agency_uuid`),
+  ADD KEY `collected_by` (`collected_by`),
+  ADD KEY `delivery_by` (`delivery_by`);
 
 --
 -- Index pour la table `payment`
@@ -776,6 +1069,13 @@ ALTER TABLE `user_restaurant`
 --
 
 --
+-- Contraintes pour la table `agents_for_agency`
+--
+ALTER TABLE `agents_for_agency`
+  ADD CONSTRAINT `agents_for_agency_ibfk_1` FOREIGN KEY (`agency_uuid`) REFERENCES `main_agencies` (`uuid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `agents_for_agency_ibfk_2` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`);
+
+--
 -- Contraintes pour la table `chambres`
 --
 ALTER TABLE `chambres`
@@ -789,6 +1089,20 @@ ALTER TABLE `clients`
   ADD CONSTRAINT `clients_ibfk_2` FOREIGN KEY (`motel_id`) REFERENCES `motel` (`id`);
 
 --
+-- Contraintes pour la table `clients_abonnes`
+--
+ALTER TABLE `clients_abonnes`
+  ADD CONSTRAINT `clients_abonnes_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `client_products`
+--
+ALTER TABLE `client_products`
+  ADD CONSTRAINT `client_products_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `client_products_ibfk_2` FOREIGN KEY (`client_uuid`) REFERENCES `clients_abonnes` (`uuid`),
+  ADD CONSTRAINT `fk_client` FOREIGN KEY (`client_uuid`) REFERENCES `clients_abonnes` (`uuid`) ON DELETE CASCADE;
+
+--
 -- Contraintes pour la table `customers_dossiers`
 --
 ALTER TABLE `customers_dossiers`
@@ -799,6 +1113,28 @@ ALTER TABLE `customers_dossiers`
 --
 ALTER TABLE `finalisations_dossiers`
   ADD CONSTRAINT `finalisations_dossiers_ibfk_1` FOREIGN KEY (`dossier_uuid`) REFERENCES `customers_dossiers` (`uuid`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `livraisons_products`
+--
+ALTER TABLE `livraisons_products`
+  ADD CONSTRAINT `livraisons_products_ibfk_1` FOREIGN KEY (`product_uuid`) REFERENCES `client_products` (`uuid`),
+  ADD CONSTRAINT `livraisons_products_ibfk_2` FOREIGN KEY (`delivery_man_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `livraisons_products_ibfk_3` FOREIGN KEY (`delivery_man_id`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `main_agencies`
+--
+ALTER TABLE `main_agencies`
+  ADD CONSTRAINT `main_agencies_ibfk_1` FOREIGN KEY (`manager_uuid`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `packages`
+--
+ALTER TABLE `packages`
+  ADD CONSTRAINT `packages_ibfk_1` FOREIGN KEY (`main_agency_uuid`) REFERENCES `main_agencies` (`uuid`),
+  ADD CONSTRAINT `packages_ibfk_2` FOREIGN KEY (`collected_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `packages_ibfk_3` FOREIGN KEY (`delivery_by`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `payment`
