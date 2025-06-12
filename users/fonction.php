@@ -423,6 +423,91 @@ function generateDossierCode(): string {
     return $prefix . $dateTime . $randomDigits;
 }
 
+function get_my_agency($connexion, $user_id) {
+    $sql = "SELECT * FROM main_agencies 
+            WHERE manager_uuid = :user_id 
+            AND is_deleted = 0 
+            AND is_active = 1 
+            LIMIT 1";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+$agency = get_my_agency($connexion, $user_id);
+$agency_name = $agency ? $agency['name'] : "Non attribuée";
+$agency_uuid = $agency ? $agency["uuid"] :"Introuvable";
+
+function get_all_agents_for_my_agency($connexion, $user_id, $limit = 10, $page = 1) {
+    $offset = ($page - 1) * $limit;
+
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency['uuid'] ?? null;
+
+    if (!$agency_uuid) {
+        return [
+            'data' => [],
+            'total_pages' => 1,
+            'current_page' => $page
+        ];
+    }
+
+    $params = [
+        'agency_uuid' => $agency_uuid,
+        'user_id' => $user_id
+    ];
+
+    $count_stmt = $connexion->prepare("SELECT COUNT(*) FROM agents_for_agency WHERE agency_uuid = :agency_uuid AND added_by = :user_id AND is_deleted = 0");
+    $count_stmt->execute($params);
+    $total_agents = $count_stmt->fetchColumn();
+    $total_pages = max(1, ceil($total_agents / $limit));
+
+    $stmt = $connexion->prepare("SELECT * FROM agents_for_agency WHERE agency_uuid = :agency_uuid AND added_by = :user_id AND is_deleted = 0 ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
+    $stmt->bindValue(':agency_uuid', $agency_uuid);
+    $stmt->bindValue(':user_id', $user_id);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return [
+        'data' => $stmt->fetchAll(PDO::FETCH_ASSOC),
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
+
+function count_packages_for_my_agency($connexion, $user_id) {
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency['uuid'] ?? null;
+
+    if (!$agency_uuid) return 0;
+
+    $sql = "SELECT COUNT(*) FROM packages WHERE main_agency_uuid = :agency_uuid AND is_deleted = 0";
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':agency_uuid', $agency_uuid);
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+function get_packages_for_my_agencies($connexion, $user_id, $limit = 10, $page = 1) {
+    $offset = ($page - 1) * $limit;
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency['uuid'] ?? null;
+
+    if (!$agency_uuid) return [];
+
+    $sql = "SELECT * FROM packages 
+            WHERE main_agency_uuid = :agency_uuid 
+            AND is_deleted = 0 
+            ORDER BY created_at DESC 
+            LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindParam(':agency_uuid', $agency_uuid);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 ?>

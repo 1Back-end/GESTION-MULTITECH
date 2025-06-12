@@ -78,6 +78,7 @@ function getCurrentDateTime() {
     return date("d-m-Y H:i:s"); // Renvoie la date et l'heure actuelles au format "AAAA-MM-JJ HH:MM:SS"
 }
 
+
 //Fonction pour Generer le mois Actuel
 function moisActuelle(){
     $moisEnAnglais = date('F');
@@ -108,6 +109,7 @@ function validateEmail($email) {
     // Utiliser filter_var avec FILTER_VALIDATE_EMAIL pour vérifier si l'email est valide
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
+
 function generateFourDigitCode() {
     $characters = '0123456789';
     $charactersLength = strlen($characters);
@@ -117,6 +119,8 @@ function generateFourDigitCode() {
     }
     return $randomCode;
 }
+
+
 
 function getCurrentPageName() {
     // Récupérer le nom du fichier PHP actuel sans extension
@@ -150,6 +154,10 @@ function ServicesChambres(){
     );
     return $servicesChambres;
 }
+
+
+
+
 
 include("../database/connexion.php"); 
 
@@ -1104,6 +1112,48 @@ function get_active_agency($connexion) {
     $stmt = $connexion->prepare('SELECT uuid, name FROM main_agencies WHERE is_active = 1 AND is_deleted = 0');
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_all_agents_and_agency(PDO $connexion, int $page = 1, int $limit = 25): array {
+    $offset = ($page - 1) * $limit;
+
+    // Compter le total pour la pagination
+    $countStmt = $connexion->query("SELECT COUNT(*) FROM agents_for_agency WHERE is_deleted = 0");
+    $total = $countStmt->fetchColumn();
+    $total_pages = ceil($total / $limit);
+
+    // Requête avec jointures
+    $stmt = $connexion->prepare("
+        SELECT 
+            a.uuid,
+            a.fullname,
+            a.is_active,
+            a.email,
+            a.phone,
+            a.address,
+            a.photo,
+            a.position,
+            a.created_at,
+            u.first_name,
+            u.last_name,
+            m.name AS agency_name
+        FROM agents_for_agency a
+        LEFT JOIN users u ON u.id = a.added_by
+        LEFT JOIN main_agencies m ON m.uuid = a.agency_uuid
+        WHERE a.is_deleted = 0
+        ORDER BY a.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+    'data' => $agents,
+    'total_pages' => $total_pages,
+    'current_page' => $page
+    ];
 }
 
 

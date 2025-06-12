@@ -75,133 +75,146 @@
 			</div>
 		</div>
         <?php include("../authentification/info_access.php");?>
-		<div class="menu-block customscroll">
+
+
+
+			<div class="menu-block customscroll">
 			<div class="sidebar-menu">
-			<ul  id="accordion-menu">
-            <?php if ($IsGestionnaireMotelRestaurant) :?>
-				<li>
+				<ul id="accordion-menu">
+
+				<?php if ($IsGestionnaireMotelRestaurant): ?>
+					<li>
 					<a href="../users/dashboard.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
 					</a>
-				</li>
+					</li>
 
-                <li>
+					<li>
 					<a href="../users/sieste_motel.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-bed"></span><span class="mtext">Sieste Motel</span>
 					</a>
-				</li>
+					</li>
 
-				<li>
+					<li>
 					<a href="../users/nuitee_motel.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-moon"></span><span class="mtext">Nuitée Motel</span>
 					</a>
-				</li>
-				<li>
+					</li>
+
+					<li>
 					<a href="../users/liste_restaurant.php" class="dropdown-toggle no-arrow">
-						<span class="micon fas fa-utensils"></span>
-						<span class="mtext">Restaurant</span>
+						<span class="micon fas fa-utensils"></span><span class="mtext">Restaurant</span>
 					</a>
-				</li>
+					</li>
 
-
-				<?php elseif ($IsGestionnaireIMMO) :?>
+				<?php elseif ($IsGestionnaireIMMO): ?>
 					<li>
 					<a href="#" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
 					</a>
-				</li>
+					</li>
 
-				<li class="dropdown">
+					<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
-						<span class="micon fa fa-home"></span>
-						<span class="mtext">IMMO</span>
+						<span class="micon fa fa-home"></span><span class="mtext">IMMO</span>
 					</a>
 					<ul class="submenu">
 						<li><a href="../users/liste_proprietaires.php">Propriétaires</a></li>
 						<li><a href="../users/ouvertures_dossiers.php">Ouvertures dossiers</a></li>
 					</ul>
-				</li>
-				
-                <?php elseif  ($IsSuperAdmin) : ?>
-                <li class="dropdown">
-                <li>
+					</li>
+
+				<?php elseif ($IsChefAgence): ?>
+
+					<li>
+					<a href="../users/dashboard.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
+					</a>
+					</li>
+
+
+					<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon fa fa-cog"></span><span class="mtext">Service de livraisons</span>
+					</a>
+					<ul class="submenu">
+						<!-- <li><a href="../users/abonnement_clients.php">Abonnement clients</a></li>
+						<li><a href="../users/liste_produits_clients.php">Liste des produits clients</a></li> -->
+						<!-- <li><a href="../users/liste_livraisons_products.php">Liste des livraisons clients</a></li> -->
+						<li><a href="../users/gestion_agencies.php">Gestion de mon agence</a></li>
+						<li><a href="../users/package_agencies.php">Gestion des livraisons mon agence</a></li>
+					</ul>
+					</li>
+
+				<?php elseif ($IsSuperAdmin): ?>
+					<li>
 					<a href="../admin/dashboard.php" class="dropdown-toggle no-arrow">
 						<span class="micon fas fa-tachometer-alt"></span><span class="mtext">Tableau de bord</span>
 					</a>
-				</li>
-                <li>
-                <a href="javascript:;" class="dropdown-toggle">
-                    <span class="micon fa fa-lock"></span><span class="mtext">Administrations</span>
-                </a>
-                <ul class="submenu">
-                    <li><a href="../admin/liste_motels.php">Motels</a></li>
-                    <li><a href="../admin/liste_restaurant.php">Restaurants</a></li>
-                    <li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
-                    <li><a href="../admin/affectation_restaurants.php">Affection Restaurant</a></li>
-					<li><a href="../admin/list_client.php">Liste des clients</a></li>
-                </ul>
-                 </li>
+					</li>
 
-                
-
-                <li>
-                    <a href="../admin/utilisateurs.php" class="dropdown-toggle no-arrow">
-                        <span class="micon fas fa-users"></span><span class="mtext">Utilisateurs</span>
-                    </a>
-                </li>
-
-				
-
-				<li class="dropdown">
+					<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
-						<span class="micon fa fa-home"></span>
-						<span class="mtext">IMMO</span>
+						<span class="micon fa fa-lock"></span><span class="mtext">Administrations</span>
+					</a>
+					<ul class="submenu">
+						<li><a href="../admin/liste_motels.php">Motels</a></li>
+						<li><a href="../admin/liste_restaurant.php">Restaurants</a></li>
+						<li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
+						<li><a href="../admin/affectation_restaurants.php">Affectation Restaurant</a></li>
+						<li><a href="../admin/list_client.php">Liste des clients</a></li>
+					</ul>
+					</li>
+
+					<li>
+					<a href="../admin/utilisateurs.php" class="dropdown-toggle no-arrow">
+						<span class="micon fas fa-users"></span><span class="mtext">Utilisateurs</span>
+					</a>
+					</li>
+
+					<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon fa fa-home"></span><span class="mtext">IMMO</span>
 					</a>
 					<ul class="submenu">
 						<li><a href="../admin/liste_proprietaires.php">Propriétaires</a></li>
 						<li><a href="../admin/ouvertures_dossiers.php">Ouvertures dossiers</a></li>
-						
 					</ul>
-				</li>
+					</li>
 
-
-				
-
-				<li class="dropdown">
+					<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon fa fa-cog"></span><span class="mtext">Paramètres</span>
 					</a>
 					<ul class="submenu">
 						<li><a href="../admin/menu.php">Menu</a></li>
 					</ul>
-				</li>
+					</li>
 
-
-				<li class="dropdown">
+					<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon fa fa-cog"></span><span class="mtext">Service de livraisons</span>
 					</a>
-
 					<ul class="submenu">
 						<li><a href="../admin/abonnement_clients.php">Abonnement clients</a></li>
 						<li><a href="../admin/liste_produits_clients.php">Liste des produits clients</a></li>
 						<li><a href="../admin/liste_livraisons_products.php">Liste des livraisons clients</a></li>
 						<li><a href="../admin/list_of_agencies.php">Liste des agences</a></li>
-						<li><a href="../admin/menu.php">Liste des livraisons agences</a></li>
+						<li><a href="../admin/menu.php">Liste des livraisons</a></li>
+						<li><a href="../admin/list__of_agents.php">Liste des agents</a></li>
 					</ul>
-				</li>
+					</li>
 
+				<?php endif; ?>
 
-                <?php endif;?>
-				
-			</ul>
+				</ul>
 			</div>
-		</div>
-	</div>
-	</div>
-	</div>
+			</div>
+			</div>
+			</div>
+			</div>
 
-	</div>
+			</div>
 	<!-- js -->
 	<!-- js -->
 	<script src="../vendors/scripts/core.js"></script>

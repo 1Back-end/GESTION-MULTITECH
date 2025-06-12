@@ -33,7 +33,7 @@ $current_page = $result['current_page'];
 <div class="col-lg-12 col-sm-12 mb-3">
     <div class="card shadow border-0 rounded-0 p-3">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center">
+            <table class="table table-bordered table-striped text-center" id="example" class="display">
                 <thead class="thead-dark">
                     <tr>
                         <th>#</th>
@@ -45,7 +45,7 @@ $current_page = $result['current_page'];
                         <th>Forfait</th>
                         <th>Statut</th>
                         <th>Créer le</th>
-                        <th>Mise à jour le</th>
+                        
                         <th>Produits</th>
                         <th>Actions</th>
                     </tr>
@@ -78,7 +78,7 @@ $current_page = $result['current_page'];
                                     <?php endif; ?>
                                 </td>
                                     <td><?= date('d/m/Y H:i:s', strtotime($clients_abonne['created_at'])) ?></td>
-                                    <td><?= date('d/m/Y H:i:s', strtotime($clients_abonne['updated_at'] || 'Non spécifié')) ?></td>
+                                   
                                    <?php
                                     $stock = intval($clients_abonne['stock_total']);
                                     $badgeClass = $stock > 0 ? 'bg-success border-0 rounded-0 text-white' : 'bg-danger border-0 rounded-0 text-white';
@@ -86,7 +86,7 @@ $current_page = $result['current_page'];
                                     <td>
                                     <span class="badge <?= $badgeClass ?>"><?= $stock ?> en stock</span>
                                     </td>
-                                <td>
+                                    <td>
                                         <div class="dropdown">
                                             <button class="btn btn-outline-secondary rounded-0 btn-xs btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Actions
@@ -146,7 +146,7 @@ $current_page = $result['current_page'];
                 </tbody>
             </table>
         </div>
-        <nav>
+        <!-- <nav>
                 <ul class="pagination">
                     <?php for ($p = 1; $p <= $total_pages; $p++): ?>
                         <li class="page-item me-2 <?= $p == $current_page ? 'active' : '' ?>">
@@ -154,6 +154,6 @@ $current_page = $result['current_page'];
                         </li>
                     <?php endfor; ?>
                 </ul>
-            </nav>
+            </nav> -->
     </div>
 </div>

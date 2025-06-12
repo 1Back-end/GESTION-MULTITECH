@@ -28,9 +28,9 @@ $currentPage = $pagination['current_page'];
 
 <div class="col-lg-12 col-sm-12 mb-3">
 <div class="card shadow p-3 mt-4 rounded-0 border-0">
-    <h5 class="mb-3">📦 Liste des livraisons</h5>
+    <h5 class="mb-3 text-uppercase fw-bold">Liste des livraisons</h5>
     <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle">
+        <table class="table table-bordered table-striped align-middle" id="example" class="display">
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
@@ -98,10 +98,10 @@ $currentPage = $pagination['current_page'];
                            <td class="d-flex gap-2">
                                 <?php if ($liv['status'] === 'En cours'): ?>
                                     <a href="close_livraison.php?uuid=<?= htmlspecialchars($liv['uuid']) ?>" class="btn btn-success btn-sm border-0 rounded-0 shadow-none mx-2" title="Finaliser">
-                                        <i class="fas fa-check"></i> Finaliser
+                                        Finaliser
                                     </a>
                                     <a href="process_annuler_livraison.php?uuid=<?= htmlspecialchars($liv['uuid']) ?>" class="btn btn-danger btn-sm border-0 rounded-0 shadow-none mx-2" title="Annuler">
-                                        <i class="fas fa-times"></i> Annuler
+                                        Annuler
                                     </a>
                                 <?php elseif ($liv['status'] === 'Livré'): ?>
                                     <span class="btn btn-info rounded-0 shadow-none btn-sm border-0 rounded-0 disabled btn-xs">
@@ -126,7 +126,7 @@ $currentPage = $pagination['current_page'];
     </div>
 
     <!-- Pagination Bootstrap -->
-    <nav class="mt-3">
+    <!-- <nav class="mt-3">
         <ul class="pagination justify-content-center">
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
@@ -134,7 +134,7 @@ $currentPage = $pagination['current_page'];
                 </li>
             <?php endfor; ?>
         </ul>
-    </nav>
+    </nav> -->
 </div>
 
 </div>

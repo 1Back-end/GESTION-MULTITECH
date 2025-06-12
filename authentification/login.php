@@ -36,7 +36,7 @@
 
 								<div class="form-group">
 									<label for="password">Mot de passe
-										<a href="forgot.php" class="float-right text-decoration-none">
+										<a href="forgot_password.php" class="float-right text-decoration-none">
 											Mot de passe oublié ?
 										</a>
 									</label>

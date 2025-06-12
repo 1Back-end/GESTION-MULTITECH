@@ -22,7 +22,7 @@ $current_page = $result['current_page'];
     <div class="col-md-12 col-sm-12 mb-3">
         <div class="card shadow border-0 rounded-0 p-3">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped align-middle">
+                <table class="table table-bordered table-striped align-middle" id="example" class="display">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -95,7 +95,7 @@ $current_page = $result['current_page'];
             </div>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
+            <!-- <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                         <li class="page-item <?= ($i === $current_page) ? 'active' : '' ?>">
@@ -103,7 +103,7 @@ $current_page = $result['current_page'];
                         </li>
                     <?php endfor; ?>
                 </ul>
-            </nav>
+            </nav> -->
         </div>
     </div>
 </div>
