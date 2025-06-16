@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css">
+    
 
 </head>
 <body>
@@ -51,7 +52,7 @@ $agencies = get_active_agency($connexion);
                 Veuillez remplir ces champs pour effectuer l'envoi de votre colis
             </p>
 
-            <form class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
+            <form id="myForm" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
 
                 <!-- Infos Expéditeur -->
                 <h6 class="text-primary fs-6 mb-3">Vos informations personnelles</h6>
@@ -159,7 +160,7 @@ $agencies = get_active_agency($connexion);
                         Annuler
                     </a>
                     
-                    <button type="submit" name="submit" class="btn btn-primary border-0 rounded-0">Envoyer le colis</button>
+                    <button id="submitBtn" disabled type="submit" name="submit" class="btn btn-primary border-0 rounded-0">Envoyer le colis</button>
              </div>
 
 
@@ -168,6 +169,21 @@ $agencies = get_active_agency($connexion);
     </div>
 </div>
 
+<script>
+  const form = document.getElementById('myForm');
+  const inputs = form.querySelectorAll('input[required]');
+  const button = document.getElementById('submitBtn');
+
+  form.addEventListener('input', () => {
+    let allFilled = true;
+    inputs.forEach(input => {
+      if (!input.value.trim()) {
+        allFilled = false;
+      }
+    });
+    button.disabled = !allFilled;
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 

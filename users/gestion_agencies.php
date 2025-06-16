@@ -103,18 +103,18 @@ $current_page = $results['current_page'];
 
                                 <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary rounded-0 btn-xs btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="dropdownMenuButton">
+                                           <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+												<i class="dw dw-more"></i>
+											</a>
+                                            <div class="dropdown-menu dropdown-menu-center dropdown-menu-icon-list">
                                                 <li>
                                                     <?php if ($agent['is_active']): ?>
                                                         <a class="dropdown-item text-danger fs-6" href="toggle_status_agent.php?action=disable&uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-toggle-off me-1"></i> Désactiver cet agent
+                                                            <i class="fa-solid fa-toggle-off me-1"></i> Désactiver
                                                         </a>
                                                     <?php else: ?>
                                                         <a class="dropdown-item text-success fs-6" href="toggle_status_agent.php?action=enable&uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-toggle-on me-1"></i> Activer cet agent
+                                                            <i class="fa-solid fa-toggle-on me-1"></i> Activer
                                                         </a>
                                                     <?php endif; ?>
                                                 </li>
@@ -122,20 +122,20 @@ $current_page = $results['current_page'];
                                                     
                                                     <li>
                                                         <a class="dropdown-item text-warning fs-6" href="edit_agents.php?uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-user-pen me-1"></i> Modifier cette agent
+                                                            <i class="fa-solid fa-user-pen me-1"></i> Modifier
                                                         </a>
                                                     </li>
                                                 <?php else: ?>
                                                     <li>
                                                         <a class="dropdown-item disabled text-muted fs-6" href="#" tabindex="-1" aria-disabled="true">
-                                                            <i class="fas fa-plus-circle me-2"></i> Aucune action (agent inactif)
+                                                            <i class="fas fa-plus-circle me-2"></i> Aucune action
                                                         </a>
                                                     </li>
                                                     
                                                 <?php endif; ?>
 
                                                
-                                            </ul>
+                                                </div>
                                         </div>
                                     </td>
 

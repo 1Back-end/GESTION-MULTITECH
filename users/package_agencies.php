@@ -20,7 +20,7 @@ $agency_name = $agency['name'] ?? 'Non défini';
         <div class="card shadow border-0 rounded-0 p-3">
             <div class="d-flex align-items-center justify-content-between">
                 <h5 class="text-uppercase">Liste des colis de l'agence <?= htmlspecialchars($agency_name) ?></h5>
-                <a href="add_abonnement_clients.php" class="btn btn-customize text-white text-uppercase border-0 rounded-0">
+                <a href="add_package.php" class="btn btn-customize text-white text-uppercase border-0 rounded-0">
                     <i class="fa fa-plus"></i> Ajouter
                 </a>
             </div>
@@ -39,9 +39,10 @@ $agency_name = $agency['name'] ?? 'Non défini';
                         <th>Code</th>
                         <th>Expéditeur</th>
                         <th>Destinataire</th>
-                        <th>Adresse Livraison</th>
+                        <th>Adresse</th>
                         <th>Statut</th>
                         <th>Créer le</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,11 +64,18 @@ $agency_name = $agency['name'] ?? 'Non défini';
                                    <span> <?= htmlspecialchars($package['sender_name']) ?></span>
                                    <br><small class="fs-5"><?= htmlspecialchars($package['sender_phone']) ?></small>
                                    <br><small class="fs-5"><?= htmlspecialchars($package['sender_address']) ?>
+                                    <?php if (!empty($package['sender_cni'])): ?>
+                                        <br><small class="fs-5"><?= htmlspecialchars($package['sender_cni']) ?></small>
+                                    <?php endif; ?>
+
                                 </td>
                                 <td>
                                     <?= htmlspecialchars($package['recipient_name']) ?>
                                     <br><small class="fs-5"><?= htmlspecialchars($package['recipient_phone']) ?></small>
-                                    <br><small class="fs-5"><?= htmlspecialchars($package['recipient_address']) ?></small>
+                                    <?php if (!empty($package['recipient_cni'])): ?>
+                                        <br><small class="fs-5"><?= htmlspecialchars($package['recipient_cni']) ?></small>
+                                    <?php endif; ?>
+
                                 </td>
                                 
                                  <td>
@@ -85,10 +93,10 @@ $agency_name = $agency['name'] ?? 'Non défini';
                                         $status = $package['status'];
                                         switch ($status) {
                                             case 'en attente':
-                                                $badgeClass = 'badge bg-warning text-white border-0 rounded-0';
+                                                $badgeClass = 'badge bg-warning text-white border-0 rounded-0 ';
                                                 break;
                                             case 'en transit':
-                                                $badgeClass = 'badge bg-primary border-0 rounded-0';
+                                                $badgeClass = 'badge bg-primary border-0 rounded-0 text-white';
                                                 break;
                                             case 'livré':
                                                 $badgeClass = 'badge bg-success border-0 rounded-0';
@@ -104,6 +112,63 @@ $agency_name = $agency['name'] ?? 'Non défini';
                                 </td>
 
                                 <td><?= date('d/m/Y H:i:s', strtotime($package['created_at'])) ?></td>
+
+                                 
+                                    <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                            <i class="dw dw-more"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-center dropdown-menu-icon-list border-0 rounded-0">
+                                            <!-- Toujours visible -->
+                                            <li>
+                                                <a href="package_info.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-info fs-6">
+                                                    <i class="fa-solid fa-circle-info"></i> Voir les détails du colis
+                                                </a>
+                                            </li>
+
+                                            <?php if ($package['status'] === 'en attente'): ?>
+                                                <li>
+                                                    <a href="collect_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" 
+                                                    class="dropdown-item text-warning fs-6 d-flex align-items-center gap-2">
+                                                        <div class="spinner-grow fs-5 spinner-grow-sm text-warning" role="status" aria-hidden="true"></div>
+                                                        <span>En attente de ramassage...</span>
+                                                    </a>
+                                                </li>
+
+
+                                            <?php elseif ($package['status'] === 'en transit'): ?>
+                                                
+                                                <li>
+                                                    <a href="delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" 
+                                                    class="dropdown-item text-success fs-6 d-flex align-items-center gap-2">
+                                                        <div class="spinner-grow fs-5 spinner-grow-sm text-success fs-5" role="status" aria-hidden="true"></div>
+                                                        <span>En attente de Livraison du colis...</span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="cancel_delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-danger fs-6">
+                                                        <i class="fa-solid fa-ban"></i> Annuler le livraison
+                                                    </a>
+                                                </li>
+
+                                            <?php elseif ($package['status'] === 'livré'): ?>
+                                                <li>
+                                                    <a href="ticket_delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-warning fs-6">
+                                                        <i class="fa-solid fa-ticket"></i> Imprimer le ticket de livraison
+                                                    </a>
+                                                </li>
+
+                                            <?php elseif ($package['status'] === 'annulé'): ?>
+                                                <li class="dropdown-item text-danger fs-6">
+                                                    <i class="fa-solid fa-times-circle"></i> Colis annulé
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </td>
+
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

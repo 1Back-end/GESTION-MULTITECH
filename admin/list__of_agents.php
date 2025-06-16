@@ -46,9 +46,9 @@ $currentPage = $pagination['current_page'];
                             <td><?= $i++ ?></td>
                             <td>
                                 <?php if (!empty($agent['photo'])): ?>
-                                    <img src="../uploads/agents/<?= htmlspecialchars($agent['photo']) ?>" width="60" height="60" class="img-thumbnail" />
+                                    <img src="../uploads/agents/<?= htmlspecialchars($agent['photo']) ?>" width="100" height="100" class="img-thumbnail" />
                                 <?php else: ?>
-                                    <img src="../vendors/images/agents_delivery.png" width="60" height="60" class="img-thumbnail" alt="">
+                                    <img src="../vendors/images/agents_delivery.png" width="100" height="100" class="img-thumbnail" alt="">
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($agent['fullname']) ?></td>

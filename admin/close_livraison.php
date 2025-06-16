@@ -20,7 +20,7 @@ if (!$livraison) {
 ?>
 
 <div class="main-container mt-5">
-     <div class="col-md-6 col-sm-12 mb-3 mx-auto">
+     <div class="col-md-4 col-sm-12 mb-3">
     <?php include("process_finaliser_livraison.php"); ?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0 rounded-0"><?= $erreur ?></div>
@@ -31,7 +31,7 @@ if (!$livraison) {
     <?php endif; ?>
 </div>
 
-    <div class="col-lg-6 col-sm-12 mx-auto">
+    <div class="col-lg-4 col-sm-12">
         <div class="card shadow border-0 rounded-0 p-3 py-3">
             
             <div class="mb-3">
@@ -47,7 +47,7 @@ if (!$livraison) {
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Montant à verser</label>
-                    <input type="number" class="form-control shadow-none" id="price" name="price_delivery_exactly" required min="0" step="0.01">
+                    <input type="number" class="form-control shadow-none" id="price" name="price_delivery_exactly" required min="0" step="0.01" required>
                     <div class="invalid-feedback">
                         Veuillez saisir un montant valide.
                     </div>
@@ -66,4 +66,28 @@ if (!$livraison) {
         </div>
     </div>
 </div>
+<script>
+    
 
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
+
+</script>

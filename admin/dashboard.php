@@ -163,7 +163,7 @@ $usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
     <div class="card shadow border-0 p-3">
         <p class="text-muted">Statistiques d'ouvertures des dossiers par gestionnaires</p> 
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover text-center" id="example" class="display">
+            <table class="table table-striped table-bordered table-hover text-center hover nowrap data-table" id="example">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -218,6 +218,45 @@ $usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
             </table>
         </div>
     </div>
+</div>
+
+
+<div class="col-lg-12 col-sm-12 mb-3">
+    <div class="row">
+				<div class="col-lg-4 col-md-6 col-sm-12 mb-30">
+					<div class="card shadow border-0 p-3">
+						<h5 class="mb-30">Statistiques des agences</h5>
+						<div class="browser-visits">
+							<ul>
+								<li class="d-flex flex-wrap align-items-center">
+									<div class="icon"><img src="vendors/images/chrome.png" alt=""></div>
+									<div class="browser-name">Google Chrome</div>
+									<div class="visit"><span class="badge badge-pill badge-primary">50%</span></div>
+								</li>
+								<li class="d-flex flex-wrap align-items-center">
+									<div class="icon"><img src="vendors/images/firefox.png" alt=""></div>
+									<div class="browser-name">Mozilla Firefox</div>
+									<div class="visit"><span class="badge badge-pill badge-secondary">40%</span></div>
+								</li>
+								<li class="d-flex flex-wrap align-items-center">
+									<div class="icon"><img src="vendors/images/safari.png" alt=""></div>
+									<div class="browser-name">Safari</div>
+									<div class="visit"><span class="badge badge-pill badge-success">40%</span></div>
+								</li>
+								<li class="d-flex flex-wrap align-items-center">
+									<div class="icon"><img src="vendors/images/edge.png" alt=""></div>
+									<div class="browser-name">Microsoft Edge</div>
+									<div class="visit"><span class="badge badge-pill badge-warning">20%</span></div>
+								</li>
+								<li class="d-flex flex-wrap align-items-center">
+									<div class="icon"><img src="vendors/images/opera.png" alt=""></div>
+									<div class="browser-name">Opera Mini</div>
+									<div class="visit"><span class="badge badge-pill badge-info">20%</span></div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
 </div>
 
 

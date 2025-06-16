@@ -437,6 +437,45 @@ $agency = get_my_agency($connexion, $user_id);
 $agency_name = $agency ? $agency['name'] : "Non attribuée";
 $agency_uuid = $agency ? $agency["uuid"] :"Introuvable";
 
+
+function get_agents_for_my_agency($connexion, $user_id) {
+    // Récupère l'agence du manager
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency ? $agency['uuid'] : null;
+
+    if (!$agency_uuid) return [];
+
+    $sql = "SELECT * FROM agents_for_agency 
+            WHERE agency_uuid = :agency_uuid 
+            AND position = 'Livreur'
+            AND is_deleted = 0 
+            ORDER BY fullname ASC";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['agency_uuid' => $agency_uuid]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+function get_ramasseur_for_my_agency($connexion, $user_id) {
+    // Récupère l'agence du manager
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency ? $agency['uuid'] : null;
+
+    if (!$agency_uuid) return [];
+
+    $sql = "SELECT * FROM agents_for_agency 
+            WHERE agency_uuid = :agency_uuid 
+            AND position = 'Ramasseur'
+            AND is_deleted = 0 
+            ORDER BY fullname ASC";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['agency_uuid' => $agency_uuid]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 function get_all_agents_for_my_agency($connexion, $user_id, $limit = 10, $page = 1) {
     $offset = ($page - 1) * $limit;
 
@@ -509,6 +548,11 @@ function get_packages_for_my_agencies($connexion, $user_id, $limit = 10, $page =
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function generate_package_code(){
+    $date = date("Ymd");
+    $random = strtoupper(substr(md5(uniqid()), 0, 6));
+    return "COLIS-$date-$random"; // ex: LIVR-20250609-7F3C1A
+}
 
 ?>
 

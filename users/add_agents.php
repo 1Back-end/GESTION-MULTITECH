@@ -16,7 +16,7 @@ include("fonction.php");
 <div class="col-lg-12 col-sm-12 mb-3">
     <div class="card shadow border-0 p-3">
         <div class="mb-3 text-center">
-            <h5 class="text-uppercase">Ajouter un agent dans l'agence <?= htmlspecialchars($agency_name) ?></h5>
+            <h5 class="text-uppercase">Ajouter un agent de livraison ou de ramassage dans l'<?= htmlspecialchars($agency_name) ?></h5>
            
         </div>
         <hr>
@@ -76,7 +76,7 @@ include("fonction.php");
                     <div class="col-lg-4 col-sm-12 mb-3">
                         <label for="">Role <span class="text-danger">*</span></label>
                         <select name="position" id="position" required class="shadow-none form-control select-custom">
-                                <option disabled selected>Veuillez choisir une option</option>
+                                <option value="">Veuillez choisir une option</option>
                                <option>Livreur</option>
                                <option>Ramasseur</option>
                                

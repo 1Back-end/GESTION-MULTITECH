@@ -16,7 +16,10 @@
 	<link rel="stylesheet" type="text/css" href="../vendors/styles/main.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<!-- DataTables CSS -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> -->
+
+	<link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">
 
 	
 </head>
@@ -163,6 +166,7 @@
 						<li><a href="../admin/affectation_motels.php">Affectation Motels</a></li>
 						<li><a href="../admin/affectation_restaurants.php">Affectation Restaurant</a></li>
 						<li><a href="../admin/list_client.php">Liste des clients</a></li>
+						
 					</ul>
 					</li>
 
@@ -202,19 +206,22 @@
 						<li><a href="../admin/list_of_agencies.php">Liste des agences</a></li>
 						<li><a href="../admin/menu.php">Liste des livraisons</a></li>
 						<li><a href="../admin/list__of_agents.php">Liste des agents</a></li>
+						<li><a href="../admin/notifications.php">liste des messages</a></li>
 					</ul>
 					</li>
 
 				<?php endif; ?>
 
 				</ul>
-			</div>
-			</div>
-			</div>
-			</div>
-			</div>
+				</div>
+				</div>
+				</div>
+				</div>
 
-			</div>
+				</div>
+
+				</div>
+			
 	<!-- js -->
 	<!-- js -->
 	<script src="../vendors/scripts/core.js"></script>
@@ -223,7 +230,11 @@
 	<script src="../vendors/scripts/layout-settings.js"></script>
 	<script src="../vendors/scripts/dashboard.js"></script>
 	<script src="../vendors/scripts/main.js"></script>
+	<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+	<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+	<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 	<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
 </body>
 </html>

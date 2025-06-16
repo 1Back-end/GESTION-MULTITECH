@@ -33,13 +33,13 @@ $current_page = $result['current_page'];
 <div class="col-lg-12 col-sm-12 mb-3">
     <div class="card shadow border-0 rounded-0 p-3">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center" id="example" class="display">
+            <table class="table table-striped table-bordered table-hover text-center hover nowrap data-table" id="example">
                 <thead class="thead-dark">
                     <tr>
                         <th>#</th>
                         <th>Nom complet</th>
                         <th>Adresse</th>
-                        <th>Numéro Téléphone</th>
+                        <th>N° Téléphone</th>
                         <th>Email</th>
                         <th>CNI</th>
                         <th>Forfait</th>
@@ -88,10 +88,10 @@ $current_page = $result['current_page'];
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary rounded-0 btn-xs btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="dropdownMenuButton">
+                                           <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+												<i class="dw dw-more"></i>
+											</a>
+                                            <div class="dropdown-menu dropdown-menu-center dropdown-menu-icon-list">
                                                 <li>
                                                     <?php if ($clients_abonne['is_active']): ?>
                                                         <a class="dropdown-item text-danger fs-6" href="toggle_status_client.php?action=disable&uuid=<?= $clients_abonne['uuid'] ?>">
@@ -132,7 +132,7 @@ $current_page = $result['current_page'];
                                                         <i class="fa-solid fa-trash me-1"></i> Supprimer ce client
                                                     </a>
                                                 </li>
-                                            </ul>
+                                                </div>
                                         </div>
                                     </td>
 

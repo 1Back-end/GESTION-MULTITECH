@@ -282,6 +282,18 @@ textarea.form-control {
   }
 }
 
+.custom-select{
+  font-family: "Rubik", system-ui;
+  color: #131e22;
+  font-weight: 400;
+  height: 45px;
+  border-color: #d4d4d4;
+  letter-spacing: .035em;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+/* 
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
@@ -312,4 +324,4 @@ textarea.form-control {
   height: auto;
   font-size: 20px;
   font-weight: bold;
-}
+} */

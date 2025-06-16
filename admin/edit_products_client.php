@@ -114,7 +114,7 @@ if (!$product) {
                         <label for="product_image" class="form-label">Image du produit (optionnelle)</label>
                         <input type="file" name="product_image" id="product_image" accept="image/*" class="form-control">
                         <?php if (!empty($product['product_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($product['product_image']) ?>" alt="Image produit" class="img-thumbnail mt-2" style="max-width: 150px;">
+                            <img src="../uploads/products/<?= htmlspecialchars($product['product_image']) ?>" alt="Image produit" class="img-thumbnail mt-2" style="max-width: 150px;">
                         <?php endif; ?>
                     </div>
                 </div>
