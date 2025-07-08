@@ -87,34 +87,29 @@ $agency_name = $agency['name'] ?? 'Non défini';
                                         <small>Livraison à domicile</small> <span class="badge bg-danger border-0 rounded-0 text-white">Non</span>
                                     <?php endif; ?>
                                 </td>
-                                
+
+
                                 <td>
-                                    <?php
-                                        $status = $package['status'];
-                                        switch ($status) {
-                                            case 'en attente':
-                                                $badgeClass = 'badge bg-warning text-white border-0 rounded-0 ';
-                                                break;
-                                            case 'en transit':
-                                                $badgeClass = 'badge bg-primary border-0 rounded-0 text-white';
-                                                break;
-                                            case 'livré':
-                                                $badgeClass = 'badge bg-success border-0 rounded-0';
-                                                break;
-                                            case 'annulé':
-                                                $badgeClass = 'badge bg-danger border-0 rounded-0';
-                                                break;
-                                            default:
-                                                $badgeClass = 'badge bg-secondary border-0 rounded-0';
-                                        }
-                                    ?>
-                                    <span class="<?= $badgeClass ?>"><?= htmlspecialchars($status) ?></span>
-                                </td>
+                                <?php if ($package['status'] == 'en attente'): ?>
+                                    <span class="badge bg-warning border-0 rounded-0 text-white">En attente</span>
+                                <?php elseif ($package['status'] == 'en transit'): ?>
+                                    <span class="badge bg-primary border-0 rounded-0 text-white">En transit</span>
+                                <?php elseif ($package['status'] == 'livré'): ?>
+                                    
+                                    <span class="badge bg-success border-0 rounded-0 text-white">Livré</span>
+                                <?php elseif ($package['status'] == 'annulé'): ?>
+                                    
+                                    <span class="badge bg-danger border-0 rounded-0 text-white">Annulé</span>
+                                <?php else: ?>
+                                    
+                                    <span class="badge bg-secondary border-0 rounded-0 text-white">Inconnu</span>
+                                <?php endif; ?>
+                            </td>
 
                                 <td><?= date('d/m/Y H:i:s', strtotime($package['created_at'])) ?></td>
 
                                  
-                                    <td>
+                                <td>
                                     <div class="dropdown">
                                         <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                             <i class="dw dw-more"></i>
@@ -136,33 +131,28 @@ $agency_name = $agency['name'] ?? 'Non défini';
                                                     </a>
                                                 </li>
 
-
                                             <?php elseif ($package['status'] === 'en transit'): ?>
-                                                
                                                 <li>
                                                     <a href="delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" 
                                                     class="dropdown-item text-success fs-6 d-flex align-items-center gap-2">
-                                                        <div class="spinner-grow fs-5 spinner-grow-sm text-success fs-5" role="status" aria-hidden="true"></div>
+                                                        <div class="spinner-grow fs-5 spinner-grow-sm text-success" role="status" aria-hidden="true"></div>
                                                         <span>En attente de Livraison du colis...</span>
                                                     </a>
                                                 </li>
 
-                                                <li>
-                                                    <a href="cancel_delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-danger fs-6">
-                                                        <i class="fa-solid fa-ban"></i> Annuler le livraison
-                                                    </a>
-                                                </li>
-
-                                            <?php elseif ($package['status'] === 'livré'): ?>
-                                                <li>
-                                                    <a href="ticket_delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-warning fs-6">
-                                                        <i class="fa-solid fa-ticket"></i> Imprimer le ticket de livraison
-                                                    </a>
-                                                </li>
-
+                                            
                                             <?php elseif ($package['status'] === 'annulé'): ?>
                                                 <li class="dropdown-item text-danger fs-6">
-                                                    <i class="fa-solid fa-times-circle"></i> Colis annulé
+                                                    <i class="fa-solid fa-times-circle"></i> Livraison du colis annulé
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <!-- Bouton d'annulation commun à "en attente" et "en transit" uniquement -->
+                                            <?php if (in_array($package['status'], ['en transit'])): ?>
+                                                <li>
+                                                    <a href="cancel_delivery_package.php?uuid=<?= htmlspecialchars($package['uuid']) ?>" class="dropdown-item text-danger fs-6">
+                                                        <i class="fa-solid fa-ban"></i> Annuler la livraison
+                                                    </a>
                                                 </li>
                                             <?php endif; ?>
                                         </div>

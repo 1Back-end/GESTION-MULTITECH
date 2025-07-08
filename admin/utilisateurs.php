@@ -61,7 +61,7 @@ $users = get_all_users($connexion, $page, $limit);
 <div class="col-md-12 col-sm-12 mb-3">
     <div class="card-box p-3">
         <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center">
+            <table class="table table-striped table-bordered text-center" id="example">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -86,26 +86,26 @@ $users = get_all_users($connexion, $page, $limit);
                                 <!-- Badge pour le rôle -->
                                 <td>
                                     <?php if ($user['role'] == 'Gestionnaire Motel & Restaurant'): ?>
-                                        <span class="badge bg-success text-white">Gestionnaire Motel & Restaurant</span>
+                                        <span class="badge bg-success text-white border-0 rounded-0 px-2 py-2">Gestionnaire Motel & Restaurant</span>
                                     <?php elseif ($user['role'] == 'Gestionnaire IMMO'): ?>
-                                        <span class="badge bg-primary text-white">Gestionnaire IMMO</span>
+                                        <span class="badge bg-primary text-white border-0 rounded-0 px-2 py-2">Gestionnaire IMMO</span>
                                     <?php elseif ($user['role'] == 'Gestionnaire de livraison'): ?>
-                                        <span class="badge bg-warning text-white">Gestionnaire de livraison</span>
+                                        <span class="badge bg-warning text-white border-0 rounded-0 px-2 py-2">Gestionnaire de livraison</span>
                                     <?php elseif ($user['role'] == 'Gestionnaire de ramassage'): ?>
-                                        <span class="badge bg-info text-white">Gestionnaire de ramassage</span>
+                                        <span class="badge bg-info text-white border-0 rounded-0 px-2 py-2">Gestionnaire de ramassage</span>
                                     <?php elseif ($user['role'] == 'Chef d’agence'): ?>
-                                        <span class="badge bg-secondary text-white">Chef d'agence</span>
+                                        <span class="badge bg-secondary text-white border-0 rounded-0 px-2 py-2">Chef d'agence</span>
                                     <?php endif; ?>
                                 </td>
 
                                 <!-- Badge pour le statut -->
                                 <td>
                                     <?php if ($user['status'] == 'active'): ?>
-                                        <span class="badge bg-success text-white"><i class="fas fa-check-circle"></i> Actif</span>
+                                        <span class="badge bg-success text-white border-0 rounded-0 px-2 py-2"><i class="fas fa-check-circle"></i> Actif</span>
                                     <?php elseif ($user['status'] == 'inactive'): ?>
-                                        <span class="badge bg-danger text-white"><i class="fas fa-exclamation-circle"></i> Inactif</span>
+                                        <span class="badge bg-danger text-white border-0 rounded-0 px-2 py-2"><i class="fas fa-exclamation-circle"></i> Inactif</span>
                                     <?php else: ?>
-                                        <span class="badge bg-danger"><i class="fas fa-ban"></i> Suspendu</span>
+                                        <span class="badge bg-danger border-0 rounded-0 px-2 py-2"><i class="fas fa-ban"></i> Suspendu</span>
                                     <?php endif; ?>
                                 </td>
 
@@ -170,7 +170,7 @@ $users = get_all_users($connexion, $page, $limit);
         </div>
         
         <!-- Pagination -->
-        <?php
+        <!-- <?php
         $stmt = $connexion->query("SELECT COUNT(*) FROM users WHERE is_deleted = 0");
         $total_users = $stmt->fetchColumn();
         $total_pages = ceil($total_users / $limit);
@@ -183,7 +183,7 @@ $users = get_all_users($connexion, $page, $limit);
                     </li>
                 <?php endfor; ?>
             </ul>
-        </nav>
+        </nav> -->
     </div>
 </div>
 

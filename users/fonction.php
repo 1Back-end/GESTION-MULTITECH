@@ -554,5 +554,38 @@ function generate_package_code(){
     return "COLIS-$date-$random"; // ex: LIVR-20250609-7F3C1A
 }
 
+
+function get_all_packages_and_statistics($connexion, $user_id, $limit = 10, $page = 1) {
+    $offset = ($page - 1) * $limit;
+
+    $agency = get_my_agency($connexion, $user_id);
+    $agency_uuid = $agency['uuid'] ?? null;
+
+    if (!$agency_uuid) return [];
+
+    $sql = "SELECT 
+                p.*,
+                a.fullname AS collected_by_name,
+                a.cni_number AS collected_cni_number,
+                a2.fullname AS delivery_by_name,
+                a2.cni_number AS delivery_cni_number
+            FROM packages p
+            LEFT JOIN agents_for_agency a ON p.collected_by = a.uuid
+            LEFT JOIN agents_for_agency a2 ON p.delivery_by = a2.uuid
+            WHERE p.main_agency_uuid = :agency_uuid
+              AND p.is_deleted = 0
+            ORDER BY p.created_at DESC
+            LIMIT :limit OFFSET :offset";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindValue(':agency_uuid', $agency_uuid);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 ?>
 

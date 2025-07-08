@@ -11,10 +11,8 @@ use PHPMailer\PHPMailer\Exception;
 
 $erreur = "";
 $success = "";
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Champs requis
     $required_fields = [
         'sender_name', 'sender_phone', 'sender_address',
         'recipient_name', 'recipient_phone', 'recipient_address',
@@ -29,8 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (!$erreur) {
-
-        // Données
         $uuid = generateUUID();
         $ref = generate_package_code();
         $sender_name = $_POST['sender_name'];
@@ -40,12 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recipient_phone = $_POST['recipient_phone'];
         $recipient_address = $_POST['recipient_address'];
         $home_delivery = isset($_POST['home_delivery']) ? 1 : 0;
+        $agency_delivery = isset($_POST['agency_delivery']) ? 1 : 0;
         $package_name = $_POST['package_name'];
         $package_type = $_POST['package_type'];
         $description = $_POST['description'];
         $main_agency_uuid = $_POST['main_agency_uuid'];
+        $sender_cni = $_POST['sender_cni'];
+        $recipient_cni = $_POST['recipient_cni'];
 
-        // 📦 Image du colis (facultative)
+        // Image (facultative)
         $imageName = null;
         if (!empty($_FILES['image_path']['name'])) {
             $allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -69,20 +68,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        // Si pas d’erreur à ce stade
+        // Génération du QR Code
         if (!$erreur) {
-            // 📎 Génération du QR Code
             $qr_content = "REF: $ref\n"
-            . "Nom de l’expéditeur: $sender_name\n"
-            . "Téléphone de l’expéditeur: $sender_phone\n"
-            . "Adresse de l’expéditeur: $sender_address\n"
-            . "Nom du destinataire: $recipient_name\n"
-            . "Téléphone du destinataire: $recipient_phone\n"
-            . "Adresse du destinataire: $recipient_address\n"
-            . "Nom du colis: $package_name\n"
-            . "Type de colis: $package_type\n"
-            . "Description: $description\n"
-            . "Livraison à domicile: " . ($home_delivery ? 'Oui' : 'Non');
+                . "Nom de l’expéditeur: $sender_name\n"
+                . "Téléphone de l’expéditeur: $sender_phone\n"
+                . "Adresse de l’expéditeur: $sender_address\n"
+                . "Nom du destinataire: $recipient_name\n"
+                . "Téléphone du destinataire: $recipient_phone\n"
+                . "Adresse du destinataire: $recipient_address\n"
+                . "Nom du colis: $package_name\n"
+                . "Type de colis: $package_type\n"
+                . "Description: $description\n"
+                . "Livraison à domicile: " . ($home_delivery ? 'Oui' : 'Non') . "\n"
+                . "Livraison à l'agence: " . ($agency_delivery ? 'Oui' : 'Non');
 
             $qr_dir = "../uploads/qrcodes/";
             if (!is_dir($qr_dir)) mkdir($qr_dir, 0755, true);
@@ -98,16 +97,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             (new QRCode($options))->render($qr_content, $qr_path);
 
-            // 💾 Insertion en base
+            // Insertion base de données
             $stmt = $connexion->prepare("INSERT INTO packages (
-                uuid, sender_name, sender_phone, sender_address,
-                recipient_name, recipient_phone, recipient_address,
-                home_delivery, package_name, package_type, description,
+                uuid, sender_name, sender_phone, sender_address, sender_cni,
+                recipient_name, recipient_phone, recipient_address, recipient_cni,
+                home_delivery, agency_delivery, package_name, package_type, description,
                 image_path, main_agency_uuid, ref, qr_code
             ) VALUES (
-                :uuid, :sender_name, :sender_phone, :sender_address,
-                :recipient_name, :recipient_phone, :recipient_address,
-                :home_delivery, :package_name, :package_type, :description,
+                :uuid, :sender_name, :sender_phone, :sender_address, :sender_cni,
+                :recipient_name, :recipient_phone, :recipient_address, :recipient_cni,
+                :home_delivery, :agency_delivery, :package_name, :package_type, :description,
                 :image_path, :main_agency_uuid, :ref, :qr_code
             )");
 
@@ -116,10 +115,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ':sender_name' => $sender_name,
                 ':sender_phone' => $sender_phone,
                 ':sender_address' => $sender_address,
+                ':sender_cni' => $sender_cni,
                 ':recipient_name' => $recipient_name,
                 ':recipient_phone' => $recipient_phone,
                 ':recipient_address' => $recipient_address,
+                ':recipient_cni' => $recipient_cni,
                 ':home_delivery' => $home_delivery,
+                ':agency_delivery' => $agency_delivery,
                 ':package_name' => $package_name,
                 ':package_type' => $package_type,
                 ':description' => $description,
@@ -129,72 +131,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ':qr_code' => $qrFilename
             ]);
 
-            // 📧 Envoi de mail à l’agence
-            $stmtAgency = $connexion->prepare("SELECT email, name FROM main_agencies WHERE uuid = :uuid LIMIT 1");
-            $stmtAgency->execute([':uuid' => $main_agency_uuid]);
-            $agency = $stmtAgency->fetch(PDO::FETCH_ASSOC);
+            // ✅ WhatsApp au lieu de Mail
+            $now = date('d/m/Y à H:i');
+            $whatsapp_number = "237690635861";
 
-            if ($agency && !empty($agency['email'])) {
-                try {
-                    $mail = new PHPMailer(true);
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'investmentimmo425@gmail.com'; // Remplacez par votre email
-                    $mail->Password = 'ujgv lznq vhnv dvdc'; // Remplacez par votre mot de passe
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                    $mail->Port = 587;
-                    $mail->setFrom('investmentimmo425@gmail.com', 'GESTION MULTITECH');
-                    $mail->addAddress($agency['email'], $agency['name']);
+            $message = "Bonjour, un nouveau colis a été enregistré.\n\n"
+                . "*REF:* $ref\n"
+                . "*Expéditeur:* $sender_name ($sender_phone)\n"
+                . "*Adresse:* $sender_address\n"
+                . "*Destinataire:* $recipient_name ($recipient_phone)\n"
+                . "*Adresse:* $recipient_address\n"
+                . "*Nom du colis:* $package_name\n"
+                . "*Type:* $package_type\n"
+                . "*Description:* $description\n"
+                . "*Livraison à domicile:* " . ($home_delivery ? 'Oui' : 'Non') . "\n"
+                . "*Livraison à l'agence:* " . ($agency_delivery ? 'Oui' : 'Non') . "\n"
+                . "*Date:* $now";
 
-                    $mail->isHTML(true);
-                    $mail->Subject = "Nouveau colis reçu";
-                     $mail->CharSet = 'UTF-8';
-                    // Charger le template HTML
-                    $template = file_get_contents('../template/new_package_email_template.html');
+            $encodedMessage = rawurlencode($message);
+            $whatsapp_link = "https://wa.me/{$whatsapp_number}?text={$encodedMessage}";
 
-                    // Remplacer les balises par les vraies données
-                    $now = date('d/m/Y à H:i'); // Exemple : 11/06/2025 à 14:30
-                    $body = str_replace(
-                        [
-                            '{{AGENCY_NAME}}',
-                            '{{SENDER_ADDRESS}}',
-                            '{{PACKAGE_REF}}',
-                            '{{SENDER_NAME}}',
-                            '{{SENDER_PHONE}}',
-                            '{{RECIPIENT_NAME}}',
-                            '{{RECIPIENT_PHONE}}',
-                            '{{RECIPIENT_ADDRESS}}',
-                            '{{CURRENT_DATE}}'
-                        ],
-                        [
-                            $agency['name'],
-                            $sender_address,        // ✅ Doit correspondre à l'adresse réelle, PAS au code de référence
-                            $ref,                   // Le code du colis ici
-                            $sender_name,
-                            $sender_phone,
-                            $recipient_name,
-                            $recipient_phone,
-                            $recipient_address,
-                            $now
-                        ],
-                        $template
-                    );
-
-
-                     $mail->Body = $body;
-                     if ($mail->send()) {
-                     $success = "Colis enregistré avec succès et email envoyé à l'agence « {$agency['name']} » !";
-                     echo "<script>setTimeout(function() { window.location.href='../index.php'; }, 3000);</script>";
-                    } else {
-                        $erreur = "Colis enregistré, mais échec de l’envoi d’email à l'agence « {$agency['name']} !";
-                    }
-                } catch (Exception $e) {
-                    $erreur = "Erreur lors de l’envoi du colis à l'agence : " . $e->getMessage();
-                }
-            }
-
+            // ✅ Message succès + redirection vers WhatsApp
+            echo "<script>
+                alert('Colis enregistré avec succès ! Redirection vers WhatsApp...');
+                setTimeout(function() {
+                    window.location.href = '$whatsapp_link';
+                }, 2000);
+            </script>";
         }
     }
 }
-?>

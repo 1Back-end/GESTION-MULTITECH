@@ -50,7 +50,7 @@ include("../include/menu.php");
                     </div>
                     <div class="col-md-3 mb-3">
                         <label>N° CNI <span class="text-danger">*</span></label>
-                        <input type="text" name="sender_cni" class="form-control shadow-none" required>
+                        <input type="text" name="sender_cni" class="form-control shadow-none">
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ include("../include/menu.php");
                     </div>
                    <div class="col-md-3 mb-3">
                         <label>N° CNI <span class="text-danger">*</span></label>
-                        <input type="text" name="recipient_cni" class="form-control shadow-none" required>
+                        <input type="text" name="recipient_cni" class="form-control shadow-none">
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
                 </div>

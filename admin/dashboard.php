@@ -220,47 +220,49 @@ $usersStats = array_filter($usersStats, fn($u) => $u['total_dossiers'] > 0);
     </div>
 </div>
 
+<?php
+$agencies_stats = get_statistics_delivery_by_agencies($connexion);
+?>
 
 <div class="col-lg-12 col-sm-12 mb-3">
     <div class="row">
-				<div class="col-lg-4 col-md-6 col-sm-12 mb-30">
-					<div class="card shadow border-0 p-3">
-						<h5 class="mb-30">Statistiques des agences</h5>
-						<div class="browser-visits">
-							<ul>
-								<li class="d-flex flex-wrap align-items-center">
-									<div class="icon"><img src="vendors/images/chrome.png" alt=""></div>
-									<div class="browser-name">Google Chrome</div>
-									<div class="visit"><span class="badge badge-pill badge-primary">50%</span></div>
-								</li>
-								<li class="d-flex flex-wrap align-items-center">
-									<div class="icon"><img src="vendors/images/firefox.png" alt=""></div>
-									<div class="browser-name">Mozilla Firefox</div>
-									<div class="visit"><span class="badge badge-pill badge-secondary">40%</span></div>
-								</li>
-								<li class="d-flex flex-wrap align-items-center">
-									<div class="icon"><img src="vendors/images/safari.png" alt=""></div>
-									<div class="browser-name">Safari</div>
-									<div class="visit"><span class="badge badge-pill badge-success">40%</span></div>
-								</li>
-								<li class="d-flex flex-wrap align-items-center">
-									<div class="icon"><img src="vendors/images/edge.png" alt=""></div>
-									<div class="browser-name">Microsoft Edge</div>
-									<div class="visit"><span class="badge badge-pill badge-warning">20%</span></div>
-								</li>
-								<li class="d-flex flex-wrap align-items-center">
-									<div class="icon"><img src="vendors/images/opera.png" alt=""></div>
-									<div class="browser-name">Opera Mini</div>
-									<div class="visit"><span class="badge badge-pill badge-info">20%</span></div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
+        <div class="col-lg-6 col-md-8 col-sm-12 mb-30">
+            <div class="card shadow border-0 p-3">
+                <h5 class="mb-30">Statistiques des agences</h5>
+                <div class="browser-visits">
+                    <ul class="list-unstyled">
+                        <?php foreach ($agencies_stats as $agency): ?>
+                        <li class="d-flex align-items-center justify-content-between border-bottom py-2">
+                            <!-- Logo -->
+                            <div class="d-flex align-items-center">
+                                <div class="icon me-3">
+                                    <?php if (!empty($agency['logo'])): ?>
+                                        <img src="../uploads/agency/<?= htmlspecialchars($agency['logo']) ?>" alt="Logo" width="40" height="40" style="object-fit: cover; border-radius: 5px;border-raduis:40%">
+                                    <?php else: ?>
+                                        <img src="logo_wam.jpg" alt="Default Logo" width="40" height="40" class="img-thumbnail" style="object-fit: cover; border-radius: 5px;border-raduis:50%">
+                                    <?php endif; ?>
+                                </div>
+                                <!-- Nom de l'agence -->
+                                <div class="fw-semibold"><?= htmlspecialchars($agency['name']) ?></div>
+                            </div>
+
+                            <!-- Montants et pourcentage -->
+                            <div class="text-end">
+                                <div class="d-flex justify-content-end gap-2 flex-wrap">
+                                    <span class="badge bg-success border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_collected'] ?? 0, 0, ',', ' ') ?> FCFA collectés</span>
+                                    <span class="badge bg-info border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_amount'] ?? 0, 0, ',', ' ') ?> FCFA livrés</span>
+                                    <span class="badge bg-primary border-0 rounded-0 text-white mx-2"><?= $agency['percentage'] ?>%</span>
+                                </div>
+                            </div>
+
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
 
 
 

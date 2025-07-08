@@ -21,34 +21,65 @@
 <body>
     
 <div class="container mt-5 p-0">
-    <div class="col-lg-6 col-sm-12 mx-auto">
-        <div class="card shadow border-0 rounded-0 p-3 text-center">
-            <div class="mb-2">
-                <div class="login-title text-center mb-4">
-                    <img src="vendors/images/logo.png" alt="Logo" style="width:80px;" class="img-fluid">
-                </div>
-            </div>
-            <div class="mb-2">
-                <p class="text-muted mb-0">
-                    Bienvenue sur l'application GESTION MULTITECH — Version : 1.1 — Date création : 2025-02-28
-                </p>
+  <div class="col-lg-12 col-sm-12 mb-3">
+     <div class="row">
 
-                
+   <div class="col-lg-4 col-sm-12">
+    <div class="card h-100 shadow border-0 rounded-3 p-4 text-center">
+        <div class="mb-3">
+            <div class="login-title">
+                <img src="logo_wam.jpg" alt="Logo Wam Services" style="width: 80px;" class="img-fluid">
             </div>
-            <div class="row g-2 mt-3">
-                <div class="col-6 text-start">
-                    <a href="package/add_package.php" class="btn btn-outline-primary w-100 rounded-0 shadow-none">
-                        <i class="fas fa-box"></i> Expédier votre colis
-                    </a>
-                </div>
-                <div class="col-6 text-end">
-                    <a href="authentification/login.php" class="btn btn-customize border-0 rounded-0 text-white w-100 shadow-none">
-                        Cliquer pour continuer <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    </a>
-                </div>
+        </div>
+
+        <div class="mb-3">
+            <h5 class="fw-bold text-primary">Bienvenue sur Wam Services</h5>
+            <p class="text-muted mb-1">Votre solution simple et rapide pour expédier vos colis en toute sécurité.</p>
+            <p class="small text-secondary">Version : 1.1</p>
+        </div>
+
+        <div class="row g-2 mt-3">
+            <div class="col-12">
+                <a href="package/add_package.php" class="btn btn-primary rounded-pill w-100 shadow-sm">
+                    Expédier un colis maintenant <i class="fa fa-paper-plane ms-2" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
+</div>
+
+
+
+
+
+<div class="col-lg-4 col-sm-12 mt-3">
+  <div class="card h-100 shadow border-0 rounded-3 p-4 text-center">
+    <div class="mb-3">
+      <div class="login-title mb-4">
+        <img src="vendors/images/logo.png" alt="Logo GESTION MULTITECH" style="width: 80px;" class="img-fluid mx-auto">
+      </div>
+    </div>
+    <div class="mb-3">
+      <h5 class="fw-bold text-primary">Bienvenue sur GESTION MULTITECH</h5>
+      <p class="text-muted mb-1">
+        Votre solution complète pour la gestion immobilière facile et efficace.
+      </p>
+      <p class="small text-secondary">Version : 1.1</p>
+    </div>
+    <div class="col-12">
+      <a href="authentification/login.php" class="btn btn-primary rounded-pill w-100 shadow-sm">
+        Cliquer pour continuer <i class="fa fa-sign-in ms-2" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+   </div>
+  </div>
 </div>
 
 

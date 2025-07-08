@@ -110,11 +110,11 @@ $current_page = $results['current_page'];
                                                 <li>
                                                     <?php if ($agent['is_active']): ?>
                                                         <a class="dropdown-item text-danger fs-6" href="toggle_status_agent.php?action=disable&uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-toggle-off me-1"></i> Désactiver
+                                                            <i class="fa-solid fa-toggle-off me-1"></i> Désactiver son compte
                                                         </a>
                                                     <?php else: ?>
                                                         <a class="dropdown-item text-success fs-6" href="toggle_status_agent.php?action=enable&uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-toggle-on me-1"></i> Activer
+                                                            <i class="fa-solid fa-toggle-on me-1"></i> Activer son compte
                                                         </a>
                                                     <?php endif; ?>
                                                 </li>
@@ -122,7 +122,7 @@ $current_page = $results['current_page'];
                                                     
                                                     <li>
                                                         <a class="dropdown-item text-warning fs-6" href="edit_agents.php?uuid=<?= $agent['uuid'] ?>">
-                                                            <i class="fa-solid fa-user-pen me-1"></i> Modifier
+                                                            <i class="fa-solid fa-user-pen me-1"></i> Modifier son compte
                                                         </a>
                                                     </li>
                                                 <?php else: ?>

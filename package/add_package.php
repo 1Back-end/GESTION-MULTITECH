@@ -24,19 +24,9 @@ require_once('../fonction/fonction.php');
 $agencies = get_active_agency($connexion);
 ?>
 
-<style>
-    .iti__country {
-  display: flex;
-  align-items: center;
-  padding: 5px 10px;
-  outline: 0;
-  width: 220px;
-}
-</style>
-
 
 <div class="container mt-3 pb-5">
-    <div class="col-md-8 p-0 mx-auto col-sm-12 mb-3">
+    <div class="col-md-12 p-0  col-sm-12 mb-3">
     <?php include("process_add_package.php"); ?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0 rounded-0"><?= $erreur ?></div>
@@ -46,7 +36,8 @@ $agencies = get_active_agency($connexion);
         <div class="alert alert-success text-center border-0 rounded-0"><?= $success ?></div>
     <?php endif; ?>
 </div>
-    <div class="col-lg-8 p-0 col-sm-12 mb-3 mx-auto">
+
+  <div class="col-lg-12 p-0 col-sm-12 mb-3">
         <div class="card shadow border-0 rounded-0 p-3">
             <p class="text-muted text-center mb-3">
                 Veuillez remplir ces champs pour effectuer l'envoi de votre colis
@@ -55,21 +46,26 @@ $agencies = get_active_agency($connexion);
             <form id="myForm" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
 
                 <!-- Infos Expéditeur -->
-                <h6 class="text-primary fs-6 mb-3">Vos informations personnelles</h6>
+                <h6 class="text-primary fs-6 mb-3">Informations de l'expéditeur</h6>
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Nom complet</label>
                         <input type="text" name="sender_name" class="form-control shadow-none" required>
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Téléphone</label>
-                        <input type="tel" id="phone" name="sender_phone" class="form-control shadow-none" required>
+                    <div class="col-md-3 mb-3">
+                        <label>Numéro de Téléphone</label>
+                        <input type="tel" name="sender_phone" class="form-control shadow-none" required>
                         <div class="invalid-feedback" id="output">Champ requis</div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Adresse</label>
                         <input type="text" name="sender_address" class="form-control shadow-none" required>
+                        <div class="invalid-feedback">Champ requis</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Numéro CNI</label>
+                        <input type="text" name="sender_cni" class="form-control shadow-none">
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
                 </div>
@@ -77,28 +73,42 @@ $agencies = get_active_agency($connexion);
                 <!-- Infos Destinataire -->
                 <h6 class="text-primary fs-6 mb-3">Informations sur le destinataire</h6>
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Nom complet</label>
                         <input type="text" name="recipient_name" class="form-control shadow-none" required>
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Téléphone</label>
                         <input type="tel" id="phone1" name="recipient_phone" class="form-control shadow-none" required>
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Adresse de livraison</label>
                         <input type="text" name="recipient_address" class="form-control shadow-none" required>
                         <div class="invalid-feedback">Champ requis</div>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Numéro CNI</label>
+                        <input type="text" name="recipient_cni" class="form-control shadow-none">
+                        <div class="invalid-feedback">Champ requis</div>
+                    </div>
                 </div>
 
-                <!-- Livraison à domicile -->
-                <div class="form-check form-switch mb-4">
-                    <input class="form-check-input" name="home_delivery" type="checkbox" id="home_delivery" name="home_delivery" value="1">
-                    <label class="form-check-label" for="home_delivery">Livraison à domicile</label>
+               <div class="d-flex gap-4 mb-4">
+                    <!-- Livraison à domicile -->
+                    <div class="form-check form-switch mx-2">
+                        <input class="form-check-input" type="checkbox" id="home_delivery" name="home_delivery" value="1">
+                        <label class="form-check-label" for="home_delivery">Livraison à domicile</label>
+                    </div>
+
+                    <!-- Livraison à l'agence -->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="agency_delivery" name="agency_delivery" value="1">
+                        <label class="form-check-label" for="agency_delivery">Livraison à l'agence</label>
+                    </div>
                 </div>
+
 
                 <!-- Détails colis -->
                 <h6 class="text-primary mb-3">Détails du colis</h6>
@@ -112,8 +122,8 @@ $agencies = get_active_agency($connexion);
                         <label>Type de colis</label>
                         <select name="package_type" class="shadow-none form-control select-custom" required>
                             <option value="">-- Sélectionner --</option>
-                            <option value="Document">Document</option>
                             <option value="Petit colis">Petit colis</option>
+                            <option value="Petit colis">Moyen colis</option>
                             <option value="Gros colis">Gros colis</option>
                         </select>
                         <div class="invalid-feedback">Champ requis</div>
@@ -160,7 +170,7 @@ $agencies = get_active_agency($connexion);
                         Annuler
                     </a>
                     
-                    <button id="submitBtn" disabled type="submit" name="submit" class="btn btn-primary border-0 rounded-0">Envoyer le colis</button>
+                    <button  type="submit" name="submit" class="btn btn-primary border-0 rounded-0">Envoyer le colis</button>
              </div>
 
 
@@ -169,21 +179,11 @@ $agencies = get_active_agency($connexion);
     </div>
 </div>
 
-<script>
-  const form = document.getElementById('myForm');
-  const inputs = form.querySelectorAll('input[required]');
-  const button = document.getElementById('submitBtn');
 
-  form.addEventListener('input', () => {
-    let allFilled = true;
-    inputs.forEach(input => {
-      if (!input.value.trim()) {
-        allFilled = false;
-      }
-    });
-    button.disabled = !allFilled;
-  });
-</script>
+
+
+    
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 

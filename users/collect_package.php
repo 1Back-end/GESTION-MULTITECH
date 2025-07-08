@@ -3,16 +3,27 @@ include("../include/menu.php");
 include("fonction.php");
 $agents = get_ramasseur_for_my_agency($connexion, $user_id);
 
+?>
+
+
+<?php 
 include("../database/connexion.php");
+$erreur = "";
+$success = "";
 
-$package = null;
-
+// Récupérer l'UUID depuis GET
 if (isset($_GET["uuid"])) {
     $uuid = $_GET["uuid"];
 
     $stmt = $connexion->prepare("SELECT * FROM packages WHERE uuid = :uuid AND is_deleted = 0");
     $stmt->execute([':uuid' => $uuid]);
     $package = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$package) {
+        $erreur = "⚠️ Colis introuvable ou supprimé.";
+    }
+} else {
+    $erreur = "⚠️ Aucun colis spécifié.";
 }
 ?>
 
@@ -29,14 +40,12 @@ if (isset($_GET["uuid"])) {
         <div class="card shadow border-0 rounded-3 p-4">
             <div class="text-justify mb-4">
                 <strong>Attention !</strong> Vous êtes sur le point de marquer le colis 
-                <strong>N° <?= htmlspecialchars($package['ref']) ?></strong> du 
-                <strong><?= date('d/m/Y H:i:s', strtotime($package['created_at'])) ?></strong> 
-                comme <span class="text-uppercase text-success fw-bold">ramassé</span>.<br>
+                comme ramassé</span>.<br>
                 Pour finaliser cette opération, veuillez sélectionner le livreur ayant effectué cette livraison.
             </div>
 
-            <form method="POST" class="needs-validation" novalidate>
-                <input type="hidden" name="package_uuid" value="<?= htmlspecialchars($package['uuid']) ?>">
+            <form method="post" class="needs-validation" novalidate>
+                <input type="hidden" name="package_uuid" value="<?= htmlspecialchars($package['uuid']  ?? '') ?>">
 
                 <div class="mb-3">
                     <label for="agent_uuid" class="form-label fw-bold">Choisir un ramasseur <span class="text-danger">*</span></label>
@@ -49,6 +58,12 @@ if (isset($_GET["uuid"])) {
                         <?php endforeach; ?>       
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label for="">Montant du ramassage <span class="text-danger">*</span></label>
+                    <input type="number" name="amount_collected" class="form-control shadow-none">
+                </div>
+
 
                 <div class="d-flex justify-content-between">
                     <a href="package_agencies.php" class="btn btn-outline-secondary rounded-0">Annuler</a>

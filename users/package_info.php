@@ -18,8 +18,9 @@ if (isset($_GET["uuid"])) {
     $package = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
+
 <div class="main-container mt-5 pb-5">
-    <div class="col-lg-6 col-sm-12">
+    <div class="col-md-8  mx-auto col-sm-12 p-3">
         <div class="card shadow border-0 p-3">
 
             <div class="mb-3">
@@ -87,18 +88,27 @@ if (isset($_GET["uuid"])) {
                         </div>
 
                         <?php if (!empty($package['image_path'])): ?>
-                        <div class="col-lg-6 col-sm-12 mb-3">
-                            <p><strong>Image du colis :</strong></p><br>
-                            <img src="../uploads/packages/<?= htmlspecialchars($package['image_path']) ?>" alt="Image colis" class="img-thumbnail img-fluid" style="max-height: 200px;">
-                        </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <p><strong>Image du colis :</strong></p><br>
+                                <img src="../uploads/packages/<?= htmlspecialchars($package['image_path']) ?>" alt="Image colis" class="img-thumbnail img-fluid" style="max-height: 200px;">
+                                <br><br>
+                                <a href="../uploads/packages/<?= htmlspecialchars($package['image_path']) ?>" download class="btn btn-sm btn-primary border-0 rounded-0 btn-responsive">
+                                    Télécharger l'image
+                                </a>
+                            </div>
                         <?php endif; ?>
 
                         <?php if (!empty($package['qr_code'])): ?>
-                        <div class="col-lg-6 col-sm-12 mb-3">
-                            <p><strong>QR Code :</strong></p><br>
-                            <img src="../uploads/qrcodes/<?= htmlspecialchars($package['qr_code']) ?>" alt="QR Code" class="img-thumbnail img-fluid" style="max-height: 200px;">
-                        </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <p><strong>QR Code :</strong></p><br>
+                                <img src="../uploads/qrcodes/<?= htmlspecialchars($package['qr_code']) ?>" alt="QR Code" class="img-thumbnail img-fluid" style="max-height: 200px;">
+                                <br><br>
+                                <a href="../uploads/qrcodes/<?= htmlspecialchars($package['qr_code']) ?>" download class="btn btn-sm btn-success border-0 rounded-0 btn-responsive">
+                                    Télécharger le QR Code
+                                </a>
+                            </div>
                         <?php endif; ?>
+
                     </div>
                 </div>
 

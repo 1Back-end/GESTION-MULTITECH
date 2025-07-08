@@ -175,7 +175,9 @@ function get_all_users($connexion, $page = 1, $limit = 10) {
                 role = 'Gestionnaire IMMO' OR 
                 role = 'Gestionnaire de livraison' OR
                 role = 'Chef d’agence' OR  
-                role = 'Gestionnaire de ramassage'
+                role = 'Gestionnaire de ramassage' OR 
+                role = 'Sécretaire'
+
             )
             ORDER BY created_at DESC 
             LIMIT :limit OFFSET :offset";
@@ -1173,6 +1175,84 @@ function generateDossierCode(): string {
 }
 
 
+function get_statistics_delivery_by_agencies($connexion) {
+    $sql = "
+        SELECT 
+            a.uuid,
+            a.name,
+            a.logo,
+            COUNT(p.uuid) AS total_delivered,
+            SUM(p.amount_delivery) AS total_amount,
+            SUM(p.amount_collected) AS total_collected
+        FROM main_agencies a
+        LEFT JOIN packages p ON p.main_agency_uuid = a.uuid AND p.is_delivery = 1 AND p.is_deleted = 0
+        GROUP BY a.uuid
+    ";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Total de tous les colis livrés
+    $total_all = array_sum(array_column($agencies, 'total_delivered'));
+
+    // Ajout du pourcentage par agence
+    foreach ($agencies as &$agency) {
+        $agency['percentage'] = $total_all > 0 ? round(($agency['total_delivered'] / $total_all) * 100) : 0;
+    }
+
+    return $agencies;
+}
+
+
+function get_day_stats($connexion, $agency_uuid) {
+    $sql = "
+        SELECT 
+            SUM(amount_collected) AS total_collected,
+            SUM(amount_delivery) AS total_delivery
+        FROM packages
+        WHERE DATE(created_at) = CURDATE()
+        AND is_deleted = 0 AND main_agency_uuid = :uuid
+    ";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['uuid' => $agency_uuid]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_month_stats($connexion, $agency_uuid) {
+    $sql = "
+        SELECT 
+            SUM(amount_collected) AS total_collected,
+            SUM(amount_delivery) AS total_delivery
+        FROM packages
+        WHERE MONTH(created_at) = MONTH(CURDATE()) 
+        AND YEAR(created_at) = YEAR(CURDATE())
+        AND is_deleted = 0 AND main_agency_uuid = :uuid
+    ";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['uuid' => $agency_uuid]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_global_stats($connexion, $agency_uuid) {
+    $sql = "
+        SELECT 
+            COUNT(*) AS total_colis,
+            SUM(CASE WHEN is_delivery = 1 THEN 1 ELSE 0 END) AS total_livres,
+            SUM(CASE WHEN is_collected = 1 THEN 1 ELSE 0 END) AS total_ramasses,
+            SUM(CASE WHEN status = 'annulé' THEN 1 ELSE 0 END) AS total_annules,
+            SUM(amount_collected) AS total_collected,
+            SUM(amount_delivery) AS total_delivery
+        FROM packages
+        WHERE is_deleted = 0 AND main_agency_uuid = :uuid
+    ";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(['uuid' => $agency_uuid]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
+
 function get_users_dossiers_stats(PDO $connexion): array {
     // 1. Récupérer tous les utilisateurs actifs sauf super_admin
     $stmtUsers = $connexion->prepare("
@@ -1260,4 +1340,8 @@ function get_users_dossiers_stats(PDO $connexion): array {
     }
 
     return $users;
+
+
+
+    
 }

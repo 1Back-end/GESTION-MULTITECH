@@ -10,13 +10,13 @@ if(isset($_POST["submit"])){
     $price_delivery_exactly = $_POST["price_delivery_exactly"] ?? null;
 
 
-    if (!empty($uuid) || !empty($price_delivery_exactly)) {
-        $erreur = "Tous les champs sont requis !";
+    // if (!empty($uuid) || !empty($price_delivery_exactly)) {
+    //     $erreur = "Tous les champs sont requis !";
 
-    }elseif($price_delivery_exactly <= 0) {
-        $erreur= "Montant invalide.";
+    // }elseif($price_delivery_exactly <= 0) {
+    //     $erreur= "Montant invalide.";
 
-    }else {
+    // }else {
         try {
             $stmt = $connexion->prepare("UPDATE livraisons_products 
                 SET status = 'Livré', price_delivery_exactly = :price_delivery_exactly 
@@ -36,6 +36,3 @@ if(isset($_POST["submit"])){
         # code...
     }
     
-    
-
-}

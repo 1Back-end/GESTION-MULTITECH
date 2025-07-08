@@ -18,13 +18,6 @@ if (isset($_POST['submit'])) {
     $added_by = $_SESSION['id'] ?? null;
 
 
-
-    if (!empty($product_uuid)|| !empty($recipient_phone) || !empty($delivery_price) || !empty($quantity) || !empty($location) || !empty($added_by)
-        || !empty($recipient_address) || !empty($delivery_man_id)) {
-        $erreur ="Tous les champs sont requis !";
-        # code...
-    }else {
-
         try {
             $connexion->beginTransaction();
     
@@ -99,5 +92,5 @@ if (isset($_POST['submit'])) {
         }
         # code...
     }   
-}
+
 ?>

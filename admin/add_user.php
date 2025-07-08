@@ -61,6 +61,7 @@
                                <option>Gestionnaire de livraison</option>
                                 <option>Gestionnaire de ramassage</option>
                                 <option>Chef d’agence</option>
+                                <option>Sécretaire</option>
                             </select>
                     </div>
                 </div>

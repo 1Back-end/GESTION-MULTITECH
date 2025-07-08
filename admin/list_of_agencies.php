@@ -129,6 +129,12 @@ $total_pages = $agencies_data['total_pages'];
                                             <i class="fa-solid fa-trash me-1"></i> Supprimer cette agence
                                         </a>
                                     </li>
+
+                                    <li>
+                                        <a class="dropdown-item text-info fs-6" href="statistics_agency.php?uuid=<?= $agency['uuid'] ?>">
+                                            <i class="fa-solid fa-circle-info me-1"></i> Statistiques de cette agence
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
 

@@ -7,8 +7,9 @@ $success = "";
 if (isset($_POST["submit"])) {
     $package_uuid = $_POST["package_uuid"] ?? null;
     $agent_uuid = $_POST["agent_uuid"] ?? null;
-    $amount_collected = $_POST["amount_collected"] ?? null;
-    $collected_at = date('Y-m-d H:i:s'); // Date actuelle au bon format
+    $amount_delivery = $_POST["amount_delivery"] ?? null;
+    $delivery_at = date('Y-m-d H:i:s');
+
 
     if ($package_uuid && $agent_uuid) {
         // Vérifier si le colis est encore "en attente"
@@ -16,28 +17,30 @@ if (isset($_POST["submit"])) {
         $checkStmt->execute(['uuid' => $package_uuid]);
         $package = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($package && $package['status'] === 'en attente') {
+        if ($package && $package['status'] === 'en transit') {
             // Mise à jour du colis
             $sql = "UPDATE packages 
-                    SET is_collected = 1, 
-                        collected_by = :agent_uuid,
-                        amount_collected = :amount_collected,
-                        collected_at = :collected_at,
-                        status = 'en transit',
+                    SET is_delivery = 1, 
+                        delivery_by  = :agent_uuid,
+                        amount_delivery = :amount_delivery,
+                        delivery_at = :delivery_at,
+                        status = 'livré',
                         updated_at = NOW()
                     WHERE uuid = :package_uuid AND is_deleted = 0";
 
             $stmt = $connexion->prepare($sql);
             $result = $stmt->execute([
                 'agent_uuid' => $agent_uuid,
-                'amount_collected' => $amount_collected,
-                'collected_at' => $collected_at,
-                'package_uuid' => $package_uuid
+                'package_uuid' => $package_uuid,
+                'delivery_at'=> $delivery_at,
+                'amount_delivery'=> $amount_delivery
             ]);
 
             if ($result) {
-                $success = "✅ Colis marqué comme ramassé avec succès.";
-                // echo "<script>setTimeout(function() { window.location.href='package_agencies.php'; }, 3000);</script>";
+                // Redirection avec succès
+               $success = "Colis Livrée avec succès.";
+                echo "<script>setTimeout(function() { window.location.href='package_agencies.php'; }, 3000);</script>";
+
             } else {
                 $erreur = "❌ Erreur lors de la mise à jour du colis.";
             }
