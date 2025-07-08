@@ -586,6 +586,14 @@ function get_all_packages_and_statistics($connexion, $user_id, $limit = 10, $pag
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function get_all_my_ventes_secretariats($connexion, $user_id)
+{
+    $stmt = $connexion->prepare("SELECT * FROM ventes_secretariat WHERE is_deleted = 0 AND added_by = :added_by ORDER BY created_at DESC");
+    $stmt->bindValue(':added_by', $user_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 ?>
 

@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 mb-3">
-        <?php include("process_add_vente.php");?>
+    <?php include("process_add_vente.php");?>
     <?php if ($erreur): ?>
     <div class="alert alert-danger text-center border-0"><?= $erreur ?></div>
     <?php endif; ?>

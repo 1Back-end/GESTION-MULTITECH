@@ -226,42 +226,72 @@ $agencies_stats = get_statistics_delivery_by_agencies($connexion);
 
 <div class="col-lg-12 col-sm-12 mb-3">
     <div class="row">
-        <div class="col-lg-6 col-md-8 col-sm-12 mb-30">
-            <div class="card shadow border-0 p-3">
-                <h5 class="mb-30">Statistiques des agences</h5>
-                <div class="browser-visits">
-                    <ul class="list-unstyled">
-                        <?php foreach ($agencies_stats as $agency): ?>
-                        <li class="d-flex align-items-center justify-content-between border-bottom py-2">
-                            <!-- Logo -->
-                            <div class="d-flex align-items-center">
-                                <div class="icon me-3">
-                                    <?php if (!empty($agency['logo'])): ?>
-                                        <img src="../uploads/agency/<?= htmlspecialchars($agency['logo']) ?>" alt="Logo" width="40" height="40" style="object-fit: cover; border-radius: 5px;border-raduis:40%">
-                                    <?php else: ?>
-                                        <img src="logo_wam.jpg" alt="Default Logo" width="40" height="40" class="img-thumbnail" style="object-fit: cover; border-radius: 5px;border-raduis:50%">
-                                    <?php endif; ?>
-                                </div>
-                                <!-- Nom de l'agence -->
-                                <div class="fw-semibold"><?= htmlspecialchars($agency['name']) ?></div>
+    <div class="col-lg-6 col-md-12 mb-3">
+        <!-- Première carte: Statistiques des agences -->
+        <div class="card shadow border-0 p-3 h-100">
+            <h5 class="mb-30">Statistiques des agences</h5>
+            <div class="browser-visits">
+                <ul class="list-unstyled">
+                    <?php foreach ($agencies_stats as $agency): ?>
+                    <li class="d-flex align-items-center justify-content-between border-bottom py-2">
+                        <div class="d-flex align-items-center">
+                            <div class="icon me-3">
+                                <?php if (!empty($agency['logo'])): ?>
+                                    <img src="../uploads/agency/<?= htmlspecialchars($agency['logo']) ?>" alt="Logo" width="40" height="40" style="object-fit: cover; border-radius: 5px;">
+                                <?php else: ?>
+                                    <img src="logo_wam.jpg" alt="Default Logo" width="40" height="40" class="img-thumbnail" style="object-fit: cover; border-radius: 5px;">
+                                <?php endif; ?>
                             </div>
-
-                            <!-- Montants et pourcentage -->
-                            <div class="text-end">
-                                <div class="d-flex justify-content-end gap-2 flex-wrap">
-                                    <span class="badge bg-success border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_collected'] ?? 0, 0, ',', ' ') ?> FCFA collectés</span>
-                                    <span class="badge bg-info border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_amount'] ?? 0, 0, ',', ' ') ?> FCFA livrés</span>
-                                    <span class="badge bg-primary border-0 rounded-0 text-white mx-2"><?= $agency['percentage'] ?>%</span>
-                                </div>
+                            <div class="fw-semibold"><?= htmlspecialchars($agency['name']) ?></div>
+                        </div>
+                        <div class="text-end">
+                            <div class="d-flex justify-content-end gap-2 flex-wrap">
+                                <span class="badge bg-success border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_collected'] ?? 0, 0, ',', ' ') ?> FCFA collectés</span>
+                                <span class="badge bg-info border-0 rounded-0 text-white mx-2"><?= number_format($agency['total_amount'] ?? 0, 0, ',', ' ') ?> FCFA livrés</span>
+                                <span class="badge bg-primary border-0 rounded-0 text-white mx-2"><?= $agency['percentage'] ?>%</span>
                             </div>
-
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>
+
+    <div class="col-lg-6 col-md-12 mb-3">
+        <?php
+        $sales_summary = get_sales_summary_by_day($connexion);
+        ?>
+        <!-- Deuxième carte: Résumé des ventes par jour -->
+        <div class="card shadow-sm border-0 p-3 h-100">
+            <h5 class="card-title text-uppercase fw-bold mb-3">Résumé des ventes par jour</h5>
+            <?php if (!empty($sales_summary)): ?>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Date</th>
+                            <th>Montant total (FCFA)</th>
+                            <th>Vendeur(euse)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($sales_summary as $row): ?>
+                            <tr>
+                                <td><?= date('d/m/Y H:i:s', strtotime($row['sale_date'])) ?></td>
+                                <td><?= number_format($row['total_vente'], 0, ',', ' ') ?> FCFA</td>
+                                <td><?= htmlspecialchars($row['vendeurs']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="text-center">Aucune vente enregistrée.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+    
 </div>
 
 

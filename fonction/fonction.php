@@ -1250,6 +1250,24 @@ function get_global_stats($connexion, $agency_uuid) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function get_sales_summary_by_day($connexion) {
+    $sql = "
+        SELECT 
+            v.created_at AS sale_date,
+            SUM(v.prix_total) AS total_vente,
+            GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') AS vendeurs
+        FROM ventes_secretariat v
+        INNER JOIN users u ON v.added_by = u.id
+        WHERE v.is_deleted = 0 AND u.is_deleted = 0
+        GROUP BY DATE(v.created_at)
+        ORDER BY sale_date DESC
+    ";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 
@@ -1340,6 +1358,9 @@ function get_users_dossiers_stats(PDO $connexion): array {
     }
 
     return $users;
+
+
+
 
 
 

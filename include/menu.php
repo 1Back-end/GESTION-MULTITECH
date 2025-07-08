@@ -144,15 +144,11 @@
 						</a>
 					</li>
 					<li>
-						<a href="../secretariat/ventes.php" class="dropdown-toggle no-arrow">
+						<a href="../users/ventes_secretariat.php" class="dropdown-toggle no-arrow">
 							<span class="micon fas fa-print"></span><span class="mtext">Ventes Secrétariat</span>
 						</a>
 					</li>
-					<li>
-						<a href="../secretariat/statistiques.php" class="dropdown-toggle no-arrow">
-							<span class="micon fas fa-chart-bar"></span><span class="mtext">Statistiques</span>
-						</a>
-					</li>
+					
 
 				<?php elseif ($IsSuperAdmin): ?>
 					<li>
